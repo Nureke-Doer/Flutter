@@ -535,6 +535,138 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'English'**
   String get languageEnglish;
+
+  /// No description provided for @materialsTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Учебные материалы'**
+  String get materialsTitle;
+
+  /// No description provided for @materialsSearchHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поиск книг: тема, автор, предмет…'**
+  String get materialsSearchHint;
+
+  /// No description provided for @materialsIntro.
+  ///
+  /// In ru, this message translates to:
+  /// **'Найди книги и учебники для своих целей'**
+  String get materialsIntro;
+
+  /// No description provided for @materialsSuggestions.
+  ///
+  /// In ru, this message translates to:
+  /// **'Популярные темы'**
+  String get materialsSuggestions;
+
+  /// No description provided for @materialsEmpty.
+  ///
+  /// In ru, this message translates to:
+  /// **'По запросу «{query}» ничего не найдено'**
+  String materialsEmpty(String query);
+
+  /// No description provided for @materialsEmptyHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Попробуй изменить запрос или написать его по-английски'**
+  String get materialsEmptyHint;
+
+  /// No description provided for @materialsLoadMoreError.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось загрузить ещё'**
+  String get materialsLoadMoreError;
+
+  /// No description provided for @materialsFound.
+  ///
+  /// In ru, this message translates to:
+  /// **'Найдено: {count}'**
+  String materialsFound(int count);
+
+  /// No description provided for @bookAuthors.
+  ///
+  /// In ru, this message translates to:
+  /// **'Авторы'**
+  String get bookAuthors;
+
+  /// No description provided for @bookYear.
+  ///
+  /// In ru, this message translates to:
+  /// **'Год первой публикации'**
+  String get bookYear;
+
+  /// No description provided for @bookPages.
+  ///
+  /// In ru, this message translates to:
+  /// **'Страниц'**
+  String get bookPages;
+
+  /// No description provided for @bookEditions.
+  ///
+  /// In ru, this message translates to:
+  /// **'Изданий'**
+  String get bookEditions;
+
+  /// No description provided for @bookSubjects.
+  ///
+  /// In ru, this message translates to:
+  /// **'Темы'**
+  String get bookSubjects;
+
+  /// No description provided for @bookUnknownAuthor.
+  ///
+  /// In ru, this message translates to:
+  /// **'Автор неизвестен'**
+  String get bookUnknownAuthor;
+
+  /// No description provided for @bookOpenLibrary.
+  ///
+  /// In ru, this message translates to:
+  /// **'Источник: Open Library'**
+  String get bookOpenLibrary;
+
+  /// No description provided for @findMaterials.
+  ///
+  /// In ru, this message translates to:
+  /// **'Подобрать материалы'**
+  String get findMaterials;
+
+  /// No description provided for @errorNetwork.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет подключения к интернету'**
+  String get errorNetwork;
+
+  /// No description provided for @errorTimeout.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сервер не отвечает. Попробуй позже'**
+  String get errorTimeout;
+
+  /// No description provided for @errorServer.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка сервера ({code})'**
+  String errorServer(String code);
+
+  /// No description provided for @errorParsing.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сервер вернул некорректные данные'**
+  String get errorParsing;
+
+  /// No description provided for @errorUnknown.
+  ///
+  /// In ru, this message translates to:
+  /// **'Что-то пошло не так'**
+  String get errorUnknown;
+
+  /// No description provided for @quoteOfDay.
+  ///
+  /// In ru, this message translates to:
+  /// **'Цитата дня'**
+  String get quoteOfDay;
 }
 
 class _AppLocalizationsDelegate

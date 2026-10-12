@@ -3,12 +3,19 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:habit_study_tracker/app.dart';
 import 'package:habit_study_tracker/core/di/injection.dart';
 import 'package:habit_study_tracker/domain/repositories/habit_repository.dart';
+import 'package:habit_study_tracker/domain/repositories/materials_repository.dart';
 import 'package:habit_study_tracker/presentation/providers/settings_notifier.dart';
+
+import 'helpers/fakes.dart';
 
 void main() {
   setUp(() async {
     await getIt.reset();
     configureDependencies();
+    // Подменяем сетевой репозиторий фейком — тесты не ходят в интернет.
+    getIt
+      ..unregister<MaterialsRepository>()
+      ..registerLazySingleton<MaterialsRepository>(FakeMaterialsRepository.new);
   });
 
   test('DI: репозиторий и настройки — синглтоны', () {

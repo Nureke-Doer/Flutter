@@ -1,6 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Доступ в интернет для REST API (Open Library, DummyJSON). -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
-        android:label="habit_study_tracker"
+        android:label="Habit &amp; Study"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

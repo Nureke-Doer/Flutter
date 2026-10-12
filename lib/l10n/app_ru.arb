@@ -117,5 +117,48 @@
   "errorLoading": "Не удалось загрузить данные",
   "retry": "Повторить",
   "languageRussian": "Русский",
-  "languageEnglish": "English"
+  "languageEnglish": "English",
+  "materialsTitle": "Учебные материалы",
+  "materialsSearchHint": "Поиск книг: тема, автор, предмет…",
+  "materialsIntro": "Найди книги и учебники для своих целей",
+  "materialsSuggestions": "Популярные темы",
+  "materialsEmpty": "По запросу «{query}» ничего не найдено",
+  "@materialsEmpty": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "materialsEmptyHint": "Попробуй изменить запрос или написать его по-английски",
+  "materialsLoadMoreError": "Не удалось загрузить ещё",
+  "materialsFound": "Найдено: {count}",
+  "@materialsFound": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "bookAuthors": "Авторы",
+  "bookYear": "Год первой публикации",
+  "bookPages": "Страниц",
+  "bookEditions": "Изданий",
+  "bookSubjects": "Темы",
+  "bookUnknownAuthor": "Автор неизвестен",
+  "bookOpenLibrary": "Источник: Open Library",
+  "findMaterials": "Подобрать материалы",
+  "errorNetwork": "Нет подключения к интернету",
+  "errorTimeout": "Сервер не отвечает. Попробуй позже",
+  "errorServer": "Ошибка сервера ({code})",
+  "@errorServer": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "errorParsing": "Сервер вернул некорректные данные",
+  "errorUnknown": "Что-то пошло не так",
+  "quoteOfDay": "Цитата дня"
 }

@@ -11,6 +11,7 @@ import '../widgets/day_progress_header.dart';
 import '../widgets/empty_state.dart';
 import '../widgets/habit_tile.dart';
 import '../widgets/habit_visuals.dart';
+import '../widgets/quote_card.dart';
 import '../widgets/section_header.dart';
 import 'habit_detail_screen.dart';
 import 'habit_edit_screen.dart';
@@ -104,6 +105,7 @@ class _TodayList extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(Gaps.m, Gaps.s, Gaps.m, 96),
       children: [
         DayProgressHeader(done: done, total: planned.length),
+        const QuoteCard(),
         if (habitItems.isNotEmpty) ...[
           SectionHeader(l10n.sectionHabits, icon: HabitType.habit.iconData),
           ...habitItems.map((h) => _tile(context, h)),

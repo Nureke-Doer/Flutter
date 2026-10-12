@@ -246,4 +246,76 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get languageEnglish => 'English';
+
+  @override
+  String get materialsTitle => 'Study materials';
+
+  @override
+  String get materialsSearchHint => 'Search books: topic, author, subject…';
+
+  @override
+  String get materialsIntro => 'Find books and textbooks for your goals';
+
+  @override
+  String get materialsSuggestions => 'Popular topics';
+
+  @override
+  String materialsEmpty(String query) {
+    return 'Nothing found for “$query”';
+  }
+
+  @override
+  String get materialsEmptyHint => 'Try a different query';
+
+  @override
+  String get materialsLoadMoreError => 'Failed to load more';
+
+  @override
+  String materialsFound(int count) {
+    return 'Found: $count';
+  }
+
+  @override
+  String get bookAuthors => 'Authors';
+
+  @override
+  String get bookYear => 'First published';
+
+  @override
+  String get bookPages => 'Pages';
+
+  @override
+  String get bookEditions => 'Editions';
+
+  @override
+  String get bookSubjects => 'Subjects';
+
+  @override
+  String get bookUnknownAuthor => 'Unknown author';
+
+  @override
+  String get bookOpenLibrary => 'Source: Open Library';
+
+  @override
+  String get findMaterials => 'Find materials';
+
+  @override
+  String get errorNetwork => 'No internet connection';
+
+  @override
+  String get errorTimeout => 'Server is not responding. Try later';
+
+  @override
+  String errorServer(String code) {
+    return 'Server error ($code)';
+  }
+
+  @override
+  String get errorParsing => 'Server returned invalid data';
+
+  @override
+  String get errorUnknown => 'Something went wrong';
+
+  @override
+  String get quoteOfDay => 'Quote of the day';
 }

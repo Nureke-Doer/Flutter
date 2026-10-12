@@ -248,4 +248,77 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get languageEnglish => 'English';
+
+  @override
+  String get materialsTitle => 'Учебные материалы';
+
+  @override
+  String get materialsSearchHint => 'Поиск книг: тема, автор, предмет…';
+
+  @override
+  String get materialsIntro => 'Найди книги и учебники для своих целей';
+
+  @override
+  String get materialsSuggestions => 'Популярные темы';
+
+  @override
+  String materialsEmpty(String query) {
+    return 'По запросу «$query» ничего не найдено';
+  }
+
+  @override
+  String get materialsEmptyHint =>
+      'Попробуй изменить запрос или написать его по-английски';
+
+  @override
+  String get materialsLoadMoreError => 'Не удалось загрузить ещё';
+
+  @override
+  String materialsFound(int count) {
+    return 'Найдено: $count';
+  }
+
+  @override
+  String get bookAuthors => 'Авторы';
+
+  @override
+  String get bookYear => 'Год первой публикации';
+
+  @override
+  String get bookPages => 'Страниц';
+
+  @override
+  String get bookEditions => 'Изданий';
+
+  @override
+  String get bookSubjects => 'Темы';
+
+  @override
+  String get bookUnknownAuthor => 'Автор неизвестен';
+
+  @override
+  String get bookOpenLibrary => 'Источник: Open Library';
+
+  @override
+  String get findMaterials => 'Подобрать материалы';
+
+  @override
+  String get errorNetwork => 'Нет подключения к интернету';
+
+  @override
+  String get errorTimeout => 'Сервер не отвечает. Попробуй позже';
+
+  @override
+  String errorServer(String code) {
+    return 'Ошибка сервера ($code)';
+  }
+
+  @override
+  String get errorParsing => 'Сервер вернул некорректные данные';
+
+  @override
+  String get errorUnknown => 'Что-то пошло не так';
+
+  @override
+  String get quoteOfDay => 'Цитата дня';
 }

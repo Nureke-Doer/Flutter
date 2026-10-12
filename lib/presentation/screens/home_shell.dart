@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../l10n/generated/app_localizations.dart';
+import 'materials_screen.dart';
 import 'settings_screen.dart';
 import 'statistics_screen.dart';
 import 'today_screen.dart';
@@ -23,7 +24,12 @@ class _HomeShellState extends State<HomeShell> {
     return Scaffold(
       body: IndexedStack(
         index: _index,
-        children: const [TodayScreen(), StatisticsScreen(), SettingsScreen()],
+        children: const [
+          TodayScreen(),
+          StatisticsScreen(),
+          MaterialsScreen(),
+          SettingsScreen(),
+        ],
       ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _index,
@@ -38,6 +44,11 @@ class _HomeShellState extends State<HomeShell> {
             icon: const Icon(Icons.insights_outlined),
             selectedIcon: const Icon(Icons.insights),
             label: l10n.navStatistics,
+          ),
+          NavigationDestination(
+            icon: const Icon(Icons.auto_stories_outlined),
+            selectedIcon: const Icon(Icons.auto_stories),
+            label: l10n.navMaterials,
           ),
           NavigationDestination(
             icon: const Icon(Icons.settings_outlined),

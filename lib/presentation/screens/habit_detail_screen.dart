@@ -10,6 +10,7 @@ import '../widgets/habit_visuals.dart';
 import '../widgets/month_calendar.dart';
 import '../widgets/stat_card.dart';
 import 'habit_edit_screen.dart';
+import 'materials_screen.dart';
 
 /// Детальная информация о цели: серии, процент выполнения, календарь.
 ///
@@ -228,6 +229,18 @@ class HabitDetailScreen extends StatelessWidget {
               ],
             ),
           ),
+          if (habit.type == HabitType.study) ...[
+            const SizedBox(height: Gaps.m),
+            OutlinedButton.icon(
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (_) => MaterialsScreen(initialQuery: habit.title),
+                ),
+              ),
+              icon: const Icon(Icons.auto_stories_outlined),
+              label: Text(l10n.findMaterials),
+            ),
+          ],
         ],
       ),
     );

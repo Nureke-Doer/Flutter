@@ -49,9 +49,10 @@
    лидеры по сериям.
 5. **Учебные материалы** — поиск книг через Open Library API,
    сохранение в «избранное».
-6. **Настройки** — тема (светлая / тёмная / системная), язык, уведомления.
-7. **Вход / регистрация** — Firebase Authentication (неделя 8).
-8. **Карта** — места для учёбы рядом (библиотеки, коворкинги) (неделя 9).
+6. **Карточка книги** — обложка, авторы, год, темы.
+7. **Настройки** — тема (светлая / тёмная / системная), язык, уведомления.
+8. **Вход / регистрация** — Firebase Authentication (неделя 8).
+9. **Карта** — места для учёбы рядом (библиотеки, коворкинги) (неделя 9).
 
 ### MVP (минимально жизнеспособный продукт)
 
@@ -229,7 +230,58 @@ lib/
 └── l10n/
 ```
 
-## 7. План по неделям
+## 7. Неделя 5 — REST API и JSON
+
+### Источники данных
+
+| API | Что берём | Запрос |
+|---|---|---|
+| [Open Library Search](https://openlibrary.org/dev/docs/api/search) (бесплатно, без ключа) | Учебные материалы: книги по теме цели | `GET https://openlibrary.org/search.json?q=algorithms&page=1&limit=20&fields=...` |
+| Open Library Covers | Обложки книг | `GET https://covers.openlibrary.org/b/id/{cover_i}-M.jpg` |
+| [DummyJSON Quotes](https://dummyjson.com/docs/quotes) | Мотивационная «цитата дня» | `GET https://dummyjson.com/quotes/random` |
+
+**Почему Open Library:** приложение про учёбу — к каждой учебной цели можно
+подобрать книги. На экране учебной цели есть кнопка **«Подобрать материалы»**,
+которая открывает поиск по названию цели.
+
+### Скриншоты
+
+| Цитата дня | Поиск: начальное состояние | Результаты | Книга | Нет интернета |
+|---|---|---|---|---|
+| ![](docs/screenshots/week5/today.png) | ![](docs/screenshots/week5/materials.png) | ![](docs/screenshots/week5/results.png) | ![](docs/screenshots/week5/book.png) | ![](docs/screenshots/week5/offline.png) |
+
+### Что сделано
+
+- **dio** (`lib/core/network/dio_client.dart`): таймауты подключения/чтения,
+  заголовки, логирование в debug-режиме.
+- **Обработка ошибок:** `DioException` → доменные ошибки `Failure`
+  (`NetworkFailure`, `TimeoutFailure`, `ServerFailure`, `ParsingFailure`) →
+  понятный текст на экране («Нет подключения к интернету», «Сервер не отвечает»…).
+- **JSON-сериализация через `json_serializable`:** DTO `BookDto`,
+  `BookSearchResponseDto`, `QuoteDto` (файлы `*.g.dart` генерируются
+  командой `dart run build_runner build --delete-conflicting-outputs`).
+  DTO преобразуются в доменные сущности `Book`, `Quote`.
+- **`MaterialsBloc`** — состояния `initial / loading / success / empty / failure`:
+  - поиск с **debounce 400 мс** (`stream_transform`) + `restartable` — устаревшие запросы отбрасываются;
+  - **pull-to-refresh** (`RefreshIndicator`);
+  - **пагинация** — бесконечная прокрутка, `droppable` защищает от двойной загрузки;
+  - ошибка подгрузки следующей страницы не стирает уже загруженный список.
+- **`QuoteCubit`** — цитата дня на экране «Сегодня» (при ошибке карточка скрывается).
+- Новые экраны: **Учебные материалы** и **Карточка книги** (с Hero-анимацией обложки).
+- Тесты: разбор JSON (фикстура с реальным форматом ответа), маппинг ошибок
+  через мок `Dio` (mocktail), `MaterialsBloc` (debounce, пустой результат,
+  ошибка, пагинация, refresh), `QuoteCubit`, widget-тесты экрана поиска.
+
+### Поток данных
+
+```
+SearchBar ──MaterialsQueryChanged──▶ MaterialsBloc ──(debounce 400мс)──▶ MaterialsRepository
+                                          ▲                                   │
+                                          │ MaterialsState                    ▼
+ListView.builder ◀──── BlocBuilder ───────┘                      OpenLibraryApi (dio) ──▶ JSON ──▶ BookDto ──▶ Book
+```
+
+## 8. План по неделям
 
 | Неделя | Тема | Статус |
 |---|---|---|
@@ -237,5 +289,5 @@ lib/
 | 2 | Виджеты и построение UI | ✅ |
 | 3 | Управление состоянием: setState → InheritedWidget → Provider | ✅ |
 | 4 | BLoC, слои, Repository, DI | ✅ |
-| 5 | REST API и JSON | ⏳ |
+| 5 | REST API и JSON | ✅ |
 | 6 | Локальное хранение данных | ⏳ |

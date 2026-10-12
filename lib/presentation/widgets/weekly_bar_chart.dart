@@ -16,9 +16,8 @@ class WeeklyBarChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    const maxBarHeight = 120.0;
     return SizedBox(
-      height: maxBarHeight + 44,
+      height: 170,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
@@ -27,21 +26,31 @@ class WeeklyBarChart extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: Gaps.xs),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
                       '${(values[i] * 100).round()}%',
                       style: theme.textTheme.labelSmall,
                     ),
                     const SizedBox(height: Gaps.xs),
-                    AnimatedContainer(
-                      duration: const Duration(milliseconds: 400),
-                      height: 4 + values[i] * (maxBarHeight - 4),
-                      decoration: BoxDecoration(
-                        color: i == days.length - 1
-                            ? theme.colorScheme.primary
-                            : theme.colorScheme.primary.withValues(alpha: 0.45),
-                        borderRadius: BorderRadius.circular(8),
+                    // Высота столбца считается от свободного места, поэтому
+                    // диаграмма не «ломается» при крупном системном шрифте.
+                    Expanded(
+                      child: LayoutBuilder(
+                        builder: (context, constraints) => Align(
+                          alignment: Alignment.bottomCenter,
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 400),
+                            height: 4 + values[i] * (constraints.maxHeight - 4),
+                            decoration: BoxDecoration(
+                              color: i == days.length - 1
+                                  ? theme.colorScheme.primary
+                                  : theme.colorScheme.primary.withValues(
+                                      alpha: 0.45,
+                                    ),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     const SizedBox(height: Gaps.xs),

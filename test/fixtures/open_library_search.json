@@ -1,0 +1,30 @@
+{
+  "numFound": 42,
+  "start": 0,
+  "numFoundExact": true,
+  "num_found": 42,
+  "q": "algorithms",
+  "offset": null,
+  "docs": [
+    {
+      "key": "/works/OL1968368W",
+      "title": "Introduction to Algorithms",
+      "author_name": ["Thomas H. Cormen", "Charles E. Leiserson"],
+      "first_publish_year": 1989,
+      "cover_i": 8739161,
+      "number_of_pages_median": 1180,
+      "edition_count": 31,
+      "subject": ["Computer algorithms", "Computer programming", "Algorithms"]
+    },
+    {
+      "key": "/works/OL2717917W",
+      "title": "Algorithms",
+      "author_name": ["Robert Sedgewick"],
+      "first_publish_year": 1983,
+      "edition_count": 12
+    },
+    {
+      "key": "/works/OL000000W"
+    }
+  ]
+}
