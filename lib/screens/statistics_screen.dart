@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../l10n/generated/app_localizations.dart';
-import '../models/habit.dart';
+import '../state/habits_scope.dart';
 import '../theme/app_theme.dart';
 import '../utils/date_utils.dart';
 import '../widgets/empty_state.dart';
@@ -11,12 +11,11 @@ import '../widgets/weekly_bar_chart.dart';
 
 /// Экран статистики: общий процент, график за неделю, лидеры по сериям.
 class StatisticsScreen extends StatelessWidget {
-  const StatisticsScreen({super.key, required this.habits});
-
-  final List<Habit> habits;
+  const StatisticsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final habits = HabitsScope.of(context).habits;
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final today = dateOnly(DateTime.now());

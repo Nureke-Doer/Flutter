@@ -8,14 +8,7 @@ import 'helpers/pump_app.dart';
 
 void main() {
   testWidgets('Экран «Сегодня» показывает цели и прогресс', (tester) async {
-    await tester.pumpApp(
-      TodayScreen(
-        habits: buildMockHabits(),
-        onToggle: (_, _) {},
-        onSave: (_) {},
-        onDelete: (_) {},
-      ),
-    );
+    await tester.pumpApp(const TodayScreen(), habits: buildMockHabits());
     await tester.pumpAndSettle();
 
     expect(find.text('Сегодня'), findsOneWidget);
@@ -24,14 +17,7 @@ void main() {
   });
 
   testWidgets('Пустой список показывает подсказку', (tester) async {
-    await tester.pumpApp(
-      TodayScreen(
-        habits: const [],
-        onToggle: (_, _) {},
-        onSave: (_) {},
-        onDelete: (_) {},
-      ),
-    );
+    await tester.pumpApp(const TodayScreen(), habits: const []);
     expect(find.text('На сегодня ничего не запланировано'), findsOneWidget);
   });
 

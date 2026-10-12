@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../l10n/generated/app_localizations.dart';
 import '../models/habit.dart';
+import '../state/habits_scope.dart';
 import '../theme/app_theme.dart';
 import '../utils/date_utils.dart';
 import '../widgets/habit_visuals.dart';
@@ -11,52 +12,30 @@ import 'habit_edit_screen.dart';
 
 /// Детальная информация о цели: серии, процент выполнения, календарь.
 ///
-/// Неделя 3, шаг 1 (setState): экран получает копию цели и колбэки.
-/// Чтобы экран обновлялся после изменений, приходится хранить
-/// локальную копию `_habit` и синхронизировать её вручную.
-class HabitDetailScreen extends StatefulWidget {
-  const HabitDetailScreen({
-    super.key,
-    required this.habit,
-    required this.onToggle,
-    required this.onSave,
-    required this.onDelete,
-  });
+/// Неделя 3, шаг 2 (InheritedWidget): экран получает только `habitId`
+/// и сам находит актуальную цель в `HabitsScope`. После отметки или
+/// редактирования экран перестраивается автоматически.
+class HabitDetailScreen extends StatelessWidget {
+  const HabitDetailScreen({super.key, required this.habitId});
 
-  final Habit habit;
-  final void Function(Habit habit, DateTime day) onToggle;
-  final ValueChanged<Habit> onSave;
-  final ValueChanged<Habit> onDelete;
+  final String habitId;
 
-  @override
-  State<HabitDetailScreen> createState() => _HabitDetailScreenState();
-}
-
-class _HabitDetailScreenState extends State<HabitDetailScreen> {
-  late Habit _habit = widget.habit;
-
-  void _toggleToday() {
-    final today = dateOnly(DateTime.now());
-    widget.onToggle(_habit, today);
-    setState(() => _habit = _habit.toggleDay(today));
-  }
-
-  Future<void> _edit() async {
+  Future<void> _edit(BuildContext context, Habit habit) async {
+    final scope = HabitsScope.read(context);
     final updated = await Navigator.of(context).push<Habit>(
-      MaterialPageRoute(builder: (_) => HabitEditScreen(initial: _habit)),
+      MaterialPageRoute(builder: (_) => HabitEditScreen(initial: habit)),
     );
-    if (updated != null) {
-      widget.onSave(updated);
-      setState(() => _habit = updated);
-    }
+    if (updated != null) scope.save(updated);
   }
 
-  Future<void> _delete() async {
+  Future<void> _delete(BuildContext context, Habit habit) async {
     final l10n = AppLocalizations.of(context);
+    final scope = HabitsScope.read(context);
+    final navigator = Navigator.of(context);
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(l10n.deleteConfirmTitle(_habit.title)),
+        title: Text(l10n.deleteConfirmTitle(habit.title)),
         content: Text(l10n.deleteConfirmBody),
         actions: [
           TextButton(
@@ -70,15 +49,18 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
         ],
       ),
     );
-    if (confirmed == true && mounted) {
-      widget.onDelete(_habit);
-      Navigator.of(context).pop();
+    if (confirmed == true) {
+      navigator.pop();
+      scope.delete(habit.id);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final habit = _habit;
+    final scope = HabitsScope.of(context);
+    final habit = scope.byId(habitId);
+    // Цель могла быть удалена, пока экран закрывается.
+    if (habit == null) return const Scaffold();
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final today = dateOnly(DateTime.now());
@@ -91,12 +73,12 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
           IconButton(
             tooltip: l10n.edit,
             icon: const Icon(Icons.edit_outlined),
-            onPressed: _edit,
+            onPressed: () => _edit(context, habit),
           ),
           IconButton(
             tooltip: l10n.delete,
             icon: const Icon(Icons.delete_outline),
-            onPressed: _delete,
+            onPressed: () => _delete(context, habit),
           ),
         ],
       ),
@@ -105,7 +87,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
         child: doneToday
             ? FilledButton.tonalIcon(
                 key: const Key('toggleTodayButton'),
-                onPressed: _toggleToday,
+                onPressed: () => scope.toggle(habit.id, today),
                 icon: const Icon(Icons.check_circle),
                 label: Text(l10n.detailDoneToday),
                 style: FilledButton.styleFrom(
@@ -114,7 +96,9 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
               )
             : FilledButton.icon(
                 key: const Key('toggleTodayButton'),
-                onPressed: habit.isScheduledOn(today) ? _toggleToday : null,
+                onPressed: habit.isScheduledOn(today)
+                    ? () => scope.toggle(habit.id, today)
+                    : null,
                 icon: const Icon(Icons.radio_button_unchecked),
                 label: Text(l10n.detailMarkToday),
                 style: FilledButton.styleFrom(

@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 
 import '../l10n/generated/app_localizations.dart';
 import '../models/habit.dart';
+import '../state/habits_scope.dart';
 import '../theme/app_theme.dart';
 import '../utils/date_utils.dart';
 import '../widgets/day_progress_header.dart';
@@ -15,28 +16,20 @@ import 'habit_edit_screen.dart';
 
 /// Экран «Сегодня»: цели, запланированные на текущий день.
 class TodayScreen extends StatelessWidget {
-  const TodayScreen({
-    super.key,
-    required this.habits,
-    required this.onToggle,
-    required this.onSave,
-    required this.onDelete,
-  });
-
-  final List<Habit> habits;
-  final void Function(Habit habit, DateTime day) onToggle;
-  final ValueChanged<Habit> onSave;
-  final ValueChanged<Habit> onDelete;
+  const TodayScreen({super.key});
 
   Future<void> _openEditor(BuildContext context) async {
+    final scope = HabitsScope.read(context);
     final created = await Navigator.of(
       context,
     ).push<Habit>(MaterialPageRoute(builder: (_) => const HabitEditScreen()));
-    if (created != null) onSave(created);
+    if (created != null) scope.save(created);
   }
 
   @override
   Widget build(BuildContext context) {
+    final scope = HabitsScope.of(context);
+    final habits = scope.habits;
     final l10n = AppLocalizations.of(context);
     final locale = Localizations.localeOf(context).toLanguageTag();
     final today = dateOnly(DateTime.now());
@@ -76,14 +69,14 @@ class TodayScreen extends StatelessWidget {
                     l10n.sectionHabits,
                     icon: HabitType.habit.iconData,
                   ),
-                  ..._tiles(context, habitItems, today),
+                  ..._tiles(context, scope, habitItems, today),
                 ],
                 if (studyItems.isNotEmpty) ...[
                   SectionHeader(
                     l10n.sectionStudy,
                     icon: HabitType.study.iconData,
                   ),
-                  ..._tiles(context, studyItems, today),
+                  ..._tiles(context, scope, studyItems, today),
                 ],
               ],
             ),
@@ -92,6 +85,7 @@ class TodayScreen extends StatelessWidget {
 
   Iterable<Widget> _tiles(
     BuildContext context,
+    HabitsScopeState scope,
     List<Habit> items,
     DateTime today,
   ) {
@@ -101,16 +95,10 @@ class TodayScreen extends StatelessWidget {
         child: HabitTile(
           habit: habit,
           today: today,
-          onToggle: () => onToggle(habit, today),
-          // Колбэки приходится пробрасывать дальше — на экран деталей.
+          onToggle: () => scope.toggle(habit.id, today),
           onTap: () => Navigator.of(context).push(
             MaterialPageRoute<void>(
-              builder: (_) => HabitDetailScreen(
-                habit: habit,
-                onToggle: onToggle,
-                onSave: onSave,
-                onDelete: onDelete,
-              ),
+              builder: (_) => HabitDetailScreen(habitId: habit.id),
             ),
           ),
         ),

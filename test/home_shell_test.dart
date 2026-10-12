@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:habit_study_tracker/models/habit.dart';
 import 'package:habit_study_tracker/screens/home_shell.dart';
 
 import 'helpers/pump_app.dart';
@@ -26,5 +27,34 @@ void main() {
     final after =
         find.textContaining('Выполнено').evaluate().single.widget as Text;
     expect(after.data, isNot(before.data));
+  });
+
+  testWidgets('Экран деталей обновляется после отметки и удаляет цель', (
+    tester,
+  ) async {
+    final today = DateTime.now();
+    final habit = Habit(
+      id: 'h1',
+      title: 'Медитация',
+      createdAt: today.subtract(const Duration(days: 3)),
+    );
+    await tester.pumpApp(const HomeShell(), habits: [habit]);
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Медитация'));
+    await tester.pumpAndSettle();
+    expect(find.text('Отметить сегодня'), findsOneWidget);
+
+    await tester.tap(find.byKey(const Key('toggleTodayButton')));
+    await tester.pumpAndSettle();
+    expect(find.text('Выполнено сегодня'), findsOneWidget);
+
+    await tester.tap(find.byTooltip('Удалить'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.widgetWithText(FilledButton, 'Удалить'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Медитация'), findsNothing);
+    expect(find.text('На сегодня ничего не запланировано'), findsOneWidget);
   });
 }
