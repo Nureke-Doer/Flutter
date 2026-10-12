@@ -45,6 +45,9 @@ class BookCover extends StatelessWidget {
               // Уменьшаем декодируемую картинку до размера на экране — экономия памяти.
               cacheWidth: (width * MediaQuery.devicePixelRatioOf(context))
                   .round(),
+              // В браузере сервер обложек не разрешает чтение картинок
+              // с другого сайта (CORS) — тогда показываем обычный <img>.
+              webHtmlElementStrategy: WebHtmlElementStrategy.fallback,
               loadingBuilder: (context, child, progress) =>
                   progress == null ? child : placeholder,
               errorBuilder: (_, _, _) => placeholder,

@@ -5,6 +5,15 @@
 
 > Тема №3 курса «Разработка мобильных приложений на Flutter».
 
+## Как посмотреть приложение
+
+- **Android:** скачать `habit-study-tracker.apk` со страницы
+  [Releases → последняя сборка](https://github.com/Nureke-Doer/Flutter/releases/latest)
+  и установить на телефон.
+- **В браузере:** https://nureke-doer.github.io/Flutter/
+- Каждый пуш собирается автоматически: [GitHub Actions](https://github.com/Nureke-Doer/Flutter/actions)
+  (анализ, тесты, APK, web).
+
 ## 1. Постановка задачи
 
 ### Цель
