@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../l10n/generated/app_localizations.dart';
-import '../state/habits_scope.dart';
+import '../state/habits_notifier.dart';
 import '../theme/app_theme.dart';
 import '../utils/date_utils.dart';
 import '../widgets/empty_state.dart';
@@ -15,7 +16,7 @@ class StatisticsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final habits = HabitsScope.of(context).habits;
+    final habits = context.watch<HabitsNotifier>().habits;
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final today = dateOnly(DateTime.now());

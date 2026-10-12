@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
 
 import 'l10n/generated/app_localizations.dart';
 import 'screens/home_shell.dart';
-import 'state/habits_scope.dart';
+import 'state/habits_notifier.dart';
 import 'theme/app_theme.dart';
 
 class HabitStudyTrackerApp extends StatelessWidget {
@@ -11,9 +12,10 @@ class HabitStudyTrackerApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // HabitsScope стоит выше MaterialApp, чтобы данные были доступны
+    // Провайдер стоит выше MaterialApp, чтобы данные были доступны
     // на всех экранах, открытых через Navigator.
-    return HabitsScope(
+    return ChangeNotifierProvider(
+      create: (_) => HabitsNotifier(),
       child: MaterialApp(
         onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
         debugShowCheckedModeBanner: false,

@@ -6,7 +6,7 @@ import 'statistics_screen.dart';
 import 'today_screen.dart';
 
 /// Корневой экран с нижней навигацией.
-/// Хранит только индекс вкладки; данные о целях живут в `HabitsScope`.
+/// Хранит только индекс вкладки; данные о целях живут в `HabitsNotifier`.
 class HomeShell extends StatefulWidget {
   const HomeShell({super.key});
 

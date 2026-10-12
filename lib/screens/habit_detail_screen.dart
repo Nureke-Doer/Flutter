@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../l10n/generated/app_localizations.dart';
 import '../models/habit.dart';
-import '../state/habits_scope.dart';
+import '../state/habits_notifier.dart';
 import '../theme/app_theme.dart';
 import '../utils/date_utils.dart';
 import '../widgets/habit_visuals.dart';
@@ -12,25 +13,24 @@ import 'habit_edit_screen.dart';
 
 /// Детальная информация о цели: серии, процент выполнения, календарь.
 ///
-/// Неделя 3, шаг 2 (InheritedWidget): экран получает только `habitId`
-/// и сам находит актуальную цель в `HabitsScope`. После отметки или
-/// редактирования экран перестраивается автоматически.
+/// Экран получает только `habitId` и через `context.select` подписывается
+/// именно на эту цель: изменения других целей его не перестраивают.
 class HabitDetailScreen extends StatelessWidget {
   const HabitDetailScreen({super.key, required this.habitId});
 
   final String habitId;
 
   Future<void> _edit(BuildContext context, Habit habit) async {
-    final scope = HabitsScope.read(context);
+    final notifier = context.read<HabitsNotifier>();
     final updated = await Navigator.of(context).push<Habit>(
       MaterialPageRoute(builder: (_) => HabitEditScreen(initial: habit)),
     );
-    if (updated != null) scope.save(updated);
+    if (updated != null) notifier.save(updated);
   }
 
   Future<void> _delete(BuildContext context, Habit habit) async {
     final l10n = AppLocalizations.of(context);
-    final scope = HabitsScope.read(context);
+    final notifier = context.read<HabitsNotifier>();
     final navigator = Navigator.of(context);
     final confirmed = await showDialog<bool>(
       context: context,
@@ -51,14 +51,16 @@ class HabitDetailScreen extends StatelessWidget {
     );
     if (confirmed == true) {
       navigator.pop();
-      scope.delete(habit.id);
+      notifier.delete(habit.id);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final scope = HabitsScope.of(context);
-    final habit = scope.byId(habitId);
+    final habit = context.select<HabitsNotifier, Habit?>(
+      (n) => n.byId(habitId),
+    );
+    final notifier = context.read<HabitsNotifier>();
     // Цель могла быть удалена, пока экран закрывается.
     if (habit == null) return const Scaffold();
     final l10n = AppLocalizations.of(context);
@@ -87,7 +89,7 @@ class HabitDetailScreen extends StatelessWidget {
         child: doneToday
             ? FilledButton.tonalIcon(
                 key: const Key('toggleTodayButton'),
-                onPressed: () => scope.toggle(habit.id, today),
+                onPressed: () => notifier.toggle(habit.id, today),
                 icon: const Icon(Icons.check_circle),
                 label: Text(l10n.detailDoneToday),
                 style: FilledButton.styleFrom(
@@ -97,7 +99,7 @@ class HabitDetailScreen extends StatelessWidget {
             : FilledButton.icon(
                 key: const Key('toggleTodayButton'),
                 onPressed: habit.isScheduledOn(today)
-                    ? () => scope.toggle(habit.id, today)
+                    ? () => notifier.toggle(habit.id, today)
                     : null,
                 icon: const Icon(Icons.radio_button_unchecked),
                 label: Text(l10n.detailMarkToday),
