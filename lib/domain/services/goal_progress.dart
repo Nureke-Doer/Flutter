@@ -27,14 +27,24 @@ class GoalProgress extends Equatable {
     var current = goal.manualProgress;
     for (final habit in habits) {
       if (!goal.linkedHabitIds.contains(habit.id)) continue;
-      final history = histories[habit.id] ?? HabitHistory.empty;
-      current += habit.isNumeric
-          ? history.amountSince(goal.createdAt)
-          : history.successesSince(goal.createdAt);
+      current += contribution(
+        goal,
+        habit,
+        histories[habit.id] ?? HabitHistory.empty,
+      );
     }
     final daysLeft = daysBetween(today, goal.deadline);
     return GoalProgress(goal: goal, current: current, daysLeft: daysLeft);
   }
+
+  /// Вклад одной привычки в цель с даты создания цели.
+  static double contribution(
+    StudyGoal goal,
+    Habit habit,
+    HabitHistory history,
+  ) => habit.isNumeric
+      ? history.amountSince(goal.createdAt)
+      : history.successesSince(goal.createdAt).toDouble();
 
   final StudyGoal goal;
 

@@ -126,7 +126,15 @@ class _Info extends StatelessWidget {
       children: [
         Icon(icon, size: 16, color: color ?? theme.colorScheme.outline),
         const SizedBox(width: Gaps.xs),
-        Text(text, style: theme.textTheme.bodySmall),
+        // Flexible + ellipsis: длинная подпись не ломает узкую колонку.
+        Flexible(
+          child: Text(
+            text,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: theme.textTheme.bodySmall,
+          ),
+        ),
       ],
     );
   }

@@ -2,10 +2,12 @@ import 'dart:async';
 
 import 'package:habit_study_tracker/core/error/failures.dart';
 import 'package:habit_study_tracker/domain/entities/app_settings.dart';
+import 'package:habit_study_tracker/domain/entities/app_user.dart';
 import 'package:habit_study_tracker/domain/entities/book.dart';
 import 'package:habit_study_tracker/domain/entities/category.dart';
 import 'package:habit_study_tracker/domain/entities/quote.dart';
 import 'package:habit_study_tracker/domain/entities/study_goal.dart';
+import 'package:habit_study_tracker/domain/repositories/auth_repository.dart';
 import 'package:habit_study_tracker/domain/repositories/category_repository.dart';
 import 'package:habit_study_tracker/domain/repositories/favorites_repository.dart';
 import 'package:habit_study_tracker/domain/repositories/goal_repository.dart';
@@ -175,4 +177,70 @@ class FakeGoalRepository implements GoalRepository {
     _items = _items.where((g) => g.id != id).toList();
     _controller.add(List.of(_items));
   }
+}
+
+/// Авторизация в памяти. По умолчанию пользователь уже вошёл как гость.
+class FakeAuthRepository implements AuthRepository {
+  FakeAuthRepository({
+    AppUser? user = const AppUser.guest(),
+    this.accounts = true,
+  }) : _user = user;
+
+  AppUser? _user;
+  final bool accounts;
+  final _controller = StreamController<AppUser?>.broadcast();
+
+  /// Пароль, с которым «сервер» принимает вход.
+  static const password = 'secret1';
+
+  @override
+  AppUser? get currentUser => _user;
+
+  @override
+  Stream<AppUser?> authStateChanges() async* {
+    yield _user;
+    yield* _controller.stream;
+  }
+
+  @override
+  bool get supportsAccounts => accounts;
+
+  void _set(AppUser? user) {
+    _user = user;
+    _controller.add(user);
+  }
+
+  @override
+  Future<void> signInWithEmail(String email, String password) async {
+    if (!accounts) throw const AuthFailure(AuthErrorCode.unavailable);
+    if (password != FakeAuthRepository.password) {
+      throw const AuthFailure(AuthErrorCode.wrongCredentials);
+    }
+    _set(AppUser(uid: 'u1', email: email));
+  }
+
+  @override
+  Future<void> registerWithEmail(
+    String email,
+    String password, {
+    String? displayName,
+  }) async {
+    if (!accounts) throw const AuthFailure(AuthErrorCode.unavailable);
+    _set(AppUser(uid: 'u1', email: email, displayName: displayName));
+  }
+
+  @override
+  Future<void> signInWithGoogle() async {
+    if (!accounts) throw const AuthFailure(AuthErrorCode.unavailable);
+    _set(const AppUser(uid: 'g1', email: 'user@gmail.com'));
+  }
+
+  @override
+  Future<void> sendPasswordReset(String email) async {}
+
+  @override
+  Future<void> continueAsGuest() async => _set(const AppUser.guest());
+
+  @override
+  Future<void> signOut() async => _set(null);
 }

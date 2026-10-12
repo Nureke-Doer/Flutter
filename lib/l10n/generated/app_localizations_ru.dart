@@ -18,12 +18,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get navStatistics => 'Статистика';
 
   @override
-  String get navMaterials => 'Материалы';
-
-  @override
-  String get navSettings => 'Настройки';
-
-  @override
   String get todayTitle => 'Сегодня';
 
   @override
@@ -494,5 +488,239 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String weekProgress(int done, int total) {
     return '$done из $total за неделю';
+  }
+
+  @override
+  String get authEmail => 'Email';
+
+  @override
+  String get authEnterEmail => 'Введите email, чтобы восстановить пароль';
+
+  @override
+  String get authErrorCancelled => 'Вход отменён';
+
+  @override
+  String get authErrorEmailInUse => 'Этот email уже зарегистрирован';
+
+  @override
+  String get authErrorInvalidEmail => 'Некорректный email';
+
+  @override
+  String get authErrorTooManyRequests =>
+      'Слишком много попыток. Попробуйте позже';
+
+  @override
+  String get authErrorUnavailable =>
+      'Вход через аккаунт недоступен: Firebase не настроен';
+
+  @override
+  String get authErrorWeakPassword => 'Пароль должен быть не короче 6 символов';
+
+  @override
+  String get authErrorWrongCredentials => 'Неверный email или пароль';
+
+  @override
+  String get authFirebaseNotConfigured =>
+      'Вход по email и Google появится после подключения Firebase (неделя 8). Сейчас можно работать без аккаунта.';
+
+  @override
+  String get authForgotPassword => 'Забыли пароль?';
+
+  @override
+  String get authGoogle => 'Войти через Google';
+
+  @override
+  String get authGuest => 'Продолжить без аккаунта';
+
+  @override
+  String get authGuestHint => 'Данные хранятся только на этом устройстве';
+
+  @override
+  String get authGuestName => 'Гость';
+
+  @override
+  String get authLeaveGuest => 'Выйти из гостевого режима';
+
+  @override
+  String get authName => 'Имя';
+
+  @override
+  String get authOr => 'или';
+
+  @override
+  String get authPassword => 'Пароль';
+
+  @override
+  String get authRegister => 'Регистрация';
+
+  @override
+  String get authResetSent => 'Письмо для сброса пароля отправлено';
+
+  @override
+  String get authSignIn => 'Вход';
+
+  @override
+  String get authSignOut => 'Выйти';
+
+  @override
+  String get authSignOutBody => 'Привычки останутся на устройстве.';
+
+  @override
+  String get authSignOutConfirm => 'Выйти из аккаунта?';
+
+  @override
+  String get authSubtitle => 'Привычки и учебные цели в одном месте';
+
+  @override
+  String get categoriesEmpty => 'Категорий пока нет';
+
+  @override
+  String get categoriesHint =>
+      'Перетащите категорию за ручку, чтобы изменить порядок';
+
+  @override
+  String get categoriesTitle => 'Категории';
+
+  @override
+  String get categoryAdd => 'Новая категория';
+
+  @override
+  String get categoryDeleteBody =>
+      'Привычки не удалятся — они попадут в «Без категории».';
+
+  @override
+  String get goalAdd => 'Новая цель';
+
+  @override
+  String get goalAddProgress => 'Добавить прогресс вручную';
+
+  @override
+  String get goalBook => 'Книга';
+
+  @override
+  String get goalBookHint =>
+      'Сохраните книгу в «Учебных материалах», чтобы привязать её к цели';
+
+  @override
+  String get goalCompleted => 'Цель достигнута! 🎉';
+
+  @override
+  String goalDaysLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'осталось $count дня',
+      many: 'осталось $count дней',
+      few: 'осталось $count дня',
+      one: 'остался $count день',
+      zero: 'дедлайн сегодня',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get goalDaysLeftLabel => 'Дней до дедлайна';
+
+  @override
+  String goalDeadline(String date) {
+    return 'до $date';
+  }
+
+  @override
+  String get goalDeadlineLabel => 'Дедлайн';
+
+  @override
+  String get goalEdit => 'Редактирование цели';
+
+  @override
+  String get goalLinkedHabits => 'Привязанные привычки';
+
+  @override
+  String get goalLinkedHint =>
+      'Прогресс считается автоматически: числовые привычки добавляют сумму, обычные — по 1 за каждый ✔.';
+
+  @override
+  String get goalManualProgress => 'Добавлено вручную';
+
+  @override
+  String get goalNew => 'Новая учебная цель';
+
+  @override
+  String get goalNoBook => 'Без книги';
+
+  @override
+  String get goalNoLinkedHabits => 'Нет — прогресс только вручную';
+
+  @override
+  String get goalOverdue => 'Дедлайн прошёл';
+
+  @override
+  String goalPerDay(String amount) {
+    return 'нужно $amount в день';
+  }
+
+  @override
+  String goalRemaining(String unit) {
+    return 'Осталось $unit';
+  }
+
+  @override
+  String get goalTarget => 'Сколько нужно';
+
+  @override
+  String get goalTitleHint => 'Например: Прочитать 300 страниц';
+
+  @override
+  String get goalsEmpty => 'Учебных целей пока нет';
+
+  @override
+  String get goalsEmptyHint =>
+      'Создайте цель с дедлайном и привяжите к ней привычки';
+
+  @override
+  String get goalsTitle => 'Учебные цели';
+
+  @override
+  String habitsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count привычки',
+      many: '$count привычек',
+      few: '$count привычки',
+      one: '$count привычка',
+      zero: 'нет привычек',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get habitsEmpty => 'Привычек пока нет';
+
+  @override
+  String get navGoals => 'Цели';
+
+  @override
+  String get navHabits => 'Привычки';
+
+  @override
+  String get navProfile => 'Профиль';
+
+  @override
+  String get notFound => 'Страница не найдена';
+
+  @override
+  String get selectHabitHint => 'Выберите привычку слева';
+
+  @override
+  String get settingsGamification => 'Включить геймификацию';
+
+  @override
+  String get settingsGamificationHint =>
+      'Свои метрики (например, Power и Money), которые растут от выполненных привычек';
+
+  @override
+  String showArchived(int count) {
+    return 'Архив ($count)';
   }
 }

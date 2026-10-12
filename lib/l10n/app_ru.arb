@@ -3,8 +3,6 @@
   "appTitle": "Habit & Study Tracker",
   "navToday": "Сегодня",
   "navStatistics": "Статистика",
-  "navMaterials": "Материалы",
-  "navSettings": "Настройки",
   "todayTitle": "Сегодня",
   "todayProgress": "Выполнено {done} из {total}",
   "@todayProgress": {
@@ -232,6 +230,113 @@
         "type": "int"
       },
       "total": {
+        "type": "int"
+      }
+    }
+  },
+  "authEmail": "Email",
+  "authEnterEmail": "Введите email, чтобы восстановить пароль",
+  "authErrorCancelled": "Вход отменён",
+  "authErrorEmailInUse": "Этот email уже зарегистрирован",
+  "authErrorInvalidEmail": "Некорректный email",
+  "authErrorTooManyRequests": "Слишком много попыток. Попробуйте позже",
+  "authErrorUnavailable": "Вход через аккаунт недоступен: Firebase не настроен",
+  "authErrorWeakPassword": "Пароль должен быть не короче 6 символов",
+  "authErrorWrongCredentials": "Неверный email или пароль",
+  "authFirebaseNotConfigured": "Вход по email и Google появится после подключения Firebase (неделя 8). Сейчас можно работать без аккаунта.",
+  "authForgotPassword": "Забыли пароль?",
+  "authGoogle": "Войти через Google",
+  "authGuest": "Продолжить без аккаунта",
+  "authGuestHint": "Данные хранятся только на этом устройстве",
+  "authGuestName": "Гость",
+  "authLeaveGuest": "Выйти из гостевого режима",
+  "authName": "Имя",
+  "authOr": "или",
+  "authPassword": "Пароль",
+  "authRegister": "Регистрация",
+  "authResetSent": "Письмо для сброса пароля отправлено",
+  "authSignIn": "Вход",
+  "authSignOut": "Выйти",
+  "authSignOutBody": "Привычки останутся на устройстве.",
+  "authSignOutConfirm": "Выйти из аккаунта?",
+  "authSubtitle": "Привычки и учебные цели в одном месте",
+  "categoriesEmpty": "Категорий пока нет",
+  "categoriesHint": "Перетащите категорию за ручку, чтобы изменить порядок",
+  "categoriesTitle": "Категории",
+  "categoryAdd": "Новая категория",
+  "categoryDeleteBody": "Привычки не удалятся — они попадут в «Без категории».",
+  "goalAdd": "Новая цель",
+  "goalAddProgress": "Добавить прогресс вручную",
+  "goalBook": "Книга",
+  "goalBookHint": "Сохраните книгу в «Учебных материалах», чтобы привязать её к цели",
+  "goalCompleted": "Цель достигнута! 🎉",
+  "goalDaysLeft": "{count, plural, =0{дедлайн сегодня} one{остался {count} день} few{осталось {count} дня} many{осталось {count} дней} other{осталось {count} дня}}",
+  "@goalDaysLeft": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "goalDaysLeftLabel": "Дней до дедлайна",
+  "goalDeadline": "до {date}",
+  "@goalDeadline": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "goalDeadlineLabel": "Дедлайн",
+  "goalEdit": "Редактирование цели",
+  "goalLinkedHabits": "Привязанные привычки",
+  "goalLinkedHint": "Прогресс считается автоматически: числовые привычки добавляют сумму, обычные — по 1 за каждый ✔.",
+  "goalManualProgress": "Добавлено вручную",
+  "goalNew": "Новая учебная цель",
+  "goalNoBook": "Без книги",
+  "goalNoLinkedHabits": "Нет — прогресс только вручную",
+  "goalOverdue": "Дедлайн прошёл",
+  "goalPerDay": "нужно {amount} в день",
+  "@goalPerDay": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "goalRemaining": "Осталось {unit}",
+  "@goalRemaining": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "goalTarget": "Сколько нужно",
+  "goalTitleHint": "Например: Прочитать 300 страниц",
+  "goalsEmpty": "Учебных целей пока нет",
+  "goalsEmptyHint": "Создайте цель с дедлайном и привяжите к ней привычки",
+  "goalsTitle": "Учебные цели",
+  "habitsCount": "{count, plural, =0{нет привычек} one{{count} привычка} few{{count} привычки} many{{count} привычек} other{{count} привычки}}",
+  "@habitsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "habitsEmpty": "Привычек пока нет",
+  "navGoals": "Цели",
+  "navHabits": "Привычки",
+  "navProfile": "Профиль",
+  "notFound": "Страница не найдена",
+  "selectHabitHint": "Выберите привычку слева",
+  "settingsGamification": "Включить геймификацию",
+  "settingsGamificationHint": "Свои метрики (например, Power и Money), которые растут от выполненных привычек",
+  "showArchived": "Архив ({count})",
+  "@showArchived": {
+    "placeholders": {
+      "count": {
         "type": "int"
       }
     }

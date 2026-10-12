@@ -16,8 +16,10 @@ import '../../data/repositories/hive_favorites_repository.dart';
 import '../../data/repositories/hive_goal_repository.dart';
 import '../../data/repositories/hive_habit_repository.dart';
 import '../../data/repositories/hive_metric_repository.dart';
+import '../../data/repositories/local_auth_repository.dart';
 import '../../data/repositories/materials_repository_impl.dart';
 import '../../data/repositories/shared_prefs_settings_repository.dart';
+import '../../domain/repositories/auth_repository.dart';
 import '../../domain/repositories/category_repository.dart';
 import '../../domain/repositories/favorites_repository.dart';
 import '../../domain/repositories/goal_repository.dart';
@@ -25,6 +27,7 @@ import '../../domain/repositories/habit_repository.dart';
 import '../../domain/repositories/materials_repository.dart';
 import '../../domain/repositories/metric_repository.dart';
 import '../../domain/repositories/settings_repository.dart';
+import '../../presentation/blocs/auth/auth_cubit.dart';
 import '../../presentation/blocs/categories/categories_cubit.dart';
 import '../../presentation/blocs/favorites/favorites_cubit.dart';
 import '../../presentation/blocs/goals/goals_cubit.dart';
@@ -73,6 +76,8 @@ Future<void> configureDependencies() async {
 
   getIt
     ..registerSingleton<SharedPreferences>(prefs)
+    // Авторизация: неделя 7 — только гость, неделя 8 — Firebase.
+    ..registerSingleton<AuthRepository>(LocalAuthRepository(prefs))
     // Сеть
     ..registerLazySingleton<Dio>(createDio)
     ..registerLazySingleton(() => OpenLibraryApi(getIt<Dio>()))
@@ -111,6 +116,9 @@ Future<void> configureDependencies() async {
     // Состояние
     ..registerLazySingleton<SettingsNotifier>(
       () => SettingsNotifier(getIt<SettingsRepository>()),
+    )
+    ..registerFactory<AuthCubit>(
+      () => AuthCubit(repository: getIt<AuthRepository>()),
     )
     ..registerFactory<HabitsBloc>(
       () => HabitsBloc(repository: getIt<HabitRepository>()),

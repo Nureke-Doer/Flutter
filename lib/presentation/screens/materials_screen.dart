@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../../core/di/injection.dart';
@@ -7,11 +8,11 @@ import '../../core/theme/app_theme.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../blocs/favorites/favorites_cubit.dart';
 import '../blocs/materials/materials_bloc.dart';
+import '../router/app_router.dart';
 import '../widgets/book_tile.dart';
 import '../widgets/empty_state.dart';
 import '../widgets/failure_message.dart';
 import '../widgets/favorite_button.dart';
-import 'book_details_screen.dart';
 
 /// Экран поиска учебных материалов (REST API Open Library).
 class MaterialsScreen extends StatelessWidget {
@@ -235,11 +236,7 @@ class _ResultsList extends StatelessWidget {
             child: BookTile(
               book: book,
               trailing: FavoriteButton(book: book),
-              onTap: () => Navigator.of(context).push(
-                MaterialPageRoute<void>(
-                  builder: (_) => BookDetailsScreen(book: book),
-                ),
-              ),
+              onTap: () => context.pushNamed(AppRoutes.book, extra: book),
             ),
           );
         },
@@ -394,11 +391,7 @@ class _SavedList extends StatelessWidget {
         child: BookTile(
           book: books[i],
           trailing: FavoriteButton(book: books[i]),
-          onTap: () => Navigator.of(context).push(
-            MaterialPageRoute<void>(
-              builder: (_) => BookDetailsScreen(book: books[i]),
-            ),
-          ),
+          onTap: () => context.pushNamed(AppRoutes.book, extra: books[i]),
         ),
       ),
     );

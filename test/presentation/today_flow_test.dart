@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:habit_study_tracker/data/datasources/demo_habits.dart';
 import 'package:habit_study_tracker/domain/entities/habit.dart';
-import 'package:habit_study_tracker/presentation/screens/home_shell.dart';
 import 'package:habit_study_tracker/presentation/widgets/habit_tile.dart';
 
 import '../helpers/pump_app.dart';
@@ -28,8 +27,7 @@ void main() {
   testWidgets('Нажатие на кружок отмечает привычку и меняет прогресс', (
     tester,
   ) async {
-    await tester.pumpApp(
-      const HomeShell(),
+    await tester.pumpRouterApp(
       habits: [habit('a', 'Медитация'), habit('b', 'Зарядка')],
     );
     await tester.pumpAndSettle();
@@ -49,8 +47,7 @@ void main() {
   testWidgets('Долгое нажатие: ✘ «сорвался» для отказа от вредного', (
     tester,
   ) async {
-    await tester.pumpApp(
-      const HomeShell(),
+    await tester.pumpRouterApp(
       habits: [habit('q', 'Не курить', kind: HabitKind.quit)],
     );
     await tester.pumpAndSettle();
@@ -67,8 +64,7 @@ void main() {
   });
 
   testWidgets('Числовая привычка: ввод числа засчитывает день', (tester) async {
-    await tester.pumpApp(
-      const HomeShell(),
+    await tester.pumpRouterApp(
       habits: [habit('r', 'Чтение', kind: HabitKind.numeric)],
     );
     await tester.pumpAndSettle();
@@ -86,8 +82,7 @@ void main() {
   testWidgets('Экран деталей обновляется после отметки и удаляет привычку', (
     tester,
   ) async {
-    await tester.pumpApp(const HomeShell(), habits: [habit('h1', 'Медитация')]);
-    await tester.pumpAndSettle();
+    await tester.pumpRouterApp(habits: [habit('h1', 'Медитация')]);
 
     await tester.tap(find.text('Медитация'));
     await tester.pumpAndSettle();
@@ -116,11 +111,7 @@ void main() {
     tester,
   ) async {
     final demo = buildDemoData();
-    await tester.pumpApp(
-      const HomeShell(),
-      habits: demo.habits,
-      entries: demo.entries,
-    );
+    await tester.pumpRouterApp(habits: demo.habits, entries: demo.entries);
     await tester.pumpAndSettle();
     expect(find.text('Учёба'), findsOneWidget);
     expect(find.text('Английский язык'), findsOneWidget);

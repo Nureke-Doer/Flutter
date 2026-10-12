@@ -116,18 +116,6 @@ abstract class AppLocalizations {
   /// **'Статистика'**
   String get navStatistics;
 
-  /// No description provided for @navMaterials.
-  ///
-  /// In ru, this message translates to:
-  /// **'Материалы'**
-  String get navMaterials;
-
-  /// No description provided for @navSettings.
-  ///
-  /// In ru, this message translates to:
-  /// **'Настройки'**
-  String get navSettings;
-
   /// No description provided for @todayTitle.
   ///
   /// In ru, this message translates to:
@@ -973,6 +961,396 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'{done} из {total} за неделю'**
   String weekProgress(int done, int total);
+
+  /// No description provided for @authEmail.
+  ///
+  /// In ru, this message translates to:
+  /// **'Email'**
+  String get authEmail;
+
+  /// No description provided for @authEnterEmail.
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите email, чтобы восстановить пароль'**
+  String get authEnterEmail;
+
+  /// No description provided for @authErrorCancelled.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вход отменён'**
+  String get authErrorCancelled;
+
+  /// No description provided for @authErrorEmailInUse.
+  ///
+  /// In ru, this message translates to:
+  /// **'Этот email уже зарегистрирован'**
+  String get authErrorEmailInUse;
+
+  /// No description provided for @authErrorInvalidEmail.
+  ///
+  /// In ru, this message translates to:
+  /// **'Некорректный email'**
+  String get authErrorInvalidEmail;
+
+  /// No description provided for @authErrorTooManyRequests.
+  ///
+  /// In ru, this message translates to:
+  /// **'Слишком много попыток. Попробуйте позже'**
+  String get authErrorTooManyRequests;
+
+  /// No description provided for @authErrorUnavailable.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вход через аккаунт недоступен: Firebase не настроен'**
+  String get authErrorUnavailable;
+
+  /// No description provided for @authErrorWeakPassword.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пароль должен быть не короче 6 символов'**
+  String get authErrorWeakPassword;
+
+  /// No description provided for @authErrorWrongCredentials.
+  ///
+  /// In ru, this message translates to:
+  /// **'Неверный email или пароль'**
+  String get authErrorWrongCredentials;
+
+  /// No description provided for @authFirebaseNotConfigured.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вход по email и Google появится после подключения Firebase (неделя 8). Сейчас можно работать без аккаунта.'**
+  String get authFirebaseNotConfigured;
+
+  /// No description provided for @authForgotPassword.
+  ///
+  /// In ru, this message translates to:
+  /// **'Забыли пароль?'**
+  String get authForgotPassword;
+
+  /// No description provided for @authGoogle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Войти через Google'**
+  String get authGoogle;
+
+  /// No description provided for @authGuest.
+  ///
+  /// In ru, this message translates to:
+  /// **'Продолжить без аккаунта'**
+  String get authGuest;
+
+  /// No description provided for @authGuestHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Данные хранятся только на этом устройстве'**
+  String get authGuestHint;
+
+  /// No description provided for @authGuestName.
+  ///
+  /// In ru, this message translates to:
+  /// **'Гость'**
+  String get authGuestName;
+
+  /// No description provided for @authLeaveGuest.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выйти из гостевого режима'**
+  String get authLeaveGuest;
+
+  /// No description provided for @authName.
+  ///
+  /// In ru, this message translates to:
+  /// **'Имя'**
+  String get authName;
+
+  /// No description provided for @authOr.
+  ///
+  /// In ru, this message translates to:
+  /// **'или'**
+  String get authOr;
+
+  /// No description provided for @authPassword.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пароль'**
+  String get authPassword;
+
+  /// No description provided for @authRegister.
+  ///
+  /// In ru, this message translates to:
+  /// **'Регистрация'**
+  String get authRegister;
+
+  /// No description provided for @authResetSent.
+  ///
+  /// In ru, this message translates to:
+  /// **'Письмо для сброса пароля отправлено'**
+  String get authResetSent;
+
+  /// No description provided for @authSignIn.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вход'**
+  String get authSignIn;
+
+  /// No description provided for @authSignOut.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выйти'**
+  String get authSignOut;
+
+  /// No description provided for @authSignOutBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Привычки останутся на устройстве.'**
+  String get authSignOutBody;
+
+  /// No description provided for @authSignOutConfirm.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выйти из аккаунта?'**
+  String get authSignOutConfirm;
+
+  /// No description provided for @authSubtitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Привычки и учебные цели в одном месте'**
+  String get authSubtitle;
+
+  /// No description provided for @categoriesEmpty.
+  ///
+  /// In ru, this message translates to:
+  /// **'Категорий пока нет'**
+  String get categoriesEmpty;
+
+  /// No description provided for @categoriesHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Перетащите категорию за ручку, чтобы изменить порядок'**
+  String get categoriesHint;
+
+  /// No description provided for @categoriesTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Категории'**
+  String get categoriesTitle;
+
+  /// No description provided for @categoryAdd.
+  ///
+  /// In ru, this message translates to:
+  /// **'Новая категория'**
+  String get categoryAdd;
+
+  /// No description provided for @categoryDeleteBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Привычки не удалятся — они попадут в «Без категории».'**
+  String get categoryDeleteBody;
+
+  /// No description provided for @goalAdd.
+  ///
+  /// In ru, this message translates to:
+  /// **'Новая цель'**
+  String get goalAdd;
+
+  /// No description provided for @goalAddProgress.
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавить прогресс вручную'**
+  String get goalAddProgress;
+
+  /// No description provided for @goalBook.
+  ///
+  /// In ru, this message translates to:
+  /// **'Книга'**
+  String get goalBook;
+
+  /// No description provided for @goalBookHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сохраните книгу в «Учебных материалах», чтобы привязать её к цели'**
+  String get goalBookHint;
+
+  /// No description provided for @goalCompleted.
+  ///
+  /// In ru, this message translates to:
+  /// **'Цель достигнута! 🎉'**
+  String get goalCompleted;
+
+  /// No description provided for @goalDaysLeft.
+  ///
+  /// In ru, this message translates to:
+  /// **'{count, plural, =0{дедлайн сегодня} one{остался {count} день} few{осталось {count} дня} many{осталось {count} дней} other{осталось {count} дня}}'**
+  String goalDaysLeft(int count);
+
+  /// No description provided for @goalDaysLeftLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Дней до дедлайна'**
+  String get goalDaysLeftLabel;
+
+  /// No description provided for @goalDeadline.
+  ///
+  /// In ru, this message translates to:
+  /// **'до {date}'**
+  String goalDeadline(String date);
+
+  /// No description provided for @goalDeadlineLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Дедлайн'**
+  String get goalDeadlineLabel;
+
+  /// No description provided for @goalEdit.
+  ///
+  /// In ru, this message translates to:
+  /// **'Редактирование цели'**
+  String get goalEdit;
+
+  /// No description provided for @goalLinkedHabits.
+  ///
+  /// In ru, this message translates to:
+  /// **'Привязанные привычки'**
+  String get goalLinkedHabits;
+
+  /// No description provided for @goalLinkedHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Прогресс считается автоматически: числовые привычки добавляют сумму, обычные — по 1 за каждый ✔.'**
+  String get goalLinkedHint;
+
+  /// No description provided for @goalManualProgress.
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавлено вручную'**
+  String get goalManualProgress;
+
+  /// No description provided for @goalNew.
+  ///
+  /// In ru, this message translates to:
+  /// **'Новая учебная цель'**
+  String get goalNew;
+
+  /// No description provided for @goalNoBook.
+  ///
+  /// In ru, this message translates to:
+  /// **'Без книги'**
+  String get goalNoBook;
+
+  /// No description provided for @goalNoLinkedHabits.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет — прогресс только вручную'**
+  String get goalNoLinkedHabits;
+
+  /// No description provided for @goalOverdue.
+  ///
+  /// In ru, this message translates to:
+  /// **'Дедлайн прошёл'**
+  String get goalOverdue;
+
+  /// No description provided for @goalPerDay.
+  ///
+  /// In ru, this message translates to:
+  /// **'нужно {amount} в день'**
+  String goalPerDay(String amount);
+
+  /// No description provided for @goalRemaining.
+  ///
+  /// In ru, this message translates to:
+  /// **'Осталось {unit}'**
+  String goalRemaining(String unit);
+
+  /// No description provided for @goalTarget.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сколько нужно'**
+  String get goalTarget;
+
+  /// No description provided for @goalTitleHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Например: Прочитать 300 страниц'**
+  String get goalTitleHint;
+
+  /// No description provided for @goalsEmpty.
+  ///
+  /// In ru, this message translates to:
+  /// **'Учебных целей пока нет'**
+  String get goalsEmpty;
+
+  /// No description provided for @goalsEmptyHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Создайте цель с дедлайном и привяжите к ней привычки'**
+  String get goalsEmptyHint;
+
+  /// No description provided for @goalsTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Учебные цели'**
+  String get goalsTitle;
+
+  /// No description provided for @habitsCount.
+  ///
+  /// In ru, this message translates to:
+  /// **'{count, plural, =0{нет привычек} one{{count} привычка} few{{count} привычки} many{{count} привычек} other{{count} привычки}}'**
+  String habitsCount(int count);
+
+  /// No description provided for @habitsEmpty.
+  ///
+  /// In ru, this message translates to:
+  /// **'Привычек пока нет'**
+  String get habitsEmpty;
+
+  /// No description provided for @navGoals.
+  ///
+  /// In ru, this message translates to:
+  /// **'Цели'**
+  String get navGoals;
+
+  /// No description provided for @navHabits.
+  ///
+  /// In ru, this message translates to:
+  /// **'Привычки'**
+  String get navHabits;
+
+  /// No description provided for @navProfile.
+  ///
+  /// In ru, this message translates to:
+  /// **'Профиль'**
+  String get navProfile;
+
+  /// No description provided for @notFound.
+  ///
+  /// In ru, this message translates to:
+  /// **'Страница не найдена'**
+  String get notFound;
+
+  /// No description provided for @selectHabitHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выберите привычку слева'**
+  String get selectHabitHint;
+
+  /// No description provided for @settingsGamification.
+  ///
+  /// In ru, this message translates to:
+  /// **'Включить геймификацию'**
+  String get settingsGamification;
+
+  /// No description provided for @settingsGamificationHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Свои метрики (например, Power и Money), которые растут от выполненных привычек'**
+  String get settingsGamificationHint;
+
+  /// No description provided for @showArchived.
+  ///
+  /// In ru, this message translates to:
+  /// **'Архив ({count})'**
+  String showArchived(int count);
 }
 
 class _AppLocalizationsDelegate

@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
+import '../../core/layout/breakpoints.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/date_utils.dart';
 import '../../domain/entities/habit.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../blocs/categories/categories_cubit.dart';
 import '../blocs/habits/habits_bloc.dart';
+import '../router/app_router.dart';
 import '../widgets/category_grouping.dart';
 import '../widgets/day_progress_header.dart';
 import '../widgets/empty_state.dart';
@@ -15,8 +18,6 @@ import '../widgets/entry_actions.dart';
 import '../widgets/habit_tile.dart';
 import '../widgets/quote_card.dart';
 import '../widgets/section_header.dart';
-import 'habit_detail_screen.dart';
-import 'habit_edit_screen.dart';
 
 /// Экран «Сегодня»: привычки, запланированные на текущий день,
 /// сгруппированные по категориям.
@@ -25,9 +26,7 @@ class TodayScreen extends StatelessWidget {
 
   Future<void> _openEditor(BuildContext context) async {
     final bloc = context.read<HabitsBloc>();
-    final created = await Navigator.of(
-      context,
-    ).push<Habit>(MaterialPageRoute(builder: (_) => const HabitEditScreen()));
+    final created = await context.pushNamed<Habit>(AppRoutes.habitNew);
     if (created != null) bloc.add(HabitSaved(created));
   }
 
@@ -51,6 +50,7 @@ class TodayScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
+        heroTag: 'todayFab',
         onPressed: () => _openEditor(context),
         icon: const Icon(Icons.add),
         label: Text(l10n.addHabit),
@@ -107,21 +107,47 @@ class _TodayList extends StatelessWidget {
         .where((h) => state.historyOf(h.id).isSuccessOn(today))
         .length;
 
-    return ListView(
-      padding: const EdgeInsets.fromLTRB(Gaps.m, Gaps.s, Gaps.m, 96),
+    final header = [
+      DayProgressHeader(done: done, total: planned.length),
+      const QuoteCard(),
+    ];
+    final items = [
+      for (final group in groupByCategory(planned, categories)) ...[
+        SectionHeader(
+          group.category?.name ?? l10n.noCategory,
+          icon: Icons.label_outline,
+          color: group.category == null
+              ? null
+              : Color(group.category!.colorValue),
+        ),
+        ...group.habits.map((h) => _tile(context, h)),
+      ],
+    ];
+
+    // Телефон в портрете — одна колонка. Альбомная ориентация и планшет —
+    // прогресс дня слева, список справа: так больше привычек на экране.
+    if (context.windowSize == WindowSize.compact) {
+      return ListView(
+        padding: const EdgeInsets.fromLTRB(Gaps.m, Gaps.s, Gaps.m, 96),
+        children: [...header, ...items],
+      );
+    }
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        DayProgressHeader(done: done, total: planned.length),
-        const QuoteCard(),
-        for (final group in groupByCategory(planned, categories)) ...[
-          SectionHeader(
-            group.category?.name ?? l10n.noCategory,
-            icon: Icons.label_outline,
-            color: group.category == null
-                ? null
-                : Color(group.category!.colorValue),
+        SizedBox(
+          width: 340,
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(Gaps.m, Gaps.s, 0, Gaps.m),
+            children: header,
           ),
-          ...group.habits.map((h) => _tile(context, h)),
-        ],
+        ),
+        Expanded(
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(Gaps.m, 0, Gaps.m, 96),
+            children: items,
+          ),
+        ),
       ],
     );
   }
@@ -135,10 +161,9 @@ class _TodayList extends StatelessWidget {
         today: today,
         onToggle: () => quickMark(context, habit, today),
         onLongPress: () => editEntry(context, habit, today),
-        onTap: () => Navigator.of(context).push(
-          MaterialPageRoute<void>(
-            builder: (_) => HabitDetailScreen(habitId: habit.id),
-          ),
+        onTap: () => context.pushNamed(
+          AppRoutes.habit,
+          pathParameters: {'id': habit.id},
         ),
       ),
     );

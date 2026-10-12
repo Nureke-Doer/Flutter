@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../core/layout/breakpoints.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/date_utils.dart';
 import '../../domain/entities/habit.dart';
@@ -8,13 +10,12 @@ import '../../domain/entities/habit_history.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../blocs/categories/categories_cubit.dart';
 import '../blocs/habits/habits_bloc.dart';
+import '../router/app_router.dart';
 import '../widgets/entry_actions.dart';
 import '../widgets/habit_visuals.dart';
 import '../widgets/month_calendar.dart';
 import '../widgets/monthly_table.dart';
 import '../widgets/stat_card.dart';
-import 'habit_edit_screen.dart';
-import 'materials_screen.dart';
 
 /// Детальная информация о привычке: серии, статистика, календарь,
 /// тепловая карта и таблица по месяцам.
@@ -23,14 +24,23 @@ import 'materials_screen.dart';
 /// именно на эту привычку и её историю в состоянии [HabitsBloc]:
 /// изменения других привычек его не перестраивают.
 class HabitDetailScreen extends StatelessWidget {
-  const HabitDetailScreen({super.key, required this.habitId});
+  const HabitDetailScreen({
+    super.key,
+    required this.habitId,
+    this.embedded = false,
+  });
 
   final String habitId;
 
+  /// Экран встроен в правую панель планшета (master-detail): после
+  /// удаления закрывать нечего.
+  final bool embedded;
+
   Future<void> _edit(BuildContext context, Habit habit) async {
     final bloc = context.read<HabitsBloc>();
-    final updated = await Navigator.of(context).push<Habit>(
-      MaterialPageRoute(builder: (_) => HabitEditScreen(initial: habit)),
+    final updated = await context.pushNamed<Habit>(
+      AppRoutes.habitEdit,
+      pathParameters: {'id': habit.id},
     );
     if (updated != null) bloc.add(HabitSaved(updated));
   }
@@ -39,7 +49,7 @@ class HabitDetailScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final bloc = context.read<HabitsBloc>();
     final messenger = ScaffoldMessenger.of(context);
-    final navigator = Navigator.of(context);
+    final router = GoRouter.of(context);
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
@@ -58,7 +68,7 @@ class HabitDetailScreen extends StatelessWidget {
       ),
     );
     if (confirmed == true) {
-      navigator.pop();
+      if (!embedded) router.pop();
       bloc.add(HabitDeleted(habit.id));
       messenger.showSnackBar(
         SnackBar(
@@ -94,6 +104,15 @@ class HabitDetailScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        // Открыто по прямой ссылке (некуда вернуться) — кнопка «домой».
+        leading: embedded || context.canPop()
+            ? null
+            : IconButton(
+                tooltip: l10n.navToday,
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () => context.goNamed(AppRoutes.today),
+              ),
+        automaticallyImplyLeading: !embedded,
         actions: [
           IconButton(
             tooltip: l10n.edit,
@@ -152,51 +171,85 @@ class HabitDetailScreen extends StatelessWidget {
                 ],
               ),
             ),
-      body: ListView(
-        padding: const EdgeInsets.all(Gaps.m),
-        children: [
-          _Header(habit: habit),
-          const SizedBox(height: Gaps.m),
-          _Stats(habit: habit, history: history, today: today),
-          const SizedBox(height: Gaps.m),
-          _CardSection(
-            title: l10n.detailCalendar,
-            child: MonthCalendar(
-              habit: habit,
-              history: history,
-              today: today,
-              onDayTap: (day) => editEntry(context, habit, day),
-            ),
-          ),
-          const SizedBox(height: Gaps.m),
-          _CardSection(
-            title: l10n.detailHeatmap,
-            child: CalendarHeatmap(
-              habit: habit,
-              history: history,
-              today: today,
-            ),
-          ),
-          if (history.monthly.isNotEmpty) ...[
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final summary = [
+            _Header(habit: habit),
+            const SizedBox(height: Gaps.m),
+            _Stats(habit: habit, history: history, today: today),
             const SizedBox(height: Gaps.m),
             _CardSection(
-              title: l10n.detailByMonth,
-              child: MonthlyTable(habit: habit, months: history.monthly),
-            ),
-          ],
-          const SizedBox(height: Gaps.m),
-          _Info(habit: habit),
-          const SizedBox(height: Gaps.m),
-          OutlinedButton.icon(
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute<void>(
-                builder: (_) => MaterialsScreen(initialQuery: habit.title),
+              title: l10n.detailCalendar,
+              child: MonthCalendar(
+                habit: habit,
+                history: history,
+                today: today,
+                onDayTap: (day) => editEntry(context, habit, day),
               ),
             ),
-            icon: const Icon(Icons.auto_stories_outlined),
-            label: Text(l10n.findMaterials),
-          ),
-        ],
+          ];
+          final details = [
+            _CardSection(
+              title: l10n.detailHeatmap,
+              child: CalendarHeatmap(
+                habit: habit,
+                history: history,
+                today: today,
+              ),
+            ),
+            if (history.monthly.isNotEmpty) ...[
+              const SizedBox(height: Gaps.m),
+              _CardSection(
+                title: l10n.detailByMonth,
+                child: MonthlyTable(habit: habit, months: history.monthly),
+              ),
+            ],
+            const SizedBox(height: Gaps.m),
+            _Info(habit: habit),
+            const SizedBox(height: Gaps.m),
+            OutlinedButton.icon(
+              onPressed: () => context.pushNamed(
+                AppRoutes.materials,
+                queryParameters: {'q': habit.title},
+              ),
+              icon: const Icon(Icons.auto_stories_outlined),
+              label: Text(l10n.findMaterials),
+            ),
+          ];
+          // Широкая панель (планшет, альбомная ориентация) — две колонки.
+          if (constraints.maxWidth >= Breakpoints.expanded) {
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: ListView(
+                    padding: const EdgeInsets.all(Gaps.m),
+                    children: summary,
+                  ),
+                ),
+                Expanded(
+                  child: ListView(
+                    padding: const EdgeInsets.fromLTRB(
+                      0,
+                      Gaps.m,
+                      Gaps.m,
+                      Gaps.m,
+                    ),
+                    children: details,
+                  ),
+                ),
+              ],
+            );
+          }
+          return ListView(
+            padding: const EdgeInsets.all(Gaps.m),
+            children: [
+              ...summary,
+              const SizedBox(height: Gaps.m),
+              ...details,
+            ],
+          );
+        },
       ),
     );
   }

@@ -38,18 +38,21 @@ class CategoriesCubit extends Cubit<List<Category>> {
     );
   }
 
-  Future<void> rename(String id, String name) async {
+  /// Переименовать и/или сменить цвет.
+  Future<void> update(String id, {String? name, int? colorValue}) async {
     final category = byId(id);
     if (category == null) return;
-    await _repository.saveCategory(category.copyWith(name: name.trim()));
+    await _repository.saveCategory(
+      category.copyWith(name: name?.trim(), colorValue: colorValue),
+    );
   }
 
   Future<void> delete(String id) => _repository.deleteCategory(id);
 
-  /// Перемещение в списке (аргументы как у `ReorderableListView.onReorder`).
+  /// Перемещение в списке (аргументы как у
+  /// `ReorderableListView.onReorderItem`: [newIndex] — итоговая позиция).
   Future<void> move(int oldIndex, int newIndex) {
     final ids = state.map((c) => c.id).toList();
-    if (newIndex > oldIndex) newIndex -= 1;
     ids.insert(newIndex, ids.removeAt(oldIndex));
     return _repository.reorder(ids);
   }

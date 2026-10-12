@@ -62,6 +62,32 @@ class _MonthCalendarState extends State<MonthCalendar> {
     final title = DateFormat.yMMMM(locale).format(_month);
     final isCurrentMonth = _month == startOfMonth(widget.today);
 
+    // На широком экране календарь не растягивается — ячейки остаются
+    // компактными.
+    return Align(
+      alignment: Alignment.topLeft,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 480),
+        child: _buildMonth(
+          context,
+          theme,
+          title,
+          daysInMonth,
+          leadingEmpty,
+          isCurrentMonth,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMonth(
+    BuildContext context,
+    ThemeData theme,
+    String title,
+    int daysInMonth,
+    int leadingEmpty,
+    bool isCurrentMonth,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

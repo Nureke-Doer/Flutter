@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:habit_study_tracker/app.dart';
 import 'package:habit_study_tracker/core/di/injection.dart';
+import 'package:habit_study_tracker/data/repositories/local_auth_repository.dart';
 import 'package:habit_study_tracker/data/repositories/shared_prefs_settings_repository.dart';
+import 'package:habit_study_tracker/domain/repositories/auth_repository.dart';
 import 'package:habit_study_tracker/domain/repositories/habit_repository.dart';
 import 'package:habit_study_tracker/domain/repositories/materials_repository.dart';
 import 'package:habit_study_tracker/presentation/providers/settings_notifier.dart';
@@ -49,10 +51,29 @@ void main() {
     expect(prefs.getString(SharedPrefsSettingsRepository.themeKey), 'dark');
   });
 
+  test('Гостевой режим запоминается между запусками', () async {
+    final prefs = await SharedPreferences.getInstance();
+    final first = LocalAuthRepository(prefs);
+    expect(first.currentUser, isNull);
+    expect(first.supportsAccounts, isFalse);
+    await first.continueAsGuest();
+    expect(LocalAuthRepository(prefs).currentUser?.isGuest, isTrue);
+    await first.signOut();
+    expect(LocalAuthRepository(prefs).currentUser, isNull);
+    await expectLater(
+      first.signInWithEmail('a@b.c', '123456'),
+      throwsA(isA<AuthFailure>()),
+    );
+  });
+
   testWidgets('Приложение запускается и реагирует на смену темы', (
     tester,
   ) async {
     await tester.pumpWidget(const HabitStudyTrackerApp());
+    await tester.pumpAndSettle();
+    // Первый запуск: не вошёл → redirect на экран входа.
+    expect(find.text('Продолжить без аккаунта'), findsOneWidget);
+    await tester.tap(find.byKey(const Key('guestButton')));
     await tester.pumpAndSettle();
     expect(find.text('Сегодня'), findsWidgets);
 

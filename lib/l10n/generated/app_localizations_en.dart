@@ -18,12 +18,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navStatistics => 'Statistics';
 
   @override
-  String get navMaterials => 'Materials';
-
-  @override
-  String get navSettings => 'Settings';
-
-  @override
   String get todayTitle => 'Today';
 
   @override
@@ -485,5 +479,233 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String weekProgress(int done, int total) {
     return '$done of $total this week';
+  }
+
+  @override
+  String get authEmail => 'Email';
+
+  @override
+  String get authEnterEmail => 'Enter your email to reset the password';
+
+  @override
+  String get authErrorCancelled => 'Sign-in cancelled';
+
+  @override
+  String get authErrorEmailInUse => 'This email is already registered';
+
+  @override
+  String get authErrorInvalidEmail => 'Invalid email';
+
+  @override
+  String get authErrorTooManyRequests => 'Too many attempts. Try again later';
+
+  @override
+  String get authErrorUnavailable =>
+      'Account sign-in is unavailable: Firebase is not configured';
+
+  @override
+  String get authErrorWeakPassword => 'Password must be at least 6 characters';
+
+  @override
+  String get authErrorWrongCredentials => 'Wrong email or password';
+
+  @override
+  String get authFirebaseNotConfigured =>
+      'Email and Google sign-in will be available once Firebase is connected. For now you can use the app without an account.';
+
+  @override
+  String get authForgotPassword => 'Forgot password?';
+
+  @override
+  String get authGoogle => 'Sign in with Google';
+
+  @override
+  String get authGuest => 'Continue without an account';
+
+  @override
+  String get authGuestHint => 'Data is stored only on this device';
+
+  @override
+  String get authGuestName => 'Guest';
+
+  @override
+  String get authLeaveGuest => 'Leave guest mode';
+
+  @override
+  String get authName => 'Name';
+
+  @override
+  String get authOr => 'or';
+
+  @override
+  String get authPassword => 'Password';
+
+  @override
+  String get authRegister => 'Sign up';
+
+  @override
+  String get authResetSent => 'Password reset email sent';
+
+  @override
+  String get authSignIn => 'Sign in';
+
+  @override
+  String get authSignOut => 'Sign out';
+
+  @override
+  String get authSignOutBody => 'Your habits stay on this device.';
+
+  @override
+  String get authSignOutConfirm => 'Sign out?';
+
+  @override
+  String get authSubtitle => 'Habits and study goals in one place';
+
+  @override
+  String get categoriesEmpty => 'No categories yet';
+
+  @override
+  String get categoriesHint => 'Drag a category by its handle to reorder';
+
+  @override
+  String get categoriesTitle => 'Categories';
+
+  @override
+  String get categoryAdd => 'New category';
+
+  @override
+  String get categoryDeleteBody =>
+      'Habits won\'t be deleted — they move to “No category”.';
+
+  @override
+  String get goalAdd => 'New goal';
+
+  @override
+  String get goalAddProgress => 'Add progress manually';
+
+  @override
+  String get goalBook => 'Book';
+
+  @override
+  String get goalBookHint =>
+      'Save a book in Study materials to link it to a goal';
+
+  @override
+  String get goalCompleted => 'Goal reached! 🎉';
+
+  @override
+  String goalDaysLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days left',
+      one: '$count day left',
+      zero: 'due today',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get goalDaysLeftLabel => 'Days left';
+
+  @override
+  String goalDeadline(String date) {
+    return 'by $date';
+  }
+
+  @override
+  String get goalDeadlineLabel => 'Deadline';
+
+  @override
+  String get goalEdit => 'Edit goal';
+
+  @override
+  String get goalLinkedHabits => 'Linked habits';
+
+  @override
+  String get goalLinkedHint =>
+      'Progress is automatic: numeric habits add their amounts, others add 1 per ✔.';
+
+  @override
+  String get goalManualProgress => 'Added manually';
+
+  @override
+  String get goalNew => 'New study goal';
+
+  @override
+  String get goalNoBook => 'No book';
+
+  @override
+  String get goalNoLinkedHabits => 'None — progress is manual only';
+
+  @override
+  String get goalOverdue => 'Deadline passed';
+
+  @override
+  String goalPerDay(String amount) {
+    return '$amount a day needed';
+  }
+
+  @override
+  String goalRemaining(String unit) {
+    return 'Remaining $unit';
+  }
+
+  @override
+  String get goalTarget => 'Target';
+
+  @override
+  String get goalTitleHint => 'E.g. Read 300 pages';
+
+  @override
+  String get goalsEmpty => 'No study goals yet';
+
+  @override
+  String get goalsEmptyHint =>
+      'Create a goal with a deadline and link habits to it';
+
+  @override
+  String get goalsTitle => 'Study goals';
+
+  @override
+  String habitsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count habits',
+      one: '$count habit',
+      zero: 'no habits',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get habitsEmpty => 'No habits yet';
+
+  @override
+  String get navGoals => 'Goals';
+
+  @override
+  String get navHabits => 'Habits';
+
+  @override
+  String get navProfile => 'Profile';
+
+  @override
+  String get notFound => 'Page not found';
+
+  @override
+  String get selectHabitHint => 'Select a habit on the left';
+
+  @override
+  String get settingsGamification => 'Enable gamification';
+
+  @override
+  String get settingsGamificationHint =>
+      'Your own metrics (e.g. Power and Money) that grow with completed habits';
+
+  @override
+  String showArchived(int count) {
+    return 'Archive ($count)';
   }
 }

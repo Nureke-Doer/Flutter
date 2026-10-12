@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../core/config/app_info.dart';
 import '../../core/di/injection.dart';
 import '../../domain/repositories/materials_repository.dart';
 
@@ -8,7 +9,7 @@ import '../../core/theme/app_theme.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../providers/settings_notifier.dart';
 
-/// Настройки приложения: тема и язык (Provider).
+/// Настройки приложения: тема, язык, геймификация (Provider).
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
@@ -90,6 +91,17 @@ class SettingsScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: Gaps.l),
+          Card(
+            child: SwitchListTile(
+              key: const Key('gamificationSwitch'),
+              secondary: const Icon(Icons.sports_esports_outlined),
+              title: Text(l10n.settingsGamification),
+              subtitle: Text(l10n.settingsGamificationHint),
+              value: settings.gamificationEnabled,
+              onChanged: settings.setGamificationEnabled,
+            ),
+          ),
+          const SizedBox(height: Gaps.l),
           Text(
             l10n.settingsData,
             style: theme.textTheme.titleSmall?.copyWith(
@@ -125,7 +137,7 @@ class SettingsScreen extends StatelessWidget {
             child: ListTile(
               leading: const Icon(Icons.info_outline),
               title: Text(l10n.settingsAbout),
-              subtitle: Text(l10n.settingsVersion('0.6.0')),
+              subtitle: Text(l10n.settingsVersion(AppInfo.version)),
             ),
           ),
         ],
