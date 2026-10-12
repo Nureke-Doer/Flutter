@@ -68,5 +68,9 @@
   "detailMarkToday": "Mark today",
   "detailDoneToday": "Done today",
   "deletedMessage": "Goal deleted",
-  "undo": "Undo"
+  "undo": "Undo",
+  "errorLoading": "Failed to load data",
+  "retry": "Retry",
+  "languageRussian": "Русский",
+  "languageEnglish": "English"
 }

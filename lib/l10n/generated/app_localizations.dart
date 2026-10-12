@@ -511,6 +511,30 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Отменить'**
   String get undo;
+
+  /// No description provided for @errorLoading.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось загрузить данные'**
+  String get errorLoading;
+
+  /// No description provided for @retry.
+  ///
+  /// In ru, this message translates to:
+  /// **'Повторить'**
+  String get retry;
+
+  /// No description provided for @languageRussian.
+  ///
+  /// In ru, this message translates to:
+  /// **'Русский'**
+  String get languageRussian;
+
+  /// No description provided for @languageEnglish.
+  ///
+  /// In ru, this message translates to:
+  /// **'English'**
+  String get languageEnglish;
 }
 
 class _AppLocalizationsDelegate

@@ -234,4 +234,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get undo => 'Undo';
+
+  @override
+  String get errorLoading => 'Failed to load data';
+
+  @override
+  String get retry => 'Retry';
+
+  @override
+  String get languageRussian => 'Русский';
+
+  @override
+  String get languageEnglish => 'English';
 }

@@ -116,7 +116,7 @@ flutter analyze       # статический анализ
   включая правильные формы множественного числа («1 день», «3 дня», «5 дней»).
 - Модель `Habit` с логикой подсчёта серии, лучшей серии и процента выполнения + unit-тесты.
 
-### Структура проекта (неделя 2)
+### Структура проекта (неделя 2, до разделения на слои)
 
 ```
 lib/
@@ -145,13 +145,97 @@ lib/
 | Минусы | Prop drilling, дублирование копий данных, логика смешана с UI | Много шаблонного кода, легко ошибиться с подпиской | Внешняя зависимость; для сложной асинхронной логики не хватает структуры |
 | Когда применять | Локальное состояние виджета (форма, вкладка, анимация) | Раздача редко меняющихся данных (как `Theme.of`) | Простое общее состояние: настройки, тема, избранное |
 
-## 6. План по неделям
+## 6. Неделя 4 — продвинутое управление состоянием и архитектура
+
+### Архитектура по слоям
+
+```mermaid
+flowchart TD
+    subgraph presentation["presentation (UI)"]
+        S[Экраны и виджеты] -->|события| B[HabitsBloc]
+        B -->|состояния| S
+        S <-->|watch / read| P[SettingsNotifier<br/>Provider]
+    end
+    subgraph domain["domain (бизнес-логика)"]
+        E[Habit<br/>сущность]
+        R[[HabitRepository<br/>интерфейс]]
+        ST[HabitStatistics]
+    end
+    subgraph data["data (данные)"]
+        RI[InMemoryHabitRepository] --> DS[(demo_habits)]
+    end
+    B --> R
+    RI -. реализует .-> R
+    DI{{get_it}} -. внедряет .-> B
+    DI -. внедряет .-> RI
+```
+
+- **domain** — чистый Dart, не зависит от Flutter и от способа хранения:
+  сущность `Habit` (подсчёт серий), интерфейс `HabitRepository`,
+  сервис `HabitStatistics`.
+- **data** — реализации репозиториев. Сейчас `InMemoryHabitRepository`;
+  на неделе 6 появится реализация на Hive, а на неделе 8 — Firestore.
+- **presentation** — экраны, виджеты, `HabitsBloc` и `SettingsNotifier`.
+- **Dependency Injection** — `get_it` (`lib/core/di/injection.dart`).
+  BLoC получает репозиторий через конструктор, поэтому в тестах вместо
+  настоящего репозитория легко подставить мок (`mocktail`).
+
+### Почему BLoC для основной логики, а Provider — для настроек
+
+| Критерий | BLoC (`flutter_bloc`) | Provider (`ChangeNotifier`) |
+|---|---|---|
+| Где используется | Список целей, отметки, удаление/отмена, загрузка из репозитория | Тема и язык |
+| Явные события | ✅ `HabitToggled`, `HabitSaved`, `HabitDeleted`… — видно, что может произойти | ❌ методы вызываются напрямую |
+| Асинхронность и потоки | ✅ `emit.forEach` для `Stream` из репозитория, обработка ошибок | Нужно писать вручную |
+| Состояния loading / success / failure | ✅ явный `HabitsStatus` | Флаги вручную |
+| Тестирование | ✅ `bloc_test`: «событие → ожидаемые состояния» | ✅ unit-тесты, но без готового DSL |
+| Объём кода | Больше (event, state, bloc) | Минимум |
+
+**Вывод:** логика целей — центральная, асинхронная и будет расти
+(Hive, сеть, Firestore), поэтому для неё выбран **BLoC** — он даёт
+предсказуемый однонаправленный поток данных и удобное тестирование.
+Настройки — простое синхронное состояние, для него BLoC избыточен,
+поэтому оставлен **Provider**.
+
+### Поток данных на примере отметки цели
+
+1. Пользователь нажимает на кружок → `context.read<HabitsBloc>().add(HabitToggled(id, today))`.
+2. `HabitsBloc` находит цель, вызывает `habit.toggleDay(today)` и `repository.saveHabit(...)`.
+3. Репозиторий отдаёт новый список в поток `watchHabits()`.
+4. `emit.forEach` превращает его в новое `HabitsState` → `BlocBuilder` перерисовывает экраны.
+
+### Структура проекта (неделя 4)
+
+```
+lib/
+├── main.dart                      # configureDependencies() + runApp
+├── app.dart                       # BlocProvider, ChangeNotifierProvider, MaterialApp
+├── core/
+│   ├── di/injection.dart          # get_it
+│   ├── theme/app_theme.dart
+│   └── utils/date_utils.dart
+├── domain/
+│   ├── entities/habit.dart
+│   ├── repositories/habit_repository.dart
+│   └── services/habit_statistics.dart
+├── data/
+│   ├── datasources/demo_habits.dart
+│   └── repositories/in_memory_habit_repository.dart
+├── presentation/
+│   ├── blocs/habits/              # habits_bloc.dart, habits_event.dart, habits_state.dart
+│   ├── providers/settings_notifier.dart
+│   ├── screens/
+│   └── widgets/
+└── l10n/
+```
+
+## 7. План по неделям
 
 | Неделя | Тема | Статус |
 |---|---|---|
 | 1 | Введение во Flutter и Dart | ✅ |
 | 2 | Виджеты и построение UI | ✅ |
 | 3 | Управление состоянием: setState → InheritedWidget → Provider | ✅ |
-| 4 | BLoC, слои, Repository, DI | ⏳ |
+| 4 | BLoC, слои, Repository, DI | ✅ |
 | 5 | REST API и JSON | ⏳ |
 | 6 | Локальное хранение данных | ⏳ |

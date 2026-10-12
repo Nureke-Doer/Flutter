@@ -113,5 +113,9 @@
   "detailMarkToday": "Отметить сегодня",
   "detailDoneToday": "Выполнено сегодня",
   "deletedMessage": "Цель удалена",
-  "undo": "Отменить"
+  "undo": "Отменить",
+  "errorLoading": "Не удалось загрузить данные",
+  "retry": "Повторить",
+  "languageRussian": "Русский",
+  "languageEnglish": "English"
 }

@@ -1,36 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
+import 'core/di/injection.dart';
+import 'core/theme/app_theme.dart';
 import 'l10n/generated/app_localizations.dart';
-import 'screens/home_shell.dart';
-import 'state/habits_notifier.dart';
-import 'theme/app_theme.dart';
+import 'presentation/blocs/habits/habits_bloc.dart';
+import 'presentation/providers/settings_notifier.dart';
+import 'presentation/screens/home_shell.dart';
 
 class HabitStudyTrackerApp extends StatelessWidget {
   const HabitStudyTrackerApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Провайдер стоит выше MaterialApp, чтобы данные были доступны
-    // на всех экранах, открытых через Navigator.
-    return ChangeNotifierProvider(
-      create: (_) => HabitsNotifier(),
-      child: MaterialApp(
-        onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
-        debugShowCheckedModeBanner: false,
-        theme: AppTheme.light(),
-        darkTheme: AppTheme.dark(),
-        themeMode: ThemeMode.system,
-        locale: const Locale('ru'),
-        supportedLocales: AppLocalizations.supportedLocales,
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        home: const HomeShell(),
+    // Зависимости берутся из get_it и «раздаются» дереву виджетов:
+    // BLoC — через BlocProvider, настройки — через ChangeNotifierProvider.
+    return MultiProvider(
+      providers: [
+        BlocProvider<HabitsBloc>(
+          create: (_) =>
+              getIt<HabitsBloc>()..add(const HabitsSubscriptionRequested()),
+        ),
+        ChangeNotifierProvider<SettingsNotifier>.value(
+          value: getIt<SettingsNotifier>(),
+        ),
+      ],
+      child: Consumer<SettingsNotifier>(
+        builder: (context, settings, _) => MaterialApp(
+          onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
+          debugShowCheckedModeBanner: false,
+          theme: AppTheme.light(),
+          darkTheme: AppTheme.dark(),
+          themeMode: settings.themeMode,
+          locale: settings.locale,
+          supportedLocales: AppLocalizations.supportedLocales,
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          home: const HomeShell(),
+        ),
       ),
     );
   }

@@ -236,4 +236,16 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get undo => 'Отменить';
+
+  @override
+  String get errorLoading => 'Не удалось загрузить данные';
+
+  @override
+  String get retry => 'Повторить';
+
+  @override
+  String get languageRussian => 'Русский';
+
+  @override
+  String get languageEnglish => 'English';
 }
