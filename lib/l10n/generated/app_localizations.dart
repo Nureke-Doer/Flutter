@@ -487,6 +487,30 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Версия {version}'**
   String settingsVersion(String version);
+
+  /// No description provided for @detailMarkToday.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отметить сегодня'**
+  String get detailMarkToday;
+
+  /// No description provided for @detailDoneToday.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выполнено сегодня'**
+  String get detailDoneToday;
+
+  /// No description provided for @deletedMessage.
+  ///
+  /// In ru, this message translates to:
+  /// **'Цель удалена'**
+  String get deletedMessage;
+
+  /// No description provided for @undo.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отменить'**
+  String get undo;
 }
 
 class _AppLocalizationsDelegate

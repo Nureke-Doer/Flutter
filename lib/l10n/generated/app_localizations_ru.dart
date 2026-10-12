@@ -224,4 +224,16 @@ class AppLocalizationsRu extends AppLocalizations {
   String settingsVersion(String version) {
     return 'Версия $version';
   }
+
+  @override
+  String get detailMarkToday => 'Отметить сегодня';
+
+  @override
+  String get detailDoneToday => 'Выполнено сегодня';
+
+  @override
+  String get deletedMessage => 'Цель удалена';
+
+  @override
+  String get undo => 'Отменить';
 }

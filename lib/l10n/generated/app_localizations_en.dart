@@ -222,4 +222,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String settingsVersion(String version) {
     return 'Version $version';
   }
+
+  @override
+  String get detailMarkToday => 'Mark today';
+
+  @override
+  String get detailDoneToday => 'Done today';
+
+  @override
+  String get deletedMessage => 'Goal deleted';
+
+  @override
+  String get undo => 'Undo';
 }

@@ -128,6 +128,14 @@ class Habit {
     return planned == 0 ? 0 : done / planned;
   }
 
+  /// Возвращает копию цели с переключённой отметкой за [day].
+  Habit toggleDay(DateTime day) {
+    final d = dateOnly(day);
+    final updated = {...completedDays};
+    if (!updated.remove(d)) updated.add(d);
+    return copyWith(completedDays: updated);
+  }
+
   Habit copyWith({
     String? title,
     String? description,

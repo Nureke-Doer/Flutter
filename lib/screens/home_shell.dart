@@ -8,7 +8,10 @@ import 'statistics_screen.dart';
 import 'today_screen.dart';
 
 /// Корневой экран с нижней навигацией.
-/// `StatefulWidget`, потому что хранит индекс выбранной вкладки.
+///
+/// Неделя 3, шаг 1 — **setState**. Список целей хранится прямо здесь,
+/// а изменять его дочерние экраны могут только через колбэки,
+/// которые приходится передавать вниз по дереву («prop drilling»).
 class HomeShell extends StatefulWidget {
   const HomeShell({super.key});
 
@@ -18,17 +21,42 @@ class HomeShell extends StatefulWidget {
 
 class _HomeShellState extends State<HomeShell> {
   int _index = 0;
-  final List<Habit> _habits = buildMockHabits();
+  List<Habit> _habits = buildMockHabits();
+
+  void _toggle(Habit habit, DateTime day) {
+    setState(() {
+      _habits = [
+        for (final h in _habits) h.id == habit.id ? h.toggleDay(day) : h,
+      ];
+    });
+  }
+
+  void _save(Habit habit) {
+    setState(() {
+      final exists = _habits.any((h) => h.id == habit.id);
+      _habits = exists
+          ? [for (final h in _habits) h.id == habit.id ? habit : h]
+          : [..._habits, habit];
+    });
+  }
+
+  void _delete(Habit habit) {
+    setState(() => _habits = _habits.where((h) => h.id != habit.id).toList());
+  }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return Scaffold(
-      // IndexedStack сохраняет состояние вкладок при переключении.
       body: IndexedStack(
         index: _index,
         children: [
-          TodayScreen(habits: _habits),
+          TodayScreen(
+            habits: _habits,
+            onToggle: _toggle,
+            onSave: _save,
+            onDelete: _delete,
+          ),
           StatisticsScreen(habits: _habits),
           const SettingsScreen(),
         ],

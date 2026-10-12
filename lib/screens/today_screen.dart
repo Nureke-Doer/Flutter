@@ -15,9 +15,25 @@ import 'habit_edit_screen.dart';
 
 /// Экран «Сегодня»: цели, запланированные на текущий день.
 class TodayScreen extends StatelessWidget {
-  const TodayScreen({super.key, required this.habits});
+  const TodayScreen({
+    super.key,
+    required this.habits,
+    required this.onToggle,
+    required this.onSave,
+    required this.onDelete,
+  });
 
   final List<Habit> habits;
+  final void Function(Habit habit, DateTime day) onToggle;
+  final ValueChanged<Habit> onSave;
+  final ValueChanged<Habit> onDelete;
+
+  Future<void> _openEditor(BuildContext context) async {
+    final created = await Navigator.of(
+      context,
+    ).push<Habit>(MaterialPageRoute(builder: (_) => const HabitEditScreen()));
+    if (created != null) onSave(created);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +57,7 @@ class TodayScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => Navigator.of(context).push(
-          MaterialPageRoute<void>(builder: (_) => const HabitEditScreen()),
-        ),
+        onPressed: () => _openEditor(context),
         icon: const Icon(Icons.add),
         label: Text(l10n.addHabit),
       ),
@@ -87,9 +101,16 @@ class TodayScreen extends StatelessWidget {
         child: HabitTile(
           habit: habit,
           today: today,
+          onToggle: () => onToggle(habit, today),
+          // Колбэки приходится пробрасывать дальше — на экран деталей.
           onTap: () => Navigator.of(context).push(
             MaterialPageRoute<void>(
-              builder: (_) => HabitDetailScreen(habit: habit),
+              builder: (_) => HabitDetailScreen(
+                habit: habit,
+                onToggle: onToggle,
+                onSave: onSave,
+                onDelete: onDelete,
+              ),
             ),
           ),
         ),
