@@ -1,0 +1,267 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1840" height="620" font-family="Arial, sans-serif">
+<rect width="100%" height="100%" fill="#fafafa"/>
+<g transform="translate(40,60)">
+<rect width="260" height="520" rx="28" fill="#fff" stroke="#333" stroke-width="2.5"/>
+<text x="130.0" y="-18" text-anchor="middle" font-size="16" font-weight="bold">1. Сегодня</text>
+<text x="18" y="36" font-size="18" text-anchor="start" font-weight="bold" fill="#333">Сегодня</text>
+<text x="18" y="52" font-size="9" text-anchor="start" font-weight="normal" fill="#777">понедельник, 12 октября</text>
+<rect x="14" y="64" width="232" height="80" rx="16" fill="#cfe" stroke="#999"/>
+<circle cx="56" cy="104" r="28" fill="#fff" stroke="#4a9"/>
+<text x="56" y="108" font-size="11" text-anchor="middle" font-weight="bold" fill="#333">40%</text>
+<text x="96" y="98" font-size="11" text-anchor="start" font-weight="bold" fill="#333">Выполнено 2 из 5</text>
+<text x="96" y="114" font-size="9" text-anchor="start" font-weight="normal" fill="#555">Мотивационная цитата</text>
+<text x="18" y="166" font-size="11" text-anchor="start" font-weight="bold" fill="#287">Привычки</text>
+<rect x="14" y="174" width="232" height="52" rx="12" fill="#eee" stroke="#999"/>
+<circle cx="40" cy="200" r="14" fill="#ddd" stroke="#999"/>
+<text x="62" y="196" font-size="11" text-anchor="start" font-weight="bold" fill="#333">Выпить воду</text>
+<text x="62" y="212" font-size="9" text-anchor="start" font-weight="normal" fill="#777">🔥 серия · дни</text>
+<circle cx="220" cy="200" r="13" fill="#fff" stroke="#555"/>
+<rect x="14" y="234" width="232" height="52" rx="12" fill="#eee" stroke="#999"/>
+<circle cx="40" cy="260" r="14" fill="#ddd" stroke="#999"/>
+<text x="62" y="256" font-size="11" text-anchor="start" font-weight="bold" fill="#333">Зарядка</text>
+<text x="62" y="272" font-size="9" text-anchor="start" font-weight="normal" fill="#777">🔥 серия · дни</text>
+<circle cx="220" cy="260" r="13" fill="#fff" stroke="#555"/>
+<text x="18" y="310" font-size="11" text-anchor="start" font-weight="bold" fill="#287">Учёба</text>
+<rect x="14" y="318" width="232" height="52" rx="12" fill="#eee" stroke="#999"/>
+<circle cx="40" cy="344" r="14" fill="#ddd" stroke="#999"/>
+<text x="62" y="340" font-size="11" text-anchor="start" font-weight="bold" fill="#333">Английский</text>
+<text x="62" y="356" font-size="9" text-anchor="start" font-weight="normal" fill="#777">🔥 серия · 30 мин</text>
+<circle cx="220" cy="344" r="13" fill="#fff" stroke="#555"/>
+<rect x="14" y="378" width="232" height="52" rx="12" fill="#eee" stroke="#999"/>
+<circle cx="40" cy="404" r="14" fill="#ddd" stroke="#999"/>
+<text x="62" y="400" font-size="11" text-anchor="start" font-weight="bold" fill="#333">Алгоритмы</text>
+<text x="62" y="416" font-size="9" text-anchor="start" font-weight="normal" fill="#777">🔥 серия · 30 мин</text>
+<circle cx="220" cy="404" r="13" fill="#fff" stroke="#555"/>
+<rect x="150" y="416" width="96" height="36" rx="14" fill="#cfe" stroke="#999"/>
+<text x="198" y="438" font-size="11" text-anchor="middle" font-weight="normal" fill="#333">+ Добавить</text>
+<rect x="0" y="464" width="260" height="56" rx="0" fill="#f3f3f3" stroke="#bbb"/>
+<circle cx="32.5" cy="482" r="9" fill="#9cc" stroke="#999"/>
+<text x="32.5" y="506" font-size="9" text-anchor="middle" font-weight="normal" fill="#333">Сегодня</text>
+<circle cx="97.5" cy="482" r="9" fill="#ddd" stroke="#999"/>
+<text x="97.5" y="506" font-size="9" text-anchor="middle" font-weight="normal" fill="#333">Статистика</text>
+<circle cx="162.5" cy="482" r="9" fill="#ddd" stroke="#999"/>
+<text x="162.5" y="506" font-size="9" text-anchor="middle" font-weight="normal" fill="#333">Материалы</text>
+<circle cx="227.5" cy="482" r="9" fill="#ddd" stroke="#999"/>
+<text x="227.5" y="506" font-size="9" text-anchor="middle" font-weight="normal" fill="#333">Настройки</text>
+</g>
+<g transform="translate(340,60)">
+<rect width="260" height="520" rx="28" fill="#fff" stroke="#333" stroke-width="2.5"/>
+<text x="130.0" y="-18" text-anchor="middle" font-size="16" font-weight="bold">2. Детали цели</text>
+<text x="18" y="36" font-size="16" text-anchor="start" font-weight="normal" fill="#333">←</text>
+<text x="230" y="36" font-size="14" text-anchor="start" font-weight="normal" fill="#333">✎</text>
+<circle cx="46" cy="82" r="24" fill="#ddd" stroke="#999"/>
+<text x="80" y="78" font-size="13" text-anchor="start" font-weight="bold" fill="#333">Английский язык</text>
+<rect x="80" y="86" width="70" height="18" rx="9" fill="#fff" stroke="#999"/>
+<text x="115" y="99" font-size="9" text-anchor="middle" font-weight="normal" fill="#333">Учёба</text>
+<rect x="14" y="120" width="72" height="60" rx="12" fill="#eee" stroke="#999"/>
+<text x="24" y="150" font-size="16" text-anchor="start" font-weight="bold" fill="#333">12</text>
+<text x="24" y="168" font-size="9" text-anchor="start" font-weight="normal" fill="#777">Серия</text>
+<rect x="94" y="120" width="72" height="60" rx="12" fill="#eee" stroke="#999"/>
+<text x="104" y="150" font-size="16" text-anchor="start" font-weight="bold" fill="#333">15</text>
+<text x="104" y="168" font-size="9" text-anchor="start" font-weight="normal" fill="#777">Лучшая</text>
+<rect x="174" y="120" width="72" height="60" rx="12" fill="#eee" stroke="#999"/>
+<text x="184" y="150" font-size="16" text-anchor="start" font-weight="bold" fill="#333">70%</text>
+<text x="184" y="168" font-size="9" text-anchor="start" font-weight="normal" fill="#777">30 дней</text>
+<rect x="14" y="192" width="232" height="190" rx="14" fill="#eee" stroke="#999"/>
+<text x="26" y="212" font-size="11" text-anchor="start" font-weight="bold" fill="#333">Календарь выполнений</text>
+<rect x="26" y="224" width="26" height="26" rx="6" fill="#e4e4e4" stroke="#bbb"/>
+<rect x="57" y="224" width="26" height="26" rx="6" fill="#9cc" stroke="#bbb"/>
+<rect x="88" y="224" width="26" height="26" rx="6" fill="#9cc" stroke="#bbb"/>
+<rect x="119" y="224" width="26" height="26" rx="6" fill="#e4e4e4" stroke="#bbb"/>
+<rect x="150" y="224" width="26" height="26" rx="6" fill="#9cc" stroke="#bbb"/>
+<rect x="181" y="224" width="26" height="26" rx="6" fill="#9cc" stroke="#bbb"/>
+<rect x="212" y="224" width="26" height="26" rx="6" fill="#e4e4e4" stroke="#bbb"/>
+<rect x="26" y="254" width="26" height="26" rx="6" fill="#9cc" stroke="#bbb"/>
+<rect x="57" y="254" width="26" height="26" rx="6" fill="#9cc" stroke="#bbb"/>
+<rect x="88" y="254" width="26" height="26" rx="6" fill="#e4e4e4" stroke="#bbb"/>
+<rect x="119" y="254" width="26" height="26" rx="6" fill="#9cc" stroke="#bbb"/>
+<rect x="150" y="254" width="26" height="26" rx="6" fill="#9cc" stroke="#bbb"/>
+<rect x="181" y="254" width="26" height="26" rx="6" fill="#e4e4e4" stroke="#bbb"/>
+<rect x="212" y="254" width="26" height="26" rx="6" fill="#9cc" stroke="#bbb"/>
+<rect x="26" y="284" width="26" height="26" rx="6" fill="#9cc" stroke="#bbb"/>
+<rect x="57" y="284" width="26" height="26" rx="6" fill="#e4e4e4" stroke="#bbb"/>
+<rect x="88" y="284" width="26" height="26" rx="6" fill="#9cc" stroke="#bbb"/>
+<rect x="119" y="284" width="26" height="26" rx="6" fill="#9cc" stroke="#bbb"/>
+<rect x="150" y="284" width="26" height="26" rx="6" fill="#e4e4e4" stroke="#bbb"/>
+<rect x="181" y="284" width="26" height="26" rx="6" fill="#9cc" stroke="#bbb"/>
+<rect x="212" y="284" width="26" height="26" rx="6" fill="#9cc" stroke="#bbb"/>
+<rect x="26" y="314" width="26" height="26" rx="6" fill="#e4e4e4" stroke="#bbb"/>
+<rect x="57" y="314" width="26" height="26" rx="6" fill="#9cc" stroke="#bbb"/>
+<rect x="88" y="314" width="26" height="26" rx="6" fill="#9cc" stroke="#bbb"/>
+<rect x="119" y="314" width="26" height="26" rx="6" fill="#e4e4e4" stroke="#bbb"/>
+<rect x="150" y="314" width="26" height="26" rx="6" fill="#9cc" stroke="#bbb"/>
+<rect x="181" y="314" width="26" height="26" rx="6" fill="#9cc" stroke="#bbb"/>
+<rect x="212" y="314" width="26" height="26" rx="6" fill="#e4e4e4" stroke="#bbb"/>
+<rect x="26" y="344" width="26" height="26" rx="6" fill="#9cc" stroke="#bbb"/>
+<rect x="57" y="344" width="26" height="26" rx="6" fill="#9cc" stroke="#bbb"/>
+<rect x="88" y="344" width="26" height="26" rx="6" fill="#e4e4e4" stroke="#bbb"/>
+<rect x="119" y="344" width="26" height="26" rx="6" fill="#9cc" stroke="#bbb"/>
+<rect x="150" y="344" width="26" height="26" rx="6" fill="#9cc" stroke="#bbb"/>
+<rect x="181" y="344" width="26" height="26" rx="6" fill="#e4e4e4" stroke="#bbb"/>
+<rect x="212" y="344" width="26" height="26" rx="6" fill="#9cc" stroke="#bbb"/>
+<rect x="14" y="394" width="232" height="100" rx="14" fill="#eee" stroke="#999"/>
+<text x="26" y="418" font-size="10" text-anchor="start" font-weight="normal" fill="#333">Расписание: каждый день</text>
+<text x="26" y="446" font-size="10" text-anchor="start" font-weight="normal" fill="#333">Напоминание: 19:00</text>
+<text x="26" y="474" font-size="10" text-anchor="start" font-weight="normal" fill="#333">Цель: 30 мин в день</text>
+</g>
+<g transform="translate(640,60)">
+<rect width="260" height="520" rx="28" fill="#fff" stroke="#333" stroke-width="2.5"/>
+<text x="130.0" y="-18" text-anchor="middle" font-size="16" font-weight="bold">3. Создание цели</text>
+<text x="18" y="36" font-size="15" text-anchor="start" font-weight="bold" fill="#333">← Новая цель</text>
+<rect x="14" y="52" width="232" height="40" rx="10" fill="#f2f2f2" stroke="#999"/>
+<text x="26" y="77" font-size="11" text-anchor="start" font-weight="normal" fill="#888">Название</text>
+<rect x="14" y="100" width="232" height="40" rx="10" fill="#f2f2f2" stroke="#999"/>
+<text x="26" y="125" font-size="11" text-anchor="start" font-weight="normal" fill="#888">Описание</text>
+<text x="18" y="162" font-size="11" text-anchor="start" font-weight="bold" fill="#333">Тип</text>
+<rect x="14" y="170" width="116.0" height="30" rx="15" fill="#cfe" stroke="#999"/>
+<rect x="130.0" y="170" width="116.0" height="30" rx="15" fill="#fff" stroke="#999"/>
+<text x="72.0" y="189" font-size="10" text-anchor="middle" font-weight="normal" fill="#333">Привычка</text>
+<text x="188.0" y="189" font-size="10" text-anchor="middle" font-weight="normal" fill="#333">Учёба</text>
+<text x="18" y="222" font-size="11" text-anchor="start" font-weight="bold" fill="#333">Иконка</text>
+<rect x="14" y="230" width="33" height="30" rx="8" fill="#eee" stroke="#999"/>
+<rect x="53" y="230" width="33" height="30" rx="8" fill="#eee" stroke="#999"/>
+<rect x="92" y="230" width="33" height="30" rx="8" fill="#eee" stroke="#999"/>
+<rect x="131" y="230" width="33" height="30" rx="8" fill="#eee" stroke="#999"/>
+<rect x="170" y="230" width="33" height="30" rx="8" fill="#eee" stroke="#999"/>
+<rect x="209" y="230" width="33" height="30" rx="8" fill="#eee" stroke="#999"/>
+<text x="18" y="282" font-size="11" text-anchor="start" font-weight="bold" fill="#333">Цвет</text>
+<circle cx="30" cy="304" r="14" fill="#5bb" stroke="#999"/>
+<circle cx="68" cy="304" r="14" fill="#59d" stroke="#999"/>
+<circle cx="106" cy="304" r="14" fill="#a6c" stroke="#999"/>
+<circle cx="144" cy="304" r="14" fill="#e66" stroke="#999"/>
+<circle cx="182" cy="304" r="14" fill="#fa5" stroke="#999"/>
+<circle cx="220" cy="304" r="14" fill="#6b6" stroke="#999"/>
+<text x="18" y="340" font-size="11" text-anchor="start" font-weight="bold" fill="#333">Дни недели</text>
+<rect x="14" y="348" width="29" height="26" rx="8" fill="#cfe" stroke="#999"/>
+<text x="28" y="365" font-size="9" text-anchor="middle" font-weight="normal" fill="#333">Пн</text>
+<rect x="47" y="348" width="29" height="26" rx="8" fill="#cfe" stroke="#999"/>
+<text x="61" y="365" font-size="9" text-anchor="middle" font-weight="normal" fill="#333">Вт</text>
+<rect x="80" y="348" width="29" height="26" rx="8" fill="#cfe" stroke="#999"/>
+<text x="94" y="365" font-size="9" text-anchor="middle" font-weight="normal" fill="#333">Ср</text>
+<rect x="113" y="348" width="29" height="26" rx="8" fill="#cfe" stroke="#999"/>
+<text x="127" y="365" font-size="9" text-anchor="middle" font-weight="normal" fill="#333">Чт</text>
+<rect x="146" y="348" width="29" height="26" rx="8" fill="#cfe" stroke="#999"/>
+<text x="160" y="365" font-size="9" text-anchor="middle" font-weight="normal" fill="#333">Пт</text>
+<rect x="179" y="348" width="29" height="26" rx="8" fill="#fff" stroke="#999"/>
+<text x="193" y="365" font-size="9" text-anchor="middle" font-weight="normal" fill="#333">Сб</text>
+<rect x="212" y="348" width="29" height="26" rx="8" fill="#fff" stroke="#999"/>
+<text x="226" y="365" font-size="9" text-anchor="middle" font-weight="normal" fill="#333">Вс</text>
+<rect x="14" y="388" width="232" height="44" rx="12" fill="#eee" stroke="#999"/>
+<text x="26" y="414" font-size="10" text-anchor="start" font-weight="normal" fill="#333">🔔 Напоминание  09:00</text>
+<rect x="198" y="400" width="36" height="20" rx="10" fill="#9cc" stroke="#999"/>
+<rect x="14" y="450" width="232" height="42" rx="21" fill="#4a9" stroke="#4a9"/>
+<text x="130.0" y="476" font-size="12" text-anchor="middle" font-weight="bold" fill="#fff">Сохранить</text>
+</g>
+<g transform="translate(940,60)">
+<rect width="260" height="520" rx="28" fill="#fff" stroke="#333" stroke-width="2.5"/>
+<text x="130.0" y="-18" text-anchor="middle" font-size="16" font-weight="bold">4. Статистика</text>
+<text x="18" y="36" font-size="18" text-anchor="start" font-weight="bold" fill="#333">Статистика</text>
+<rect x="14" y="52" width="72" height="60" rx="12" fill="#eee" stroke="#999"/>
+<text x="24" y="82" font-size="16" text-anchor="start" font-weight="bold" fill="#333">67%</text>
+<text x="24" y="100" font-size="9" text-anchor="start" font-weight="normal" fill="#777">за 7 дней</text>
+<rect x="94" y="52" width="72" height="60" rx="12" fill="#eee" stroke="#999"/>
+<text x="104" y="82" font-size="16" text-anchor="start" font-weight="bold" fill="#333">50</text>
+<text x="104" y="100" font-size="9" text-anchor="start" font-weight="normal" fill="#777">отметок</text>
+<rect x="174" y="52" width="72" height="60" rx="12" fill="#eee" stroke="#999"/>
+<text x="184" y="82" font-size="16" text-anchor="start" font-weight="bold" fill="#333">5</text>
+<text x="184" y="100" font-size="9" text-anchor="start" font-weight="normal" fill="#777">целей</text>
+<rect x="14" y="124" width="232" height="170" rx="14" fill="#eee" stroke="#999"/>
+<text x="26" y="146" font-size="11" text-anchor="start" font-weight="bold" fill="#333">Последние 7 дней</text>
+<rect x="30" y="220" width="20" height="50" rx="5" fill="#9cc" stroke="#999"/>
+<rect x="60" y="210" width="20" height="60" rx="5" fill="#9cc" stroke="#999"/>
+<rect x="90" y="195" width="20" height="75" rx="5" fill="#9cc" stroke="#999"/>
+<rect x="120" y="210" width="20" height="60" rx="5" fill="#9cc" stroke="#999"/>
+<rect x="150" y="170" width="20" height="100" rx="5" fill="#9cc" stroke="#999"/>
+<rect x="180" y="170" width="20" height="100" rx="5" fill="#9cc" stroke="#999"/>
+<rect x="210" y="230" width="20" height="40" rx="5" fill="#9cc" stroke="#999"/>
+<rect x="14" y="306" width="232" height="130" rx="14" fill="#eee" stroke="#999"/>
+<text x="26" y="328" font-size="11" text-anchor="start" font-weight="bold" fill="#333">Лучшие серии</text>
+<circle cx="38" cy="352" r="10" fill="#ddd" stroke="#999"/>
+<rect x="56" y="348" width="140" height="6" rx="3" fill="#9cc" stroke="#9cc"/>
+<text x="226" y="356" font-size="10" text-anchor="end" font-weight="normal" fill="#333">🔥12</text>
+<circle cx="38" cy="382" r="10" fill="#ddd" stroke="#999"/>
+<rect x="56" y="378" width="140" height="6" rx="3" fill="#9cc" stroke="#9cc"/>
+<text x="226" y="386" font-size="10" text-anchor="end" font-weight="normal" fill="#333">🔥8</text>
+<circle cx="38" cy="412" r="10" fill="#ddd" stroke="#999"/>
+<rect x="56" y="408" width="140" height="6" rx="3" fill="#9cc" stroke="#9cc"/>
+<text x="226" y="416" font-size="10" text-anchor="end" font-weight="normal" fill="#333">🔥4</text>
+<rect x="0" y="464" width="260" height="56" rx="0" fill="#f3f3f3" stroke="#bbb"/>
+<circle cx="32.5" cy="482" r="9" fill="#ddd" stroke="#999"/>
+<text x="32.5" y="506" font-size="9" text-anchor="middle" font-weight="normal" fill="#333">Сегодня</text>
+<circle cx="97.5" cy="482" r="9" fill="#9cc" stroke="#999"/>
+<text x="97.5" y="506" font-size="9" text-anchor="middle" font-weight="normal" fill="#333">Статистика</text>
+<circle cx="162.5" cy="482" r="9" fill="#ddd" stroke="#999"/>
+<text x="162.5" y="506" font-size="9" text-anchor="middle" font-weight="normal" fill="#333">Материалы</text>
+<circle cx="227.5" cy="482" r="9" fill="#ddd" stroke="#999"/>
+<text x="227.5" y="506" font-size="9" text-anchor="middle" font-weight="normal" fill="#333">Настройки</text>
+</g>
+<g transform="translate(1240,60)">
+<rect width="260" height="520" rx="28" fill="#fff" stroke="#333" stroke-width="2.5"/>
+<text x="130.0" y="-18" text-anchor="middle" font-size="16" font-weight="bold">5. Учебные материалы</text>
+<text x="18" y="36" font-size="18" text-anchor="start" font-weight="bold" fill="#333">Материалы</text>
+<rect x="14" y="50" width="232" height="38" rx="19" fill="#f2f2f2" stroke="#999"/>
+<text x="34" y="74" font-size="11" text-anchor="start" font-weight="normal" fill="#888">🔍 Поиск книг…</text>
+<rect x="14" y="98" width="60" height="24" rx="12" fill="#cfe" stroke="#999"/>
+<text x="44" y="114" font-size="9" text-anchor="middle" font-weight="normal" fill="#333">Найти</text>
+<rect x="80" y="98" width="80" height="24" rx="12" fill="#fff" stroke="#999"/>
+<text x="120" y="114" font-size="9" text-anchor="middle" font-weight="normal" fill="#333">Сохранённые</text>
+<rect x="14" y="134" width="232" height="70" rx="12" fill="#eee" stroke="#999"/>
+<rect x="24" y="142" width="38" height="54" rx="4" fill="#ccc" stroke="#999"/>
+<text x="72" y="158" font-size="11" text-anchor="start" font-weight="bold" fill="#333">Название книги</text>
+<text x="72" y="174" font-size="9" text-anchor="start" font-weight="normal" fill="#777">Автор · 2019</text>
+<text x="226" y="158" font-size="14" text-anchor="end" font-weight="normal" fill="#333">♡</text>
+<rect x="14" y="214" width="232" height="70" rx="12" fill="#eee" stroke="#999"/>
+<rect x="24" y="222" width="38" height="54" rx="4" fill="#ccc" stroke="#999"/>
+<text x="72" y="238" font-size="11" text-anchor="start" font-weight="bold" fill="#333">Название книги</text>
+<text x="72" y="254" font-size="9" text-anchor="start" font-weight="normal" fill="#777">Автор · 2019</text>
+<text x="226" y="238" font-size="14" text-anchor="end" font-weight="normal" fill="#333">♡</text>
+<rect x="14" y="294" width="232" height="70" rx="12" fill="#eee" stroke="#999"/>
+<rect x="24" y="302" width="38" height="54" rx="4" fill="#ccc" stroke="#999"/>
+<text x="72" y="318" font-size="11" text-anchor="start" font-weight="bold" fill="#333">Название книги</text>
+<text x="72" y="334" font-size="9" text-anchor="start" font-weight="normal" fill="#777">Автор · 2019</text>
+<text x="226" y="318" font-size="14" text-anchor="end" font-weight="normal" fill="#333">♡</text>
+<rect x="14" y="374" width="232" height="70" rx="12" fill="#eee" stroke="#999"/>
+<rect x="24" y="382" width="38" height="54" rx="4" fill="#ccc" stroke="#999"/>
+<text x="72" y="398" font-size="11" text-anchor="start" font-weight="bold" fill="#333">Название книги</text>
+<text x="72" y="414" font-size="9" text-anchor="start" font-weight="normal" fill="#777">Автор · 2019</text>
+<text x="226" y="398" font-size="14" text-anchor="end" font-weight="normal" fill="#333">♡</text>
+<rect x="0" y="464" width="260" height="56" rx="0" fill="#f3f3f3" stroke="#bbb"/>
+<circle cx="32.5" cy="482" r="9" fill="#ddd" stroke="#999"/>
+<text x="32.5" y="506" font-size="9" text-anchor="middle" font-weight="normal" fill="#333">Сегодня</text>
+<circle cx="97.5" cy="482" r="9" fill="#ddd" stroke="#999"/>
+<text x="97.5" y="506" font-size="9" text-anchor="middle" font-weight="normal" fill="#333">Статистика</text>
+<circle cx="162.5" cy="482" r="9" fill="#9cc" stroke="#999"/>
+<text x="162.5" y="506" font-size="9" text-anchor="middle" font-weight="normal" fill="#333">Материалы</text>
+<circle cx="227.5" cy="482" r="9" fill="#ddd" stroke="#999"/>
+<text x="227.5" y="506" font-size="9" text-anchor="middle" font-weight="normal" fill="#333">Настройки</text>
+</g>
+<g transform="translate(1540,60)">
+<rect width="260" height="520" rx="28" fill="#fff" stroke="#333" stroke-width="2.5"/>
+<text x="130.0" y="-18" text-anchor="middle" font-size="16" font-weight="bold">6. Настройки</text>
+<text x="18" y="36" font-size="18" text-anchor="start" font-weight="bold" fill="#333">Настройки</text>
+<text x="18" y="64" font-size="10" text-anchor="start" font-weight="bold" fill="#287">Оформление</text>
+<rect x="14" y="72" width="232" height="104" rx="14" fill="#eee" stroke="#999"/>
+<text x="26" y="96" font-size="11" text-anchor="start" font-weight="bold" fill="#333">Тема</text>
+<rect x="26" y="106" width="64" height="24" rx="12" fill="#cfe" stroke="#999"/>
+<text x="58" y="122" font-size="9" text-anchor="middle" font-weight="normal" fill="#333">Системная</text>
+<rect x="96" y="106" width="64" height="24" rx="12" fill="#fff" stroke="#999"/>
+<text x="128" y="122" font-size="9" text-anchor="middle" font-weight="normal" fill="#333">Светлая</text>
+<rect x="166" y="106" width="64" height="24" rx="12" fill="#fff" stroke="#999"/>
+<text x="198" y="122" font-size="9" text-anchor="middle" font-weight="normal" fill="#333">Тёмная</text>
+<text x="26" y="158" font-size="11" text-anchor="start" font-weight="normal" fill="#333">Язык: Русский / English</text>
+<rect x="14" y="190" width="232" height="60" rx="14" fill="#eee" stroke="#999"/>
+<text x="26" y="214" font-size="11" text-anchor="start" font-weight="bold" fill="#333">Уведомления</text>
+<rect x="198" y="206" width="36" height="20" rx="10" fill="#9cc" stroke="#999"/>
+<rect x="14" y="262" width="232" height="50" rx="14" fill="#eee" stroke="#999"/>
+<text x="26" y="292" font-size="11" text-anchor="start" font-weight="normal" fill="#333">О приложении · версия</text>
+<rect x="0" y="464" width="260" height="56" rx="0" fill="#f3f3f3" stroke="#bbb"/>
+<circle cx="32.5" cy="482" r="9" fill="#ddd" stroke="#999"/>
+<text x="32.5" y="506" font-size="9" text-anchor="middle" font-weight="normal" fill="#333">Сегодня</text>
+<circle cx="97.5" cy="482" r="9" fill="#ddd" stroke="#999"/>
+<text x="97.5" y="506" font-size="9" text-anchor="middle" font-weight="normal" fill="#333">Статистика</text>
+<circle cx="162.5" cy="482" r="9" fill="#ddd" stroke="#999"/>
+<text x="162.5" y="506" font-size="9" text-anchor="middle" font-weight="normal" fill="#333">Материалы</text>
+<circle cx="227.5" cy="482" r="9" fill="#9cc" stroke="#999"/>
+<text x="227.5" y="506" font-size="9" text-anchor="middle" font-weight="normal" fill="#333">Настройки</text>
+</g>
+</svg>

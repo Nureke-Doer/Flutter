@@ -1,0 +1,93 @@
+{
+  "@@locale": "ru",
+  "appTitle": "Habit & Study Tracker",
+  "navToday": "Сегодня",
+  "navStatistics": "Статистика",
+  "navMaterials": "Материалы",
+  "navSettings": "Настройки",
+
+  "todayTitle": "Сегодня",
+  "todayProgress": "Выполнено {done} из {total}",
+  "@todayProgress": {
+    "placeholders": {"done": {"type": "int"}, "total": {"type": "int"}}
+  },
+  "todayAllDone": "Все цели на сегодня выполнены! 🎉",
+  "todayKeepGoing": "Продолжай — ты на верном пути!",
+  "todayEmpty": "На сегодня ничего не запланировано",
+  "todayEmptyHint": "Нажми «Добавить», чтобы создать первую привычку или учебную цель",
+  "sectionHabits": "Привычки",
+  "sectionStudy": "Учёба",
+  "addHabit": "Добавить",
+
+  "streakDays": "{count, plural, =0{нет серии} one{{count} день} few{{count} дня} many{{count} дней} other{{count} дня}}",
+  "@streakDays": {
+    "placeholders": {"count": {"type": "int"}}
+  },
+  "minutesShort": "{count} мин",
+  "@minutesShort": {
+    "placeholders": {"count": {"type": "int"}}
+  },
+
+  "habitTypeHabit": "Привычка",
+  "habitTypeStudy": "Учёба",
+
+  "detailCurrentStreak": "Текущая серия",
+  "detailBestStreak": "Лучшая серия",
+  "detailCompletion": "За 30 дней",
+  "detailCalendar": "Календарь выполнений",
+  "detailSchedule": "Расписание",
+  "detailReminder": "Напоминание",
+  "detailNoReminder": "Без напоминания",
+  "detailEveryDay": "Каждый день",
+  "detailDescription": "Описание",
+  "detailTarget": "Цель на день",
+  "edit": "Изменить",
+  "delete": "Удалить",
+  "cancel": "Отмена",
+  "deleteConfirmTitle": "Удалить «{title}»?",
+  "@deleteConfirmTitle": {
+    "placeholders": {"title": {"type": "String"}}
+  },
+  "deleteConfirmBody": "История выполнений тоже будет удалена.",
+
+  "editNewTitle": "Новая цель",
+  "editEditTitle": "Редактирование",
+  "editFieldTitle": "Название",
+  "editFieldTitleHint": "Например: 30 минут английского",
+  "editFieldTitleError": "Введите название",
+  "editFieldDescription": "Описание (необязательно)",
+  "editType": "Тип",
+  "editIcon": "Иконка",
+  "editColor": "Цвет",
+  "editDays": "Дни недели",
+  "editDaysError": "Выберите хотя бы один день",
+  "editTargetMinutes": "Минут в день: {count}",
+  "@editTargetMinutes": {
+    "placeholders": {"count": {"type": "int"}}
+  },
+  "editReminder": "Напоминание",
+  "editReminderOff": "Выключено",
+  "save": "Сохранить",
+  "savedMessage": "Сохранено",
+
+  "statsTitle": "Статистика",
+  "statsWeekRate": "Выполнение за 7 дней",
+  "statsCompletedTotal": "Всего отметок",
+  "statsActiveHabits": "Активных целей",
+  "statsLast7Days": "Последние 7 дней",
+  "statsTopStreaks": "Лучшие серии",
+  "statsEmpty": "Добавь цели, чтобы увидеть статистику",
+
+  "settingsTitle": "Настройки",
+  "settingsAppearance": "Оформление",
+  "settingsTheme": "Тема",
+  "themeSystem": "Системная",
+  "themeLight": "Светлая",
+  "themeDark": "Тёмная",
+  "settingsLanguage": "Язык",
+  "settingsAbout": "О приложении",
+  "settingsVersion": "Версия {version}",
+  "@settingsVersion": {
+    "placeholders": {"version": {"type": "String"}}
+  }
+}

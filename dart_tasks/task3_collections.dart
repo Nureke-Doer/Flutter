@@ -12,7 +12,9 @@ int currentStreak(Iterable<DateTime> completions, DateTime today) {
   var cursor = dayOnly(today);
   while (days.contains(cursor)) {
     streak++;
-    cursor = cursor.subtract(const Duration(days: 1));
+    // DateTime(y, m, d - 1), а не subtract(Duration(days: 1)) — так
+    // переход на летнее время не сдвинет дату.
+    cursor = DateTime(cursor.year, cursor.month, cursor.day - 1);
   }
   return streak;
 }

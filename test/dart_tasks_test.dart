@@ -60,8 +60,9 @@ void main() {
       expect(await t4.loadQuoteSafely(fail: true), contains('недоступна'));
     });
     test('pomodoro отдаёт обратный отсчёт', () async {
-      final values =
-          await t4.pomodoro(2, tick: const Duration(milliseconds: 1)).toList();
+      final values = await t4
+          .pomodoro(2, tick: const Duration(milliseconds: 1))
+          .toList();
       expect(values, [2, 1, 0]);
     });
   });

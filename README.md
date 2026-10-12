@@ -87,12 +87,56 @@ flutter analyze       # статический анализ
 Запуск: `dart run dart_tasks/task3_collections.dart`.
 Тесты к задачам: `flutter test test/dart_tasks_test.dart`.
 
-## 4. План по неделям
+## 4. Неделя 2 — виджеты и UI
+
+### Эскизы экранов
+
+![Эскизы](docs/sketches/wireframes.png)
+
+Исходник эскизов — [`docs/sketches/wireframes.svg`](docs/sketches/wireframes.svg).
+
+### Скриншоты (статические данные)
+
+| Сегодня | Детали | Статистика | Тёмная тема |
+|---|---|---|---|
+| ![](docs/screenshots/week2/today.png) | ![](docs/screenshots/week2/detail.png) | ![](docs/screenshots/week2/stats.png) | ![](docs/screenshots/week2/today_dark.png) |
+
+### Что сделано
+
+- 5 экранов: **Сегодня**, **Детали цели**, **Создание цели**, **Статистика**, **Настройки**
+  + нижняя навигация (`NavigationBar` + `IndexedStack`).
+- `StatelessWidget` — экраны, которые только отображают данные
+  (`TodayScreen`, `HabitDetailScreen`, `StatisticsScreen`).
+- `StatefulWidget` — `HomeShell` (выбранная вкладка) и `HabitEditScreen` (состояние формы).
+- Использованы `Row`, `Column`, `Stack` (круговой прогресс с процентом внутри),
+  `ListView`, `GridView` (календарь), `Wrap`, `Card`, `ListTile`, `SegmentedButton`,
+  `FilterChip`, `Slider`, `Switch`, `showTimePicker`, `AnimatedContainer`.
+- Тема **Material 3** (`ColorScheme.fromSeed`), светлая и тёмная, переключается по системе.
+- Локализация через `flutter gen-l10n` (ARB-файлы `lib/l10n/app_ru.arb`, `app_en.arb`),
+  включая правильные формы множественного числа («1 день», «3 дня», «5 дней»).
+- Модель `Habit` с логикой подсчёта серии, лучшей серии и процента выполнения + unit-тесты.
+
+### Структура проекта (неделя 2)
+
+```
+lib/
+├── main.dart              # точка входа
+├── app.dart               # MaterialApp: темы, локализация
+├── data/mock_habits.dart  # статические данные
+├── l10n/                  # ARB-файлы и сгенерированная локализация
+├── models/habit.dart      # модель привычки/учебной цели
+├── screens/               # экраны
+├── theme/app_theme.dart   # тема Material 3, отступы
+├── utils/date_utils.dart  # работа с датами
+└── widgets/               # переиспользуемые виджеты
+```
+
+## 5. План по неделям
 
 | Неделя | Тема | Статус |
 |---|---|---|
 | 1 | Введение во Flutter и Dart | ✅ |
-| 2 | Виджеты и построение UI | ⏳ |
+| 2 | Виджеты и построение UI | ✅ |
 | 3 | Управление состоянием: setState → InheritedWidget → Provider | ⏳ |
 | 4 | BLoC, слои, Repository, DI | ⏳ |
 | 5 | REST API и JSON | ⏳ |
