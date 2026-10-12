@@ -32,7 +32,7 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get todayAllDone => 'Все цели на сегодня выполнены! 🎉';
+  String get todayAllDone => 'Все привычки на сегодня выполнены! 🎉';
 
   @override
   String get todayKeepGoing => 'Продолжай — ты на верном пути!';
@@ -42,13 +42,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get todayEmptyHint =>
-      'Нажми «Добавить», чтобы создать первую привычку или учебную цель';
-
-  @override
-  String get sectionHabits => 'Привычки';
-
-  @override
-  String get sectionStudy => 'Учёба';
+      'Нажми «Добавить», чтобы создать первую привычку';
 
   @override
   String get addHabit => 'Добавить';
@@ -68,17 +62,6 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String minutesShort(int count) {
-    return '$count мин';
-  }
-
-  @override
-  String get habitTypeHabit => 'Привычка';
-
-  @override
-  String get habitTypeStudy => 'Учёба';
-
-  @override
   String get detailCurrentStreak => 'Текущая серия';
 
   @override
@@ -88,7 +71,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get detailCompletion => 'За 30 дней';
 
   @override
-  String get detailCalendar => 'Календарь выполнений';
+  String get detailCalendar =>
+      'Календарь отметок (нажми на день, чтобы изменить)';
 
   @override
   String get detailSchedule => 'Расписание';
@@ -123,10 +107,10 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get deleteConfirmBody => 'История выполнений тоже будет удалена.';
+  String get deleteConfirmBody => 'История отметок тоже будет удалена.';
 
   @override
-  String get editNewTitle => 'Новая цель';
+  String get editNewTitle => 'Новая привычка';
 
   @override
   String get editEditTitle => 'Редактирование';
@@ -135,7 +119,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get editFieldTitle => 'Название';
 
   @override
-  String get editFieldTitleHint => 'Например: 30 минут английского';
+  String get editFieldTitleHint => 'Например: Английский язык';
 
   @override
   String get editFieldTitleError => 'Введите название';
@@ -159,11 +143,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get editDaysError => 'Выберите хотя бы один день';
 
   @override
-  String editTargetMinutes(int count) {
-    return 'Минут в день: $count';
-  }
-
-  @override
   String get editReminder => 'Напоминание';
 
   @override
@@ -182,10 +161,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get statsWeekRate => 'Выполнение за 7 дней';
 
   @override
-  String get statsCompletedTotal => 'Всего отметок';
+  String get statsCompletedTotal => 'Дней выполнения';
 
   @override
-  String get statsActiveHabits => 'Активных целей';
+  String get statsActiveHabits => 'Активных привычек';
 
   @override
   String get statsLast7Days => 'Последние 7 дней';
@@ -194,7 +173,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get statsTopStreaks => 'Лучшие серии';
 
   @override
-  String get statsEmpty => 'Добавь цели, чтобы увидеть статистику';
+  String get statsEmpty => 'Добавь привычки, чтобы увидеть статистику';
 
   @override
   String get settingsTitle => 'Настройки';
@@ -232,7 +211,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get detailDoneToday => 'Выполнено сегодня';
 
   @override
-  String get deletedMessage => 'Цель удалена';
+  String get deletedMessage => 'Привычка удалена';
 
   @override
   String get undo => 'Отменить';
@@ -368,4 +347,152 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get settingsOfflineHint =>
       'Цели, настройки и сохранённые книги хранятся на устройстве и работают без интернета';
+
+  @override
+  String get archive => 'В архив';
+
+  @override
+  String get unarchive => 'Вернуть из архива';
+
+  @override
+  String get archived => 'Привычка в архиве — история сохранена';
+
+  @override
+  String get unarchived => 'Привычка возвращена из архива';
+
+  @override
+  String get archivedBadge => 'В архиве';
+
+  @override
+  String get detailByMonth => 'По месяцам';
+
+  @override
+  String get detailFailures => 'Не выполнено';
+
+  @override
+  String get detailRelapses => 'Срывов';
+
+  @override
+  String get detailHeatmap => 'Тепловая карта (20 недель)';
+
+  @override
+  String get detailNoTarget => 'Без цели — любое число > 0 засчитывается';
+
+  @override
+  String detailSum(String unit) {
+    return 'Всего $unit';
+  }
+
+  @override
+  String get detailTotalDone => 'Дней выполнено';
+
+  @override
+  String get editCategory => 'Категория';
+
+  @override
+  String get editSchedule => 'Расписание';
+
+  @override
+  String get editTarget => 'Цель на день';
+
+  @override
+  String get editTargetError => 'Введите число больше 0';
+
+  @override
+  String get editUnit => 'Единица';
+
+  @override
+  String get editUnitHint => 'мин, стр., раз';
+
+  @override
+  String get entryAmountLabel => 'Сколько сделано';
+
+  @override
+  String get entryClear => 'Очистить';
+
+  @override
+  String get entryDone => 'Выполнил';
+
+  @override
+  String get entryFailed => 'Не выполнил';
+
+  @override
+  String get entryHeld => 'Удержался';
+
+  @override
+  String get entryRelapsed => 'Сорвался';
+
+  @override
+  String get entrySkipped => 'Пропуск (0)';
+
+  @override
+  String get entryEmpty => 'не отмечено';
+
+  @override
+  String get entryMoreValues => 'Другие значения';
+
+  @override
+  String get entrySkipHint =>
+      '«Пропуск» и пустой день не прерывают серию и не увеличивают её. Серию обрывает только ✘.';
+
+  @override
+  String entryTargetHint(String target) {
+    return 'Цель: $target';
+  }
+
+  @override
+  String get kindPositive => 'Действие';
+
+  @override
+  String get kindQuit => 'Отказ';
+
+  @override
+  String get kindNumeric => 'Число';
+
+  @override
+  String get kindPositiveHint =>
+      'Полезное действие: ✔ — выполнил, ✘ — не выполнил.';
+
+  @override
+  String get kindQuitHint => 'Отказ от вредного: ✔ — удержался, ✘ — сорвался.';
+
+  @override
+  String get kindNumericHint =>
+      'Числовая: повторения, минуты, страницы. Число больше 0 — выполнено.';
+
+  @override
+  String get monthColumn => 'Месяц';
+
+  @override
+  String get sumColumn => 'Сумма';
+
+  @override
+  String get noCategory => 'Без категории';
+
+  @override
+  String get scheduleDaily => 'Каждый день';
+
+  @override
+  String get scheduleWeekdays => 'Дни недели';
+
+  @override
+  String get scheduleTimesPerWeek => 'N раз в неделю';
+
+  @override
+  String timesPerWeek(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count раза в неделю',
+      many: '$count раз в неделю',
+      few: '$count раза в неделю',
+      one: '$count раз в неделю',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String weekProgress(int done, int total) {
+    return '$done из $total за неделю';
+  }
 }

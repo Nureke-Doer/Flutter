@@ -6,7 +6,9 @@ import 'package:provider/provider.dart';
 import 'core/di/injection.dart';
 import 'core/theme/app_theme.dart';
 import 'l10n/generated/app_localizations.dart';
+import 'presentation/blocs/categories/categories_cubit.dart';
 import 'presentation/blocs/favorites/favorites_cubit.dart';
+import 'presentation/blocs/goals/goals_cubit.dart';
 import 'presentation/blocs/habits/habits_bloc.dart';
 import 'presentation/blocs/quote/quote_cubit.dart';
 import 'presentation/providers/settings_notifier.dart';
@@ -25,6 +27,8 @@ class HabitStudyTrackerApp extends StatelessWidget {
           create: (_) =>
               getIt<HabitsBloc>()..add(const HabitsSubscriptionRequested()),
         ),
+        BlocProvider<CategoriesCubit>(create: (_) => getIt<CategoriesCubit>()),
+        BlocProvider<GoalsCubit>(create: (_) => getIt<GoalsCubit>()),
         BlocProvider<QuoteCubit>(create: (_) => getIt<QuoteCubit>()..load()),
         BlocProvider<FavoritesCubit>(create: (_) => getIt<FavoritesCubit>()),
         ChangeNotifierProvider<SettingsNotifier>.value(

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../l10n/generated/app_localizations.dart';
 import '../../domain/entities/habit.dart';
+import '../../domain/entities/habit_entry.dart';
+import '../../l10n/generated/app_localizations.dart';
 
 /// Сопоставление ключей иконок модели с иконками Material.
 extension HabitIconX on HabitIcon {
@@ -19,18 +20,32 @@ extension HabitIconX on HabitIcon {
     HabitIcon.music => Icons.music_note_outlined,
     HabitIcon.science => Icons.science_outlined,
     HabitIcon.art => Icons.palette_outlined,
+    HabitIcon.gym => Icons.fitness_center,
+    HabitIcon.walk => Icons.directions_walk,
+    HabitIcon.food => Icons.restaurant_outlined,
+    HabitIcon.noSmoking => Icons.smoke_free,
+    HabitIcon.phone => Icons.phonelink_erase_outlined,
+    HabitIcon.money => Icons.savings_outlined,
   };
 }
 
-extension HabitTypeX on HabitType {
+extension HabitKindX on HabitKind {
   String label(AppLocalizations l10n) => switch (this) {
-    HabitType.habit => l10n.habitTypeHabit,
-    HabitType.study => l10n.habitTypeStudy,
+    HabitKind.positive => l10n.kindPositive,
+    HabitKind.quit => l10n.kindQuit,
+    HabitKind.numeric => l10n.kindNumeric,
+  };
+
+  String hint(AppLocalizations l10n) => switch (this) {
+    HabitKind.positive => l10n.kindPositiveHint,
+    HabitKind.quit => l10n.kindQuitHint,
+    HabitKind.numeric => l10n.kindNumericHint,
   };
 
   IconData get iconData => switch (this) {
-    HabitType.habit => Icons.repeat,
-    HabitType.study => Icons.school_outlined,
+    HabitKind.positive => Icons.check_circle_outline,
+    HabitKind.quit => Icons.block,
+    HabitKind.numeric => Icons.pin_outlined,
   };
 }
 
@@ -38,7 +53,51 @@ extension HabitColorX on Habit {
   Color get color => Color(colorValue);
 }
 
-/// Палитра цветов для выбора при создании цели.
+/// Цвета значений отметки (одинаковые во всём приложении).
+abstract final class EntryColors {
+  static const failed = Color(0xFFE53935);
+}
+
+/// Подписи значений с учётом типа привычки:
+/// для «отказа от вредного» ✔ — «удержался», ✘ — «сорвался».
+extension EntryValueLabels on Habit {
+  String doneLabel(AppLocalizations l10n) =>
+      kind == HabitKind.quit ? l10n.entryHeld : l10n.entryDone;
+
+  String failedLabel(AppLocalizations l10n) =>
+      kind == HabitKind.quit ? l10n.entryRelapsed : l10n.entryFailed;
+
+  /// Короткое описание значения за день («✔», «✘», «0», «25 мин»).
+  String valueLabel(EntryValue? value, AppLocalizations l10n) =>
+      switch (value) {
+        null => l10n.entryEmpty,
+        EntryDone() => doneLabel(l10n),
+        EntryFailed() => failedLabel(l10n),
+        EntrySkipped() => l10n.entrySkipped,
+        EntryAmount(:final amount) => formatAmount(amount, unit),
+      };
+
+  /// Расписание текстом.
+  String scheduleLabel(BuildContext context, AppLocalizations l10n) =>
+      switch (schedule.type) {
+        ScheduleType.daily => l10n.detailEveryDay,
+        ScheduleType.weekdays =>
+          (schedule.weekdays.toList()..sort())
+              .map((d) => weekdayShort(context, d))
+              .join(', '),
+        ScheduleType.timesPerWeek => l10n.timesPerWeek(schedule.timesPerWeek),
+      };
+}
+
+/// Число без лишних нулей: 8 → «8», 2.5 → «2,5» (с единицей, если есть).
+String formatAmount(double value, [String? unit]) {
+  final number = NumberFormat.decimalPattern().format(
+    value == value.roundToDouble() ? value.toInt() : value,
+  );
+  return unit == null || unit.isEmpty ? number : '$number $unit';
+}
+
+/// Палитра цветов для выбора при создании привычки.
 const List<int> habitPalette = [
   0xFF00897B,
   0xFF1E88E5,

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:habit_study_tracker/data/datasources/local/hive_storage.dart';
+import 'package:habit_study_tracker/data/datasources/local/local_collection.dart';
 import 'package:hive_ce/hive.dart';
 
 /// Инициализирует Hive во временной папке и открывает все коробки.
@@ -12,3 +13,7 @@ Future<void> setUpTestHive() async {
 
 /// Удаляет все коробки с диска и закрывает Hive.
 Future<void> tearDownTestHive() => Hive.deleteFromDisk();
+
+/// Коллекция поверх открытой коробки.
+LocalCollection testCollection(String box, {DateTime Function()? clock}) =>
+    LocalCollection(box, hiveBox(box), clock: clock);

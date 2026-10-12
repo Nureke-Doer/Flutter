@@ -6,17 +6,20 @@ import '../../core/theme/app_theme.dart';
 import '../../core/utils/date_utils.dart';
 import '../../domain/entities/habit.dart';
 import '../../l10n/generated/app_localizations.dart';
+import '../blocs/categories/categories_cubit.dart';
 import '../blocs/habits/habits_bloc.dart';
+import '../widgets/category_grouping.dart';
 import '../widgets/day_progress_header.dart';
 import '../widgets/empty_state.dart';
+import '../widgets/entry_actions.dart';
 import '../widgets/habit_tile.dart';
-import '../widgets/habit_visuals.dart';
 import '../widgets/quote_card.dart';
 import '../widgets/section_header.dart';
 import 'habit_detail_screen.dart';
 import 'habit_edit_screen.dart';
 
-/// Экран «Сегодня»: цели, запланированные на текущий день.
+/// Экран «Сегодня»: привычки, запланированные на текущий день,
+/// сгруппированные по категориям.
 class TodayScreen extends StatelessWidget {
   const TodayScreen({super.key});
 
@@ -71,7 +74,7 @@ class TodayScreen extends StatelessWidget {
                 ),
               );
             case HabitsStatus.success:
-              return _TodayList(habits: state.habits, today: today);
+              return _TodayList(state: state, today: today);
           }
         },
       ),
@@ -80,15 +83,18 @@ class TodayScreen extends StatelessWidget {
 }
 
 class _TodayList extends StatelessWidget {
-  const _TodayList({required this.habits, required this.today});
+  const _TodayList({required this.state, required this.today});
 
-  final List<Habit> habits;
+  final HabitsState state;
   final DateTime today;
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final planned = habits.where((h) => h.isScheduledOn(today)).toList();
+    final categories = context.watch<CategoriesCubit>().state;
+    final planned = state.activeHabits
+        .where((h) => h.isScheduledOn(today))
+        .toList();
     if (planned.isEmpty) {
       return EmptyState(
         icon: Icons.event_available_outlined,
@@ -97,22 +103,24 @@ class _TodayList extends StatelessWidget {
       );
     }
 
-    final habitItems = planned.where((h) => h.type == HabitType.habit).toList();
-    final studyItems = planned.where((h) => h.type == HabitType.study).toList();
-    final done = planned.where((h) => h.isCompletedOn(today)).length;
+    final done = planned
+        .where((h) => state.historyOf(h.id).isSuccessOn(today))
+        .length;
 
     return ListView(
       padding: const EdgeInsets.fromLTRB(Gaps.m, Gaps.s, Gaps.m, 96),
       children: [
         DayProgressHeader(done: done, total: planned.length),
         const QuoteCard(),
-        if (habitItems.isNotEmpty) ...[
-          SectionHeader(l10n.sectionHabits, icon: HabitType.habit.iconData),
-          ...habitItems.map((h) => _tile(context, h)),
-        ],
-        if (studyItems.isNotEmpty) ...[
-          SectionHeader(l10n.sectionStudy, icon: HabitType.study.iconData),
-          ...studyItems.map((h) => _tile(context, h)),
+        for (final group in groupByCategory(planned, categories)) ...[
+          SectionHeader(
+            group.category?.name ?? l10n.noCategory,
+            icon: Icons.label_outline,
+            color: group.category == null
+                ? null
+                : Color(group.category!.colorValue),
+          ),
+          ...group.habits.map((h) => _tile(context, h)),
         ],
       ],
     );
@@ -123,9 +131,10 @@ class _TodayList extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: Gaps.s),
       child: HabitTile(
         habit: habit,
+        history: state.historyOf(habit.id),
         today: today,
-        onToggle: () =>
-            context.read<HabitsBloc>().add(HabitToggled(habit.id, today)),
+        onToggle: () => quickMark(context, habit, today),
+        onLongPress: () => editEntry(context, habit, today),
         onTap: () => Navigator.of(context).push(
           MaterialPageRoute<void>(
             builder: (_) => HabitDetailScreen(habitId: habit.id),

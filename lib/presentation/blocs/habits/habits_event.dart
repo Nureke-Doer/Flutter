@@ -1,6 +1,6 @@
 part of 'habits_bloc.dart';
 
-/// События — всё, что может «случиться» со списком целей.
+/// События — всё, что может «случиться» со списком привычек.
 sealed class HabitsEvent extends Equatable {
   const HabitsEvent();
 
@@ -8,14 +8,15 @@ sealed class HabitsEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-/// Подписаться на поток целей из репозитория (отправляется при старте).
+/// Подписаться на привычки и отметки из репозитория (отправляется при старте).
 final class HabitsSubscriptionRequested extends HabitsEvent {
   const HabitsSubscriptionRequested();
 }
 
-/// Отметить / снять отметку выполнения цели за день.
-final class HabitToggled extends HabitsEvent {
-  const HabitToggled(this.habitId, this.day);
+/// Быстрая отметка одним нажатием: пусто → ✔ (или цель для числовой),
+/// выполнено → пусто.
+final class HabitQuickToggled extends HabitsEvent {
+  const HabitQuickToggled(this.habitId, this.day);
 
   final String habitId;
   final DateTime day;
@@ -24,7 +25,20 @@ final class HabitToggled extends HabitsEvent {
   List<Object?> get props => [habitId, day];
 }
 
-/// Создать новую или сохранить изменённую цель.
+/// Установить конкретное значение за день: ✔ / ✘ / 0 / число,
+/// `null` — очистить («пусто»).
+final class HabitEntrySet extends HabitsEvent {
+  const HabitEntrySet(this.habitId, this.day, this.value);
+
+  final String habitId;
+  final DateTime day;
+  final EntryValue? value;
+
+  @override
+  List<Object?> get props => [habitId, day, value];
+}
+
+/// Создать новую или сохранить изменённую привычку.
 final class HabitSaved extends HabitsEvent {
   const HabitSaved(this.habit);
 
@@ -34,7 +48,17 @@ final class HabitSaved extends HabitsEvent {
   List<Object?> get props => [habit];
 }
 
-/// Удалить цель.
+/// Отправить привычку в архив или вернуть из архива.
+final class HabitArchiveToggled extends HabitsEvent {
+  const HabitArchiveToggled(this.habitId);
+
+  final String habitId;
+
+  @override
+  List<Object?> get props => [habitId];
+}
+
+/// Удалить привычку вместе с историей.
 final class HabitDeleted extends HabitsEvent {
   const HabitDeleted(this.habitId);
 

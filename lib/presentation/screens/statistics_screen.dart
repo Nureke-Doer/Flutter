@@ -20,7 +20,8 @@ class StatisticsScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final today = dateOnly(DateTime.now());
-    final habits = context.select((HabitsBloc bloc) => bloc.state.habits);
+    final state = context.watch<HabitsBloc>().state;
+    final habits = state.activeHabits;
 
     if (habits.isEmpty) {
       return Scaffold(
@@ -30,7 +31,7 @@ class StatisticsScreen extends StatelessWidget {
     }
 
     // Вся математика — в доменном слое (HabitStatistics), экран только рисует.
-    final stats = HabitStatistics.from(habits, today);
+    final stats = HabitStatistics.from(habits, state.histories, today);
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.statsTitle)),
@@ -104,7 +105,9 @@ class StatisticsScreen extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                     subtitle: LinearProgressIndicator(
-                      value: habit.completionRate(today),
+                      value: state
+                          .historyOf(habit.id)
+                          .completionRate(habit, today),
                       color: habit.color,
                       borderRadius: BorderRadius.circular(4),
                     ),
@@ -117,7 +120,7 @@ class StatisticsScreen extends StatelessWidget {
                           size: 20,
                         ),
                         Text(
-                          '${habit.currentStreak(today)}',
+                          '${state.historyOf(habit.id).currentStreak}',
                           style: theme.textTheme.titleMedium,
                         ),
                       ],

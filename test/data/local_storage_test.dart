@@ -1,12 +1,14 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:habit_study_tracker/data/datasources/local/hive_storage.dart';
 import 'package:habit_study_tracker/data/datasources/local/materials_local_data_source.dart';
+import 'package:habit_study_tracker/data/models/habit_entry_model.dart';
 import 'package:habit_study_tracker/data/models/habit_model.dart';
 import 'package:habit_study_tracker/data/repositories/hive_favorites_repository.dart';
 import 'package:habit_study_tracker/data/repositories/shared_prefs_settings_repository.dart';
 import 'package:habit_study_tracker/domain/entities/app_settings.dart';
 import 'package:habit_study_tracker/domain/entities/book.dart';
 import 'package:habit_study_tracker/domain/entities/habit.dart';
+import 'package:habit_study_tracker/domain/entities/habit_entry.dart';
 import 'package:hive_ce/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,19 +21,37 @@ void main() {
         id: 'h',
         title: 'Чтение',
         description: 'описание',
-        type: HabitType.study,
+        categoryId: 'cat',
+        kind: HabitKind.numeric,
+        unit: 'стр.',
+        target: 20,
         icon: HabitIcon.book,
         colorValue: 0xFF123456,
-        weekdays: const {2, 4},
+        schedule: const HabitSchedule.weekdays({4, 2}),
         reminderMinutes: 75,
-        targetMinutes: 20,
+        archived: true,
+        placeId: 'p1',
         createdAt: DateTime(2026, 1, 2, 3, 4),
-        completedDays: {DateTime(2026, 1, 5), DateTime(2026, 1, 3)},
       );
       final json = HabitModel.fromEntity(habit).toJson();
-      expect(json['completedDays'], ['2026-01-03', '2026-01-05']);
-      expect(json['type'], 'study');
+      expect(json['weekdays'], [2, 4]);
+      expect(json['kind'], 'numeric');
       expect(HabitModel.fromJson(json).toEntity(), habit);
+    });
+
+    test('отметка: JSON туда и обратно', () {
+      final entry = HabitEntry(
+        habitId: 'h',
+        date: DateTime(2026, 1, 5, 18),
+        value: const EntryAmount(2.5),
+      );
+      final json = HabitEntryModel.fromEntity(entry).toJson();
+      expect(json, {'habitId': 'h', 'date': '2026-01-05', 'value': 'n:2.5'});
+      expect(HabitEntryModel.fromJson(json).toEntity(), entry);
+      expect(
+        HabitEntryModel.fromJson({...json, 'value': '???'}).toEntity(),
+        isNull,
+      );
     });
 
     test('неизвестное значение enum заменяется значением по умолчанию', () {

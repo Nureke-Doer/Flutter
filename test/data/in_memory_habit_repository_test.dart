@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:habit_study_tracker/data/repositories/in_memory_habit_repository.dart';
 import 'package:habit_study_tracker/domain/entities/habit.dart';
+import 'package:habit_study_tracker/domain/entities/habit_entry.dart';
 
 void main() {
   final day = DateTime(2026, 9, 9);
@@ -27,6 +28,15 @@ void main() {
       ['a'],
     ]);
     await sub.cancel();
+    await repo.dispose();
+  });
+
+  test('отметки удаляются вместе с привычкой', () async {
+    final repo = InMemoryHabitRepository(initial: [habit('a')]);
+    await repo.setEntry('a', day, const EntryDone());
+    expect(await repo.watchEntries().first, hasLength(1));
+    await repo.deleteHabit('a');
+    expect(await repo.watchEntries().first, isEmpty);
     await repo.dispose();
   });
 }

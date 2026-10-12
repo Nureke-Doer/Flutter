@@ -1,50 +1,31 @@
-import 'dart:convert';
-
-import 'package:hive_ce/hive.dart';
-
 import '../../domain/entities/habit.dart';
+import '../../domain/entities/habit_entry.dart';
 import '../../domain/repositories/habit_repository.dart';
-import '../datasources/demo_habits.dart';
+import '../datasources/local/local_collection.dart';
+import '../models/habit_entry_model.dart';
 import '../models/habit_model.dart';
 
-/// Реализация [HabitRepository] на Hive — цели сохраняются между запусками
-/// и доступны без интернета.
+/// Реализация [HabitRepository] на Hive — привычки и отметки сохраняются
+/// между запусками и доступны без интернета.
 ///
-/// Заменила `InMemoryHabitRepository` (неделя 4) — BLoC и UI не изменились,
-/// поменялась только регистрация в DI.
+/// Привычки и отметки лежат в разных коллекциях: отметка за день —
+/// маленький отдельный документ, поэтому нажатие ✔ не перезаписывает
+/// всю привычку (это важно и для синхронизации с Firestore).
 class HiveHabitRepository implements HabitRepository {
   HiveHabitRepository({
-    required Box<String> habitsBox,
-    required Box<String> metaBox,
-  }) : _box = habitsBox,
-       _meta = metaBox;
+    required LocalCollection habits,
+    required LocalCollection entries,
+  }) : _habits = habits,
+       _entries = entries;
 
-  static const _seededKey = 'demo_seeded';
+  final LocalCollection _habits;
+  final LocalCollection _entries;
 
-  final Box<String> _box;
-  final Box<String> _meta;
-
-  /// При самом первом запуске добавляет демо-цели, чтобы приложение
-  /// не было пустым. Если пользователь всё удалит — повторно не добавляются.
-  Future<void> seedIfNeeded() async {
-    if (_meta.get(_seededKey) != null) return;
-    if (_box.isEmpty) {
-      for (final habit in buildDemoHabits()) {
-        await saveHabit(habit);
-      }
-    }
-    await _meta.put(_seededKey, DateTime.now().toIso8601String());
-  }
-
-  List<Habit> _readAll() {
+  static List<Habit> _toHabits(List<Map<String, dynamic>> raw) {
     final habits = <Habit>[];
-    for (final raw in _box.values) {
+    for (final json in raw) {
       try {
-        habits.add(
-          HabitModel.fromJson(
-            jsonDecode(raw) as Map<String, dynamic>,
-          ).toEntity(),
-        );
+        habits.add(HabitModel.fromJson(json).toEntity());
       } on Object {
         // Повреждённая запись не должна ломать весь список.
         continue;
@@ -54,17 +35,45 @@ class HiveHabitRepository implements HabitRepository {
     return List.unmodifiable(habits);
   }
 
-  @override
-  Stream<List<Habit>> watchHabits() async* {
-    yield _readAll();
-    // box.watch() сообщает о каждом изменении коробки.
-    yield* _box.watch().map((_) => _readAll());
+  static List<HabitEntry> _toEntries(List<Map<String, dynamic>> raw) {
+    final entries = <HabitEntry>[];
+    for (final json in raw) {
+      try {
+        final entry = HabitEntryModel.fromJson(json).toEntity();
+        if (entry != null) entries.add(entry);
+      } on Object {
+        continue;
+      }
+    }
+    return List.unmodifiable(entries);
   }
 
   @override
-  Future<void> saveHabit(Habit habit) =>
-      _box.put(habit.id, jsonEncode(HabitModel.fromEntity(habit).toJson()));
+  Stream<List<Habit>> watchHabits() => _habits.watch().map(_toHabits);
 
   @override
-  Future<void> deleteHabit(String id) => _box.delete(id);
+  Stream<List<HabitEntry>> watchEntries() => _entries.watch().map(_toEntries);
+
+  @override
+  Future<void> saveHabit(Habit habit) =>
+      _habits.put(habit.id, HabitModel.fromEntity(habit).toJson());
+
+  @override
+  Future<void> deleteHabit(String id) async {
+    await _entries.deleteWhere((json) => json['habitId'] == id);
+    await _habits.delete(id);
+  }
+
+  @override
+  Future<void> setEntry(String habitId, DateTime day, EntryValue? value) {
+    final key = HabitEntry.keyFor(habitId, day);
+    if (value == null) return _entries.delete(key);
+    final entry = HabitEntry(habitId: habitId, date: day, value: value);
+    return _entries.put(key, HabitEntryModel.fromEntity(entry).toJson());
+  }
+
+  @override
+  Future<void> restoreEntries(List<HabitEntry> entries) => _entries.putAll({
+    for (final e in entries) e.key: HabitEntryModel.fromEntity(e).toJson(),
+  });
 }

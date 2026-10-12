@@ -17,12 +17,10 @@
       }
     }
   },
-  "todayAllDone": "Все цели на сегодня выполнены! 🎉",
+  "todayAllDone": "Все привычки на сегодня выполнены! 🎉",
   "todayKeepGoing": "Продолжай — ты на верном пути!",
   "todayEmpty": "На сегодня ничего не запланировано",
-  "todayEmptyHint": "Нажми «Добавить», чтобы создать первую привычку или учебную цель",
-  "sectionHabits": "Привычки",
-  "sectionStudy": "Учёба",
+  "todayEmptyHint": "Нажми «Добавить», чтобы создать первую привычку",
   "addHabit": "Добавить",
   "streakDays": "{count, plural, =0{нет серии} one{{count} день} few{{count} дня} many{{count} дней} other{{count} дня}}",
   "@streakDays": {
@@ -32,20 +30,10 @@
       }
     }
   },
-  "minutesShort": "{count} мин",
-  "@minutesShort": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "habitTypeHabit": "Привычка",
-  "habitTypeStudy": "Учёба",
   "detailCurrentStreak": "Текущая серия",
   "detailBestStreak": "Лучшая серия",
   "detailCompletion": "За 30 дней",
-  "detailCalendar": "Календарь выполнений",
+  "detailCalendar": "Календарь отметок (нажми на день, чтобы изменить)",
   "detailSchedule": "Расписание",
   "detailReminder": "Напоминание",
   "detailNoReminder": "Без напоминания",
@@ -63,11 +51,11 @@
       }
     }
   },
-  "deleteConfirmBody": "История выполнений тоже будет удалена.",
-  "editNewTitle": "Новая цель",
+  "deleteConfirmBody": "История отметок тоже будет удалена.",
+  "editNewTitle": "Новая привычка",
   "editEditTitle": "Редактирование",
   "editFieldTitle": "Название",
-  "editFieldTitleHint": "Например: 30 минут английского",
+  "editFieldTitleHint": "Например: Английский язык",
   "editFieldTitleError": "Введите название",
   "editFieldDescription": "Описание (необязательно)",
   "editType": "Тип",
@@ -75,25 +63,17 @@
   "editColor": "Цвет",
   "editDays": "Дни недели",
   "editDaysError": "Выберите хотя бы один день",
-  "editTargetMinutes": "Минут в день: {count}",
-  "@editTargetMinutes": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "editReminder": "Напоминание",
   "editReminderOff": "Выключено",
   "save": "Сохранить",
   "savedMessage": "Сохранено",
   "statsTitle": "Статистика",
   "statsWeekRate": "Выполнение за 7 дней",
-  "statsCompletedTotal": "Всего отметок",
-  "statsActiveHabits": "Активных целей",
+  "statsCompletedTotal": "Дней выполнения",
+  "statsActiveHabits": "Активных привычек",
   "statsLast7Days": "Последние 7 дней",
   "statsTopStreaks": "Лучшие серии",
-  "statsEmpty": "Добавь цели, чтобы увидеть статистику",
+  "statsEmpty": "Добавь привычки, чтобы увидеть статистику",
   "settingsTitle": "Настройки",
   "settingsAppearance": "Оформление",
   "settingsTheme": "Тема",
@@ -112,7 +92,7 @@
   },
   "detailMarkToday": "Отметить сегодня",
   "detailDoneToday": "Выполнено сегодня",
-  "deletedMessage": "Цель удалена",
+  "deletedMessage": "Привычка удалена",
   "undo": "Отменить",
   "errorLoading": "Не удалось загрузить данные",
   "retry": "Повторить",
@@ -181,5 +161,79 @@
   "settingsClearCache": "Очистить кэш",
   "settingsClearCacheHint": "Сохранённые ответы API и история поиска",
   "cacheCleared": "Кэш очищен",
-  "settingsOfflineHint": "Цели, настройки и сохранённые книги хранятся на устройстве и работают без интернета"
+  "settingsOfflineHint": "Цели, настройки и сохранённые книги хранятся на устройстве и работают без интернета",
+  "archive": "В архив",
+  "unarchive": "Вернуть из архива",
+  "archived": "Привычка в архиве — история сохранена",
+  "unarchived": "Привычка возвращена из архива",
+  "archivedBadge": "В архиве",
+  "detailByMonth": "По месяцам",
+  "detailFailures": "Не выполнено",
+  "detailRelapses": "Срывов",
+  "detailHeatmap": "Тепловая карта (20 недель)",
+  "detailNoTarget": "Без цели — любое число > 0 засчитывается",
+  "detailSum": "Всего {unit}",
+  "@detailSum": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "detailTotalDone": "Дней выполнено",
+  "editCategory": "Категория",
+  "editSchedule": "Расписание",
+  "editTarget": "Цель на день",
+  "editTargetError": "Введите число больше 0",
+  "editUnit": "Единица",
+  "editUnitHint": "мин, стр., раз",
+  "entryAmountLabel": "Сколько сделано",
+  "entryClear": "Очистить",
+  "entryDone": "Выполнил",
+  "entryFailed": "Не выполнил",
+  "entryHeld": "Удержался",
+  "entryRelapsed": "Сорвался",
+  "entrySkipped": "Пропуск (0)",
+  "entryEmpty": "не отмечено",
+  "entryMoreValues": "Другие значения",
+  "entrySkipHint": "«Пропуск» и пустой день не прерывают серию и не увеличивают её. Серию обрывает только ✘.",
+  "entryTargetHint": "Цель: {target}",
+  "@entryTargetHint": {
+    "placeholders": {
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "kindPositive": "Действие",
+  "kindQuit": "Отказ",
+  "kindNumeric": "Число",
+  "kindPositiveHint": "Полезное действие: ✔ — выполнил, ✘ — не выполнил.",
+  "kindQuitHint": "Отказ от вредного: ✔ — удержался, ✘ — сорвался.",
+  "kindNumericHint": "Числовая: повторения, минуты, страницы. Число больше 0 — выполнено.",
+  "monthColumn": "Месяц",
+  "sumColumn": "Сумма",
+  "noCategory": "Без категории",
+  "scheduleDaily": "Каждый день",
+  "scheduleWeekdays": "Дни недели",
+  "scheduleTimesPerWeek": "N раз в неделю",
+  "timesPerWeek": "{count, plural, one{{count} раз в неделю} few{{count} раза в неделю} many{{count} раз в неделю} other{{count} раза в неделю}}",
+  "@timesPerWeek": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "weekProgress": "{done} из {total} за неделю",
+  "@weekProgress": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  }
 }

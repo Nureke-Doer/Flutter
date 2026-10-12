@@ -1,7 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:habit_study_tracker/data/datasources/local/hive_storage.dart';
+import 'package:habit_study_tracker/data/repositories/hive_category_repository.dart';
+import 'package:habit_study_tracker/data/repositories/hive_goal_repository.dart';
 import 'package:habit_study_tracker/data/repositories/hive_habit_repository.dart';
+import 'package:habit_study_tracker/domain/entities/category.dart';
 import 'package:habit_study_tracker/domain/entities/habit.dart';
+import 'package:habit_study_tracker/domain/entities/habit_entry.dart';
+import 'package:habit_study_tracker/domain/entities/study_goal.dart';
 import 'package:hive_ce/hive.dart';
 
 import '../helpers/hive_test_utils.dart';
@@ -11,8 +16,8 @@ void main() {
   late HiveHabitRepository repository;
 
   HiveHabitRepository create() => HiveHabitRepository(
-    habitsBox: Hive.box<String>(HiveBoxes.habits),
-    metaBox: Hive.box<String>(HiveBoxes.meta),
+    habits: testCollection(HiveBoxes.habits),
+    entries: testCollection(HiveBoxes.entries),
   );
 
   setUp(() async {
@@ -22,35 +27,77 @@ void main() {
 
   tearDown(tearDownTestHive);
 
-  test('сохраняет, обновляет и удаляет цели', () async {
+  test('сохраняет все поля привычки, обновляет и удаляет', () async {
     final habit = Habit(
       id: 'a',
       title: 'Английский',
-      type: HabitType.study,
-      targetMinutes: 30,
-      weekdays: const {1, 3, 5},
+      categoryId: 'cat_study',
+      kind: HabitKind.numeric,
+      unit: 'мин',
+      target: 30,
+      schedule: const HabitSchedule.weekdays({1, 3, 5}),
       createdAt: day,
-      completedDays: {day},
       reminderMinutes: 600,
+      placeId: 'library',
     );
     await repository.saveHabit(habit);
     expect(await repository.watchHabits().first, [habit]);
 
-    await repository.saveHabit(habit.copyWith(title: 'English'));
-    expect((await repository.watchHabits().first).single.title, 'English');
+    final tpw = habit.copyWith(
+      title: 'English',
+      schedule: const HabitSchedule.timesPerWeek(4),
+      archived: true,
+    );
+    await repository.saveHabit(tpw);
+    expect((await repository.watchHabits().first).single, tpw);
 
     await repository.deleteHabit('a');
     expect(await repository.watchHabits().first, isEmpty);
   });
 
+  test('отметки: запись, очистка, удаление вместе с привычкой', () async {
+    await repository.saveHabit(Habit(id: 'a', title: 'A', createdAt: day));
+    await repository.setEntry('a', day, const EntryAmount(12));
+    await repository.setEntry(
+      'a',
+      day.add(const Duration(days: 1)),
+      const EntryFailed(),
+    );
+    await repository.setEntry('b', day, const EntryDone());
+
+    var entries = await repository.watchEntries().first;
+    expect(entries, hasLength(3));
+    expect(
+      entries.firstWhere((e) => e.habitId == 'a' && e.date == day).value,
+      const EntryAmount(12),
+    );
+
+    await repository.setEntry('a', day, null);
+    entries = await repository.watchEntries().first;
+    expect(entries, hasLength(2));
+
+    await repository.deleteHabit('a');
+    entries = await repository.watchEntries().first;
+    expect(entries.single.habitId, 'b');
+
+    await repository.restoreEntries([
+      HabitEntry(habitId: 'a', date: day, value: const EntryDone()),
+    ]);
+    expect(await repository.watchEntries().first, hasLength(2));
+  });
+
   test('данные сохраняются после перезапуска (закрытия коробок)', () async {
     await repository.saveHabit(Habit(id: 'x', title: 'X', createdAt: day));
+    await repository.setEntry('x', day, const EntryDone());
     await Hive.close();
     await openHiveBoxes();
 
     final reopened = create();
-    final habits = await reopened.watchHabits().first;
-    expect(habits.single.id, 'x');
+    expect((await reopened.watchHabits().first).single.id, 'x');
+    expect(
+      (await reopened.watchEntries().first).single.value,
+      const EntryDone(),
+    );
   });
 
   test('watchHabits сообщает об изменениях', () async {
@@ -64,21 +111,51 @@ void main() {
     await sub.cancel();
   });
 
-  test('демо-данные добавляются только один раз', () async {
-    await repository.seedIfNeeded();
-    final seeded = await repository.watchHabits().first;
-    expect(seeded, isNotEmpty);
+  test('категории: сортировка и переименование', () async {
+    final categories = HiveCategoryRepository(
+      testCollection(HiveBoxes.categories),
+    );
+    await categories.saveCategory(const Category(id: 'a', name: 'A'));
+    await categories.saveCategory(
+      const Category(id: 'b', name: 'B', sortOrder: 1),
+    );
+    await categories.saveCategory(
+      const Category(id: 'c', name: 'C', sortOrder: 2),
+    );
+    await categories.reorder(['c', 'a', 'b']);
+    var list = await categories.watchCategories().first;
+    expect(list.map((c) => c.id), ['c', 'a', 'b']);
 
-    for (final h in seeded) {
-      await repository.deleteHabit(h.id);
-    }
-    await repository.seedIfNeeded();
-    expect(await repository.watchHabits().first, isEmpty);
+    await categories.saveCategory(list.first.copyWith(name: 'Спорт'));
+    await categories.deleteCategory('a');
+    list = await categories.watchCategories().first;
+    expect(list.map((c) => c.name), ['Спорт', 'B']);
   });
 
-  test('повреждённая запись пропускается', () async {
-    await Hive.box<String>(HiveBoxes.habits).put('bad', '{not json');
-    await repository.saveHabit(Habit(id: 'ok', title: 'OK', createdAt: day));
-    expect((await repository.watchHabits().first).single.id, 'ok');
+  test('цели: сохранение и сортировка по дедлайну', () async {
+    final goals = HiveGoalRepository(testCollection(HiveBoxes.goals));
+    final later = StudyGoal(
+      id: 'late',
+      title: 'Поздняя',
+      target: 10,
+      deadline: DateTime(2026, 12, 1),
+      createdAt: day,
+      linkedHabitIds: const {'a', 'b'},
+    );
+    final soon = StudyGoal(
+      id: 'soon',
+      title: 'Скоро',
+      target: 300,
+      unit: 'стр.',
+      deadline: DateTime(2026, 10, 1),
+      createdAt: day,
+      bookTitle: 'SICP',
+      bookCoverId: 42,
+    );
+    await goals.saveGoal(later);
+    await goals.saveGoal(soon);
+    expect(await goals.watchGoals().first, [soon, later]);
+    await goals.deleteGoal('soon');
+    expect(await goals.watchGoals().first, [later]);
   });
 }

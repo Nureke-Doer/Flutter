@@ -371,7 +371,72 @@ ListView.builder ◀──── BlocBuilder ───────┘           
   и повторное открытие коробок), SharedPreferences, offline-сценарии
   репозитория материалов, история поиска, избранное.
 
-## 9. План по неделям
+## 9. Доменная модель (расширение по ТЗ)
+
+До недели 6 модель была упрощённой: у цели был список выполненных дней.
+Перед неделей 7 модель доведена до ТЗ — без неё не сделать вкладки
+«Привычки» и «Цели» и модуль геймификации.
+
+```mermaid
+classDiagram
+    class Category { id, name, sortOrder, colorValue }
+    class Habit {
+      id, title, categoryId?
+      kind: positive | quit | numeric
+      unit?, target?
+      schedule: HabitSchedule
+      reminderMinutes?, archived, placeId?
+    }
+    class HabitSchedule { daily | weekdays(set) | timesPerWeek(n) }
+    class HabitEntry { habitId, date, value: EntryValue }
+    class EntryValue { <<sealed>> Done ✔ | Failed ✘ | Skipped 0 | Amount(число) }
+    class HabitHistory { currentStreak, bestStreak, successCount, totalAmount, monthly, completionRate() }
+    class StudyGoal { id, title, target, unit, deadline, linkedHabitIds, manualProgress }
+    class GoalProgress { current, fraction, daysLeft, neededPerDay }
+    Category "1" --> "*" Habit
+    Habit --> HabitSchedule
+    Habit "1" --> "*" HabitEntry
+    HabitEntry --> EntryValue
+    HabitHistory ..> HabitEntry : считает по
+    StudyGoal "*" --> "*" Habit : linkedHabitIds
+    GoalProgress ..> StudyGoal
+```
+
+### Правила отметок и серий
+
+| Значение | Обычная привычка | Отказ от вредного | Серия |
+|---|---|---|---|
+| ✔ | выполнил | удержался | +1 |
+| ✘ | не выполнил | сорвался | **обрывает** |
+| 0 | пропуск | пропуск | не влияет |
+| пусто (нет записи) | — | — | не влияет |
+| число > 0 (числовая) | выполнено | — | +1 |
+
+- Записи создаются **только** для отмеченных дней — пустые дни не хранятся.
+- `HabitHistory` (domain) считает текущую и лучшую серию, дни выполнения,
+  сумму для числовых привычек, итоги по месяцам и процент выполнения.
+- Прогресс учебной цели (`GoalProgress`): ручная поправка + сумма значений
+  привязанных числовых привычек (или число ✔ для обычных) с даты создания цели.
+
+### Хранение
+
+- Привычки, отметки, категории и цели — отдельные коллекции Hive
+  (`LocalCollection`). Отметка за день — маленький отдельный документ
+  `habitId|yyyy-MM-dd`, поэтому нажатие ✔ не перезаписывает всю привычку.
+- У каждой записи есть `updatedAt` и флаг удаления — это понадобится для
+  синхронизации с Firestore (неделя 8).
+- **Миграция:** данные старого формата (недели 4–6) при первом запуске
+  переносятся в новый (`LocalBootstrap.migrateLegacy`, покрыто тестом).
+
+### Интерфейс
+
+- «Сегодня» группирует привычки по категориям; нажатие на кружок — ✔,
+  долгое нажатие — выбор ✔ / ✘ / 0 / число; числовая привычка — ввод числа.
+- Детали привычки: текущая/лучшая серия, дни выполнения, срывы, сумма,
+  календарь (можно отметить прошедший день), тепловая карта за 20 недель,
+  таблица и полоски по месяцам, архивирование.
+
+## 10. План по неделям
 
 | Неделя | Тема | Статус |
 |---|---|---|

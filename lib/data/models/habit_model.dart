@@ -4,24 +4,30 @@ import '../../domain/entities/habit.dart';
 
 part 'habit_model.g.dart';
 
-/// Модель цели для локального хранения (Hive) в виде JSON.
+/// Модель привычки для хранения (Hive, Firestore) в виде JSON.
 ///
-/// Даты выполнения хранятся строками `yyyy-MM-dd` — так они не зависят
-/// от часового пояса и легко читаются при отладке.
+/// Отделена от доменной сущности [Habit]: формат хранения можно менять,
+/// не трогая бизнес-логику. Код `fromJson`/`toJson` генерируется
+/// пакетом json_serializable (`habit_model.g.dart`).
 @JsonSerializable()
 class HabitModel {
   const HabitModel({
     required this.id,
     required this.title,
-    required this.description,
-    required this.type,
-    required this.icon,
-    required this.colorValue,
-    required this.weekdays,
-    required this.completedDays,
     required this.createdAt,
+    this.description = '',
+    this.categoryId,
+    this.kind = HabitKind.positive,
+    this.icon = HabitIcon.check,
+    this.colorValue = 0xFF00897B,
+    this.unit,
+    this.target,
+    this.scheduleType = ScheduleType.daily,
+    this.weekdays = const [1, 2, 3, 4, 5, 6, 7],
+    this.timesPerWeek = 7,
     this.reminderMinutes,
-    this.targetMinutes,
+    this.archived = false,
+    this.placeId,
   });
 
   factory HabitModel.fromJson(Map<String, dynamic> json) =>
@@ -31,28 +37,41 @@ class HabitModel {
     id: h.id,
     title: h.title,
     description: h.description,
-    type: h.type,
+    categoryId: h.categoryId,
+    kind: h.kind,
     icon: h.icon,
     colorValue: h.colorValue,
-    weekdays: h.weekdays.toList()..sort(),
+    unit: h.unit,
+    target: h.target,
+    scheduleType: h.schedule.type,
+    weekdays: h.schedule.weekdays.toList()..sort(),
+    timesPerWeek: h.schedule.timesPerWeek,
     reminderMinutes: h.reminderMinutes,
-    targetMinutes: h.targetMinutes,
-    completedDays: (h.completedDays.map(_formatDay).toList()..sort()),
+    archived: h.archived,
+    placeId: h.placeId,
     createdAt: h.createdAt.toIso8601String(),
   );
 
   final String id;
   final String title;
   final String description;
-  @JsonKey(unknownEnumValue: HabitType.habit)
-  final HabitType type;
+  final String? categoryId;
+  // unknownEnumValue: если в данных окажется неизвестное значение
+  // (например, из более новой версии приложения), не падаем.
+  @JsonKey(unknownEnumValue: HabitKind.positive)
+  final HabitKind kind;
   @JsonKey(unknownEnumValue: HabitIcon.check)
   final HabitIcon icon;
   final int colorValue;
+  final String? unit;
+  final double? target;
+  @JsonKey(unknownEnumValue: ScheduleType.daily)
+  final ScheduleType scheduleType;
   final List<int> weekdays;
+  final int timesPerWeek;
   final int? reminderMinutes;
-  final int? targetMinutes;
-  final List<String> completedDays;
+  final bool archived;
+  final String? placeId;
   final String createdAt;
 
   Map<String, dynamic> toJson() => _$HabitModelToJson(this);
@@ -61,18 +80,20 @@ class HabitModel {
     id: id,
     title: title,
     description: description,
-    type: type,
+    categoryId: categoryId,
+    kind: kind,
     icon: icon,
     colorValue: colorValue,
-    weekdays: weekdays.toSet(),
+    unit: unit,
+    target: target,
+    schedule: switch (scheduleType) {
+      ScheduleType.daily => const HabitSchedule.daily(),
+      ScheduleType.weekdays => HabitSchedule.weekdays(weekdays.toSet()),
+      ScheduleType.timesPerWeek => HabitSchedule.timesPerWeek(timesPerWeek),
+    },
     reminderMinutes: reminderMinutes,
-    targetMinutes: targetMinutes,
-    completedDays: completedDays.map(DateTime.parse).toSet(),
+    archived: archived,
+    placeId: placeId,
     createdAt: DateTime.parse(createdAt),
   );
-
-  static String _formatDay(DateTime d) =>
-      '${d.year.toString().padLeft(4, '0')}-'
-      '${d.month.toString().padLeft(2, '0')}-'
-      '${d.day.toString().padLeft(2, '0')}';
 }

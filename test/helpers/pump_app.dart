@@ -5,11 +5,17 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:habit_study_tracker/core/di/injection.dart';
 import 'package:habit_study_tracker/core/theme/app_theme.dart';
 import 'package:habit_study_tracker/data/repositories/in_memory_habit_repository.dart';
+import 'package:habit_study_tracker/data/datasources/demo_habits.dart';
+import 'package:habit_study_tracker/domain/entities/category.dart';
 import 'package:habit_study_tracker/domain/entities/habit.dart';
+import 'package:habit_study_tracker/domain/entities/habit_entry.dart';
+import 'package:habit_study_tracker/domain/entities/study_goal.dart';
 import 'package:habit_study_tracker/domain/repositories/habit_repository.dart';
 import 'package:habit_study_tracker/l10n/generated/app_localizations.dart';
 import 'package:habit_study_tracker/domain/repositories/materials_repository.dart';
+import 'package:habit_study_tracker/presentation/blocs/categories/categories_cubit.dart';
 import 'package:habit_study_tracker/presentation/blocs/favorites/favorites_cubit.dart';
+import 'package:habit_study_tracker/presentation/blocs/goals/goals_cubit.dart';
 import 'package:habit_study_tracker/presentation/blocs/habits/habits_bloc.dart';
 import 'package:habit_study_tracker/presentation/blocs/materials/materials_bloc.dart';
 import 'package:habit_study_tracker/presentation/blocs/quote/quote_cubit.dart';
@@ -24,12 +30,16 @@ extension PumpApp on WidgetTester {
   Future<void> pumpApp(
     Widget child, {
     List<Habit>? habits,
+    List<HabitEntry> entries = const [],
+    List<Category>? categories,
+    List<StudyGoal> goals = const [],
     HabitRepository? repository,
     SettingsNotifier? settings,
     MaterialsRepository? materials,
   }) {
     final repo =
-        repository ?? InMemoryHabitRepository(initial: habits ?? const []);
+        repository ??
+        InMemoryHabitRepository(initial: habits ?? const [], entries: entries);
     // Экран размером с типичный телефон (432×960 логических пикселей).
     view
       ..physicalSize = const Size(1080, 2400)
@@ -48,6 +58,16 @@ extension PumpApp on WidgetTester {
             create: (_) =>
                 HabitsBloc(repository: repo)
                   ..add(const HabitsSubscriptionRequested()),
+          ),
+          BlocProvider(
+            create: (_) => CategoriesCubit(
+              repository: FakeCategoryRepository(
+                categories ?? buildDemoData().categories,
+              ),
+            ),
+          ),
+          BlocProvider(
+            create: (_) => GoalsCubit(repository: FakeGoalRepository(goals)),
           ),
           BlocProvider(
             create: (_) =>

@@ -143,7 +143,7 @@ abstract class AppLocalizations {
   /// No description provided for @todayAllDone.
   ///
   /// In ru, this message translates to:
-  /// **'Все цели на сегодня выполнены! 🎉'**
+  /// **'Все привычки на сегодня выполнены! 🎉'**
   String get todayAllDone;
 
   /// No description provided for @todayKeepGoing.
@@ -161,20 +161,8 @@ abstract class AppLocalizations {
   /// No description provided for @todayEmptyHint.
   ///
   /// In ru, this message translates to:
-  /// **'Нажми «Добавить», чтобы создать первую привычку или учебную цель'**
+  /// **'Нажми «Добавить», чтобы создать первую привычку'**
   String get todayEmptyHint;
-
-  /// No description provided for @sectionHabits.
-  ///
-  /// In ru, this message translates to:
-  /// **'Привычки'**
-  String get sectionHabits;
-
-  /// No description provided for @sectionStudy.
-  ///
-  /// In ru, this message translates to:
-  /// **'Учёба'**
-  String get sectionStudy;
 
   /// No description provided for @addHabit.
   ///
@@ -187,24 +175,6 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'{count, plural, =0{нет серии} one{{count} день} few{{count} дня} many{{count} дней} other{{count} дня}}'**
   String streakDays(int count);
-
-  /// No description provided for @minutesShort.
-  ///
-  /// In ru, this message translates to:
-  /// **'{count} мин'**
-  String minutesShort(int count);
-
-  /// No description provided for @habitTypeHabit.
-  ///
-  /// In ru, this message translates to:
-  /// **'Привычка'**
-  String get habitTypeHabit;
-
-  /// No description provided for @habitTypeStudy.
-  ///
-  /// In ru, this message translates to:
-  /// **'Учёба'**
-  String get habitTypeStudy;
 
   /// No description provided for @detailCurrentStreak.
   ///
@@ -227,7 +197,7 @@ abstract class AppLocalizations {
   /// No description provided for @detailCalendar.
   ///
   /// In ru, this message translates to:
-  /// **'Календарь выполнений'**
+  /// **'Календарь отметок (нажми на день, чтобы изменить)'**
   String get detailCalendar;
 
   /// No description provided for @detailSchedule.
@@ -293,13 +263,13 @@ abstract class AppLocalizations {
   /// No description provided for @deleteConfirmBody.
   ///
   /// In ru, this message translates to:
-  /// **'История выполнений тоже будет удалена.'**
+  /// **'История отметок тоже будет удалена.'**
   String get deleteConfirmBody;
 
   /// No description provided for @editNewTitle.
   ///
   /// In ru, this message translates to:
-  /// **'Новая цель'**
+  /// **'Новая привычка'**
   String get editNewTitle;
 
   /// No description provided for @editEditTitle.
@@ -317,7 +287,7 @@ abstract class AppLocalizations {
   /// No description provided for @editFieldTitleHint.
   ///
   /// In ru, this message translates to:
-  /// **'Например: 30 минут английского'**
+  /// **'Например: Английский язык'**
   String get editFieldTitleHint;
 
   /// No description provided for @editFieldTitleError.
@@ -362,12 +332,6 @@ abstract class AppLocalizations {
   /// **'Выберите хотя бы один день'**
   String get editDaysError;
 
-  /// No description provided for @editTargetMinutes.
-  ///
-  /// In ru, this message translates to:
-  /// **'Минут в день: {count}'**
-  String editTargetMinutes(int count);
-
   /// No description provided for @editReminder.
   ///
   /// In ru, this message translates to:
@@ -407,13 +371,13 @@ abstract class AppLocalizations {
   /// No description provided for @statsCompletedTotal.
   ///
   /// In ru, this message translates to:
-  /// **'Всего отметок'**
+  /// **'Дней выполнения'**
   String get statsCompletedTotal;
 
   /// No description provided for @statsActiveHabits.
   ///
   /// In ru, this message translates to:
-  /// **'Активных целей'**
+  /// **'Активных привычек'**
   String get statsActiveHabits;
 
   /// No description provided for @statsLast7Days.
@@ -431,7 +395,7 @@ abstract class AppLocalizations {
   /// No description provided for @statsEmpty.
   ///
   /// In ru, this message translates to:
-  /// **'Добавь цели, чтобы увидеть статистику'**
+  /// **'Добавь привычки, чтобы увидеть статистику'**
   String get statsEmpty;
 
   /// No description provided for @settingsTitle.
@@ -503,7 +467,7 @@ abstract class AppLocalizations {
   /// No description provided for @deletedMessage.
   ///
   /// In ru, this message translates to:
-  /// **'Цель удалена'**
+  /// **'Привычка удалена'**
   String get deletedMessage;
 
   /// No description provided for @undo.
@@ -751,6 +715,264 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Цели, настройки и сохранённые книги хранятся на устройстве и работают без интернета'**
   String get settingsOfflineHint;
+
+  /// No description provided for @archive.
+  ///
+  /// In ru, this message translates to:
+  /// **'В архив'**
+  String get archive;
+
+  /// No description provided for @unarchive.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вернуть из архива'**
+  String get unarchive;
+
+  /// No description provided for @archived.
+  ///
+  /// In ru, this message translates to:
+  /// **'Привычка в архиве — история сохранена'**
+  String get archived;
+
+  /// No description provided for @unarchived.
+  ///
+  /// In ru, this message translates to:
+  /// **'Привычка возвращена из архива'**
+  String get unarchived;
+
+  /// No description provided for @archivedBadge.
+  ///
+  /// In ru, this message translates to:
+  /// **'В архиве'**
+  String get archivedBadge;
+
+  /// No description provided for @detailByMonth.
+  ///
+  /// In ru, this message translates to:
+  /// **'По месяцам'**
+  String get detailByMonth;
+
+  /// No description provided for @detailFailures.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не выполнено'**
+  String get detailFailures;
+
+  /// No description provided for @detailRelapses.
+  ///
+  /// In ru, this message translates to:
+  /// **'Срывов'**
+  String get detailRelapses;
+
+  /// No description provided for @detailHeatmap.
+  ///
+  /// In ru, this message translates to:
+  /// **'Тепловая карта (20 недель)'**
+  String get detailHeatmap;
+
+  /// No description provided for @detailNoTarget.
+  ///
+  /// In ru, this message translates to:
+  /// **'Без цели — любое число > 0 засчитывается'**
+  String get detailNoTarget;
+
+  /// No description provided for @detailSum.
+  ///
+  /// In ru, this message translates to:
+  /// **'Всего {unit}'**
+  String detailSum(String unit);
+
+  /// No description provided for @detailTotalDone.
+  ///
+  /// In ru, this message translates to:
+  /// **'Дней выполнено'**
+  String get detailTotalDone;
+
+  /// No description provided for @editCategory.
+  ///
+  /// In ru, this message translates to:
+  /// **'Категория'**
+  String get editCategory;
+
+  /// No description provided for @editSchedule.
+  ///
+  /// In ru, this message translates to:
+  /// **'Расписание'**
+  String get editSchedule;
+
+  /// No description provided for @editTarget.
+  ///
+  /// In ru, this message translates to:
+  /// **'Цель на день'**
+  String get editTarget;
+
+  /// No description provided for @editTargetError.
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите число больше 0'**
+  String get editTargetError;
+
+  /// No description provided for @editUnit.
+  ///
+  /// In ru, this message translates to:
+  /// **'Единица'**
+  String get editUnit;
+
+  /// No description provided for @editUnitHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'мин, стр., раз'**
+  String get editUnitHint;
+
+  /// No description provided for @entryAmountLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сколько сделано'**
+  String get entryAmountLabel;
+
+  /// No description provided for @entryClear.
+  ///
+  /// In ru, this message translates to:
+  /// **'Очистить'**
+  String get entryClear;
+
+  /// No description provided for @entryDone.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выполнил'**
+  String get entryDone;
+
+  /// No description provided for @entryFailed.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не выполнил'**
+  String get entryFailed;
+
+  /// No description provided for @entryHeld.
+  ///
+  /// In ru, this message translates to:
+  /// **'Удержался'**
+  String get entryHeld;
+
+  /// No description provided for @entryRelapsed.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сорвался'**
+  String get entryRelapsed;
+
+  /// No description provided for @entrySkipped.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пропуск (0)'**
+  String get entrySkipped;
+
+  /// No description provided for @entryEmpty.
+  ///
+  /// In ru, this message translates to:
+  /// **'не отмечено'**
+  String get entryEmpty;
+
+  /// No description provided for @entryMoreValues.
+  ///
+  /// In ru, this message translates to:
+  /// **'Другие значения'**
+  String get entryMoreValues;
+
+  /// No description provided for @entrySkipHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'«Пропуск» и пустой день не прерывают серию и не увеличивают её. Серию обрывает только ✘.'**
+  String get entrySkipHint;
+
+  /// No description provided for @entryTargetHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Цель: {target}'**
+  String entryTargetHint(String target);
+
+  /// No description provided for @kindPositive.
+  ///
+  /// In ru, this message translates to:
+  /// **'Действие'**
+  String get kindPositive;
+
+  /// No description provided for @kindQuit.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отказ'**
+  String get kindQuit;
+
+  /// No description provided for @kindNumeric.
+  ///
+  /// In ru, this message translates to:
+  /// **'Число'**
+  String get kindNumeric;
+
+  /// No description provided for @kindPositiveHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Полезное действие: ✔ — выполнил, ✘ — не выполнил.'**
+  String get kindPositiveHint;
+
+  /// No description provided for @kindQuitHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отказ от вредного: ✔ — удержался, ✘ — сорвался.'**
+  String get kindQuitHint;
+
+  /// No description provided for @kindNumericHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Числовая: повторения, минуты, страницы. Число больше 0 — выполнено.'**
+  String get kindNumericHint;
+
+  /// No description provided for @monthColumn.
+  ///
+  /// In ru, this message translates to:
+  /// **'Месяц'**
+  String get monthColumn;
+
+  /// No description provided for @sumColumn.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сумма'**
+  String get sumColumn;
+
+  /// No description provided for @noCategory.
+  ///
+  /// In ru, this message translates to:
+  /// **'Без категории'**
+  String get noCategory;
+
+  /// No description provided for @scheduleDaily.
+  ///
+  /// In ru, this message translates to:
+  /// **'Каждый день'**
+  String get scheduleDaily;
+
+  /// No description provided for @scheduleWeekdays.
+  ///
+  /// In ru, this message translates to:
+  /// **'Дни недели'**
+  String get scheduleWeekdays;
+
+  /// No description provided for @scheduleTimesPerWeek.
+  ///
+  /// In ru, this message translates to:
+  /// **'N раз в неделю'**
+  String get scheduleTimesPerWeek;
+
+  /// No description provided for @timesPerWeek.
+  ///
+  /// In ru, this message translates to:
+  /// **'{count, plural, one{{count} раз в неделю} few{{count} раза в неделю} many{{count} раз в неделю} other{{count} раза в неделю}}'**
+  String timesPerWeek(int count);
+
+  /// No description provided for @weekProgress.
+  ///
+  /// In ru, this message translates to:
+  /// **'{done} из {total} за неделю'**
+  String weekProgress(int done, int total);
 }
 
 class _AppLocalizationsDelegate

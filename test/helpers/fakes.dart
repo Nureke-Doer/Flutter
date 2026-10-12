@@ -3,8 +3,12 @@ import 'dart:async';
 import 'package:habit_study_tracker/core/error/failures.dart';
 import 'package:habit_study_tracker/domain/entities/app_settings.dart';
 import 'package:habit_study_tracker/domain/entities/book.dart';
+import 'package:habit_study_tracker/domain/entities/category.dart';
 import 'package:habit_study_tracker/domain/entities/quote.dart';
+import 'package:habit_study_tracker/domain/entities/study_goal.dart';
+import 'package:habit_study_tracker/domain/repositories/category_repository.dart';
 import 'package:habit_study_tracker/domain/repositories/favorites_repository.dart';
+import 'package:habit_study_tracker/domain/repositories/goal_repository.dart';
 import 'package:habit_study_tracker/domain/repositories/materials_repository.dart';
 import 'package:habit_study_tracker/domain/repositories/settings_repository.dart';
 
@@ -106,4 +110,71 @@ class FakeSettingsRepository implements SettingsRepository {
         themePreference: preference,
         languageCode: settings.languageCode,
       );
+}
+
+/// Категории в памяти.
+class FakeCategoryRepository implements CategoryRepository {
+  FakeCategoryRepository([List<Category> initial = const []])
+    : _items = List.of(initial);
+
+  List<Category> _items;
+  final _controller = StreamController<List<Category>>.broadcast();
+
+  List<Category> get _sorted =>
+      List.of(_items)..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
+
+  @override
+  Stream<List<Category>> watchCategories() async* {
+    yield _sorted;
+    yield* _controller.stream;
+  }
+
+  @override
+  Future<void> saveCategory(Category category) async {
+    _items = [..._items.where((c) => c.id != category.id), category];
+    _controller.add(_sorted);
+  }
+
+  @override
+  Future<void> deleteCategory(String id) async {
+    _items = _items.where((c) => c.id != id).toList();
+    _controller.add(_sorted);
+  }
+
+  @override
+  Future<void> reorder(List<String> orderedIds) async {
+    _items = [
+      for (final c in _items) c.copyWith(sortOrder: orderedIds.indexOf(c.id)),
+    ];
+    _controller.add(_sorted);
+  }
+}
+
+/// Учебные цели в памяти.
+class FakeGoalRepository implements GoalRepository {
+  FakeGoalRepository([List<StudyGoal> initial = const []])
+    : _items = List.of(initial);
+
+  List<StudyGoal> _items;
+  final _controller = StreamController<List<StudyGoal>>.broadcast();
+
+  @override
+  Stream<List<StudyGoal>> watchGoals() async* {
+    yield List.of(_items);
+    yield* _controller.stream;
+  }
+
+  @override
+  Future<void> saveGoal(StudyGoal goal) async {
+    final i = _items.indexWhere((g) => g.id == goal.id);
+    _items = [..._items];
+    i == -1 ? _items.add(goal) : _items[i] = goal;
+    _controller.add(List.of(_items));
+  }
+
+  @override
+  Future<void> deleteGoal(String id) async {
+    _items = _items.where((g) => g.id != id).toList();
+    _controller.add(List.of(_items));
+  }
 }

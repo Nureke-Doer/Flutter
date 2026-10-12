@@ -1,11 +1,22 @@
 import 'package:equatable/equatable.dart';
 
-import '../../core/utils/date_utils.dart';
+import 'habit_schedule.dart';
 
-/// Тип цели: обычная привычка или учебная цель.
-enum HabitType { habit, study }
+export 'habit_schedule.dart';
 
-/// Набор иконок, которые можно выбрать для цели.
+/// Тип привычки — определяет, как её отмечать и как называть значения.
+enum HabitKind {
+  /// Полезное действие: ✔ — выполнил, ✘ — не выполнил.
+  positive,
+
+  /// Отказ от вредного (зависимость): ✔ — удержался, ✘ — сорвался.
+  quit,
+
+  /// Числовая: повторения, минуты, страницы. Число > 0 — выполнено.
+  numeric,
+}
+
+/// Набор иконок, которые можно выбрать для привычки.
 /// Модель не зависит от Flutter, поэтому храним только ключ,
 /// а саму `IconData` подбираем в слое UI (см. `widgets/habit_visuals.dart`).
 enum HabitIcon {
@@ -21,9 +32,18 @@ enum HabitIcon {
   music,
   science,
   art,
+  gym,
+  walk,
+  food,
+  noSmoking,
+  phone,
+  money,
 }
 
-/// Привычка или учебная цель — сущность доменного слоя.
+/// Привычка — сущность доменного слоя (только настройки, без истории).
+///
+/// История отметок хранится отдельно — записями `HabitEntry`
+/// (см. `habit_entry.dart`), а считается в `HabitHistory`.
 ///
 /// Неизменяемый (immutable) класс: любое изменение создаёт копию через
 /// [copyWith]. `Equatable` сравнивает объекты по значению полей,
@@ -34,141 +54,86 @@ class Habit extends Equatable {
     required this.title,
     required this.createdAt,
     this.description = '',
-    this.type = HabitType.habit,
+    this.categoryId,
+    this.kind = HabitKind.positive,
     this.icon = HabitIcon.check,
     this.colorValue = 0xFF00897B,
-    this.weekdays = allWeekdays,
+    this.unit,
+    this.target,
+    this.schedule = const HabitSchedule.daily(),
     this.reminderMinutes,
-    this.targetMinutes,
-    this.completedDays = const {},
+    this.archived = false,
+    this.placeId,
   });
-
-  static const Set<int> allWeekdays = {1, 2, 3, 4, 5, 6, 7};
 
   final String id;
   final String title;
   final String description;
-  final HabitType type;
+
+  /// Категория (`null` — «Без категории»).
+  final String? categoryId;
+  final HabitKind kind;
   final HabitIcon icon;
 
   /// Цвет в формате ARGB (например, 0xFF00897B).
   final int colorValue;
 
-  /// Дни недели, в которые цель запланирована: 1 — понедельник … 7 — воскресенье.
-  final Set<int> weekdays;
+  /// Единица измерения для числовой привычки («мин», «стр.», «раз»).
+  final String? unit;
+
+  /// Необязательная цель на день для числовой привычки (например, 30 минут).
+  final double? target;
+
+  final HabitSchedule schedule;
 
   /// Время напоминания в минутах от начала суток (например, 9:30 → 570).
   final int? reminderMinutes;
 
-  /// Для учебных целей — сколько минут в день заниматься.
-  final int? targetMinutes;
+  /// Архивная привычка не показывается на «Сегодня», но история сохраняется.
+  final bool archived;
 
-  /// Дни, в которые цель была выполнена (только дата, без времени).
-  final Set<DateTime> completedDays;
+  /// Место, к которому привязана привычка (неделя 9).
+  final String? placeId;
 
   final DateTime createdAt;
 
-  bool get isEveryDay => weekdays.length == 7;
+  bool get isNumeric => kind == HabitKind.numeric;
 
-  bool isScheduledOn(DateTime day) => weekdays.contains(day.weekday);
-
-  bool isCompletedOn(DateTime day) => completedDays.contains(dateOnly(day));
-
-  /// Текущая серия: сколько запланированных дней подряд цель выполнялась.
-  ///
-  /// Незапланированные дни пропускаются и серию не прерывают.
-  /// Сегодняшний день, если он ещё не отмечен, тоже не прерывает серию —
-  /// день ещё не закончился.
-  int currentStreak(DateTime today) {
-    final start = dateOnly(createdAt);
-    var cursor = dateOnly(today);
-    var streak = 0;
-    while (!cursor.isBefore(start)) {
-      if (isScheduledOn(cursor)) {
-        if (isCompletedOn(cursor)) {
-          streak++;
-        } else if (!isSameDay(cursor, today)) {
-          break;
-        }
-      }
-      cursor = addDays(cursor, -1);
-    }
-    return streak;
-  }
-
-  /// Лучшая (самая длинная) серия за всё время.
-  int bestStreak(DateTime today) {
-    var best = 0;
-    var run = 0;
-    var cursor = dateOnly(createdAt);
-    final end = dateOnly(today);
-    while (!cursor.isAfter(end)) {
-      if (isScheduledOn(cursor)) {
-        if (isCompletedOn(cursor)) {
-          run++;
-          if (run > best) best = run;
-        } else if (!isSameDay(cursor, end)) {
-          run = 0;
-        }
-      }
-      cursor = addDays(cursor, 1);
-    }
-    return best;
-  }
-
-  /// Доля выполненных запланированных дней за последние [days] дней (0.0–1.0).
-  ///
-  /// Сегодняшний день учитывается, только если уже выполнен,
-  /// чтобы утром процент не «проседал».
-  double completionRate(DateTime today, {int days = 7}) {
-    final start = dateOnly(createdAt);
-    var planned = 0;
-    var done = 0;
-    for (final day in lastDays(today, days)) {
-      if (day.isBefore(start) || !isScheduledOn(day)) continue;
-      final completed = isCompletedOn(day);
-      if (isSameDay(day, today) && !completed) continue;
-      planned++;
-      if (completed) done++;
-    }
-    return planned == 0 ? 0 : done / planned;
-  }
-
-  /// Возвращает копию цели с переключённой отметкой за [day].
-  Habit toggleDay(DateTime day) {
-    final d = dateOnly(day);
-    final updated = {...completedDays};
-    if (!updated.remove(d)) updated.add(d);
-    return copyWith(completedDays: updated);
-  }
+  bool isScheduledOn(DateTime day) => schedule.isScheduledOn(day);
 
   Habit copyWith({
     String? title,
     String? description,
-    HabitType? type,
+    String? Function()? categoryId,
+    HabitKind? kind,
     HabitIcon? icon,
     int? colorValue,
-    Set<int>? weekdays,
+    String? Function()? unit,
+    double? Function()? target,
+    HabitSchedule? schedule,
     int? Function()? reminderMinutes,
-    int? Function()? targetMinutes,
-    Set<DateTime>? completedDays,
+    bool? archived,
+    String? Function()? placeId,
   }) {
+    // Для nullable-полей используется функция: так можно отличить
+    // «не менять» (параметр не передан) от «сбросить в null» (() => null).
     return Habit(
       id: id,
       createdAt: createdAt,
       title: title ?? this.title,
       description: description ?? this.description,
-      type: type ?? this.type,
+      categoryId: categoryId != null ? categoryId() : this.categoryId,
+      kind: kind ?? this.kind,
       icon: icon ?? this.icon,
       colorValue: colorValue ?? this.colorValue,
-      weekdays: weekdays ?? this.weekdays,
+      unit: unit != null ? unit() : this.unit,
+      target: target != null ? target() : this.target,
+      schedule: schedule ?? this.schedule,
       reminderMinutes: reminderMinutes != null
           ? reminderMinutes()
           : this.reminderMinutes,
-      targetMinutes: targetMinutes != null
-          ? targetMinutes()
-          : this.targetMinutes,
-      completedDays: completedDays ?? this.completedDays,
+      archived: archived ?? this.archived,
+      placeId: placeId != null ? placeId() : this.placeId,
     );
   }
 
@@ -177,13 +142,16 @@ class Habit extends Equatable {
     id,
     title,
     description,
-    type,
+    categoryId,
+    kind,
     icon,
     colorValue,
-    weekdays,
+    unit,
+    target,
+    schedule,
     reminderMinutes,
-    targetMinutes,
-    completedDays,
+    archived,
+    placeId,
     createdAt,
   ];
 }
