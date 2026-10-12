@@ -667,6 +667,90 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Цитата дня'**
   String get quoteOfDay;
+
+  /// No description provided for @materialsTabSearch.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поиск'**
+  String get materialsTabSearch;
+
+  /// No description provided for @materialsTabSaved.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сохранённые'**
+  String get materialsTabSaved;
+
+  /// No description provided for @savedEmpty.
+  ///
+  /// In ru, this message translates to:
+  /// **'Здесь появятся сохранённые книги'**
+  String get savedEmpty;
+
+  /// No description provided for @savedEmptyHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нажми на закладку у книги — она будет доступна даже без интернета'**
+  String get savedEmptyHint;
+
+  /// No description provided for @addToSaved.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сохранить'**
+  String get addToSaved;
+
+  /// No description provided for @removeFromSaved.
+  ///
+  /// In ru, this message translates to:
+  /// **'Убрать из сохранённых'**
+  String get removeFromSaved;
+
+  /// No description provided for @offlineBanner.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет сети — показаны сохранённые результаты от {date}'**
+  String offlineBanner(String date);
+
+  /// No description provided for @recentSearches.
+  ///
+  /// In ru, this message translates to:
+  /// **'Недавние запросы'**
+  String get recentSearches;
+
+  /// No description provided for @clearHistory.
+  ///
+  /// In ru, this message translates to:
+  /// **'Очистить'**
+  String get clearHistory;
+
+  /// No description provided for @settingsData.
+  ///
+  /// In ru, this message translates to:
+  /// **'Данные'**
+  String get settingsData;
+
+  /// No description provided for @settingsClearCache.
+  ///
+  /// In ru, this message translates to:
+  /// **'Очистить кэш'**
+  String get settingsClearCache;
+
+  /// No description provided for @settingsClearCacheHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сохранённые ответы API и история поиска'**
+  String get settingsClearCacheHint;
+
+  /// No description provided for @cacheCleared.
+  ///
+  /// In ru, this message translates to:
+  /// **'Кэш очищен'**
+  String get cacheCleared;
+
+  /// No description provided for @settingsOfflineHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Цели, настройки и сохранённые книги хранятся на устройстве и работают без интернета'**
+  String get settingsOfflineHint;
 }
 
 class _AppLocalizationsDelegate

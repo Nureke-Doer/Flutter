@@ -32,7 +32,7 @@ class QuoteCard extends StatelessWidget {
           child: Card(
             child: InkWell(
               borderRadius: BorderRadius.circular(20),
-              onTap: () => context.read<QuoteCubit>().load(),
+              onTap: () => context.read<QuoteCubit>().load(forceRefresh: true),
               child: Padding(
                 padding: const EdgeInsets.all(Gaps.m),
                 child: Row(

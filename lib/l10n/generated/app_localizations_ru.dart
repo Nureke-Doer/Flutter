@@ -321,4 +321,51 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get quoteOfDay => 'Цитата дня';
+
+  @override
+  String get materialsTabSearch => 'Поиск';
+
+  @override
+  String get materialsTabSaved => 'Сохранённые';
+
+  @override
+  String get savedEmpty => 'Здесь появятся сохранённые книги';
+
+  @override
+  String get savedEmptyHint =>
+      'Нажми на закладку у книги — она будет доступна даже без интернета';
+
+  @override
+  String get addToSaved => 'Сохранить';
+
+  @override
+  String get removeFromSaved => 'Убрать из сохранённых';
+
+  @override
+  String offlineBanner(String date) {
+    return 'Нет сети — показаны сохранённые результаты от $date';
+  }
+
+  @override
+  String get recentSearches => 'Недавние запросы';
+
+  @override
+  String get clearHistory => 'Очистить';
+
+  @override
+  String get settingsData => 'Данные';
+
+  @override
+  String get settingsClearCache => 'Очистить кэш';
+
+  @override
+  String get settingsClearCacheHint =>
+      'Сохранённые ответы API и история поиска';
+
+  @override
+  String get cacheCleared => 'Кэш очищен';
+
+  @override
+  String get settingsOfflineHint =>
+      'Цели, настройки и сохранённые книги хранятся на устройстве и работают без интернета';
 }

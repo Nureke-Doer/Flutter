@@ -36,7 +36,8 @@ void main() {
   print('Сессия завершена: ${session.finishedAt}');
 
   // Оператор `!` используем только когда уверены, что значение не null.
-  final String? maybeTitle =
-      parseStudyMinutes('10') == null ? null : 'Английский';
+  final String? maybeTitle = parseStudyMinutes('10') == null
+      ? null
+      : 'Английский';
   print(maybeTitle!.toUpperCase());
 }

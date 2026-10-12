@@ -140,4 +140,32 @@ void main() {
           .having((s) => s.books.first, 'first', testBook(1)),
     ],
   );
+
+  blocTest<MaterialsBloc, MaterialsState>(
+    'результаты из кэша помечаются датой (офлайн-режим)',
+    setUp: () => repository.cachedAt = DateTime(2026, 9, 1),
+    build: build,
+    act: (bloc) => bloc.add(const MaterialsQueryChanged('dart')),
+    wait: wait,
+    skip: 1,
+    expect: () => [
+      isA<MaterialsState>()
+          .having((s) => s.fromCache, 'fromCache', true)
+          .having((s) => s.cachedAt, 'cachedAt', DateTime(2026, 9, 1)),
+    ],
+  );
+
+  test('начальное состояние содержит историю поиска', () {
+    repository.recent = ['flutter', 'dart'];
+    expect(build().state.recentQueries, ['flutter', 'dart']);
+  });
+
+  blocTest<MaterialsBloc, MaterialsState>(
+    'MaterialsHistoryCleared очищает историю',
+    setUp: () => repository.recent = ['a'],
+    build: build,
+    act: (bloc) => bloc.add(const MaterialsHistoryCleared()),
+    expect: () => [const MaterialsState()],
+    verify: (_) => expect(repository.recent, isEmpty),
+  );
 }

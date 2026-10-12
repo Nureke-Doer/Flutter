@@ -57,4 +57,38 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.textContaining('ничего не найдено'), findsOneWidget);
   });
+
+  testWidgets('В офлайн-режиме показывается плашка', (tester) async {
+    repository.cachedAt = DateTime(2026, 9, 1, 12, 30);
+    await tester.pumpApp(const MaterialsScreen(initialQuery: 'dart'));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('offlineBanner')), findsOneWidget);
+    expect(find.textContaining('Нет сети'), findsOneWidget);
+  });
+
+  testWidgets('Книгу можно сохранить и увидеть во вкладке «Сохранённые»', (
+    tester,
+  ) async {
+    await tester.pumpApp(const MaterialsScreen(initialQuery: 'dart'));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byTooltip('Сохранить').first);
+    await tester.pumpAndSettle();
+    expect(find.byTooltip('Убрать из сохранённых'), findsOneWidget);
+
+    await tester.tap(find.text('Сохранённые'));
+    await tester.pumpAndSettle();
+    expect(find.text('Книга 1'), findsOneWidget);
+  });
+
+  testWidgets('История поиска показывается и очищается', (tester) async {
+    repository.recent = ['linear algebra'];
+    await tester.pumpApp(const MaterialsScreen());
+    expect(find.text('Недавние запросы'), findsOneWidget);
+    expect(find.text('linear algebra'), findsOneWidget);
+
+    await tester.tap(find.text('Очистить'));
+    await tester.pumpAndSettle();
+    expect(find.text('linear algebra'), findsNothing);
+  });
 }

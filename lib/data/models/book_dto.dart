@@ -23,6 +23,18 @@ class BookDto {
   factory BookDto.fromJson(Map<String, dynamic> json) =>
       _$BookDtoFromJson(json);
 
+  /// Обратное преобразование — для сохранения в избранное.
+  factory BookDto.fromEntity(Book book) => BookDto(
+    key: book.id,
+    title: book.title,
+    authorName: book.authors,
+    firstPublishYear: book.firstPublishYear,
+    coverI: book.coverId,
+    numberOfPagesMedian: book.pages,
+    editionCount: book.editionCount,
+    subject: book.subjects,
+  );
+
   final String key;
   final String? title;
   final List<String>? authorName;

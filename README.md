@@ -56,23 +56,55 @@
 
 ### MVP (минимально жизнеспособный продукт)
 
-- [ ] CRUD привычек и учебных целей
-- [ ] Отметка выполнения за день, подсчёт текущей и лучшей серии
-- [ ] Статистика за 7 дней
-- [ ] Поиск учебных материалов через REST API
-- [ ] Светлая / тёмная тема, хранение настроек
-- [ ] Офлайн-работа (локальная БД)
-- [ ] Напоминания (push / локальные уведомления)
+- [x] CRUD привычек и учебных целей
+- [x] Отметка выполнения за день, подсчёт текущей и лучшей серии
+- [x] Статистика за 7 дней
+- [x] Поиск учебных материалов через REST API
+- [x] Светлая / тёмная тема, хранение настроек
+- [x] Офлайн-работа (локальная БД)
+- [ ] Напоминания (push / локальные уведомления) — недели 8, 11
 
 ## 2. Как запустить
 
+**Требования:** Flutter 3.32+ (Dart 3.8+), Android Studio или VS Code, эмулятор Android или телефон.
+
 ```bash
-flutter doctor        # проверка окружения
+git clone https://github.com/Nureke-Doer/Flutter.git
+cd Flutter
+flutter doctor        # проверка окружения — не должно быть ошибок
 flutter pub get       # установка зависимостей
 flutter run           # запуск на эмуляторе / устройстве
-flutter test          # запуск тестов
-flutter analyze       # статический анализ
 ```
+
+Проверки качества:
+
+```bash
+flutter analyze                 # статический анализ — No issues found
+flutter test                    # все тесты (93 шт.)
+flutter test --coverage         # отчёт о покрытии в coverage/lcov.info (~87%)
+dart format .                   # форматирование кода
+```
+
+Кодогенерация (нужна только при изменении моделей или текстов):
+
+```bash
+dart run build_runner build --delete-conflicting-outputs   # *.g.dart для JSON-моделей
+flutter gen-l10n                                           # тексты из lib/l10n/*.arb
+```
+
+### Технологии
+
+| Задача | Пакет |
+|---|---|
+| Состояние: основная логика | `flutter_bloc`, `bloc_concurrency`, `stream_transform` |
+| Состояние: настройки | `provider` |
+| DI | `get_it` |
+| Сеть | `dio` |
+| JSON | `json_annotation` + `json_serializable`, `build_runner` |
+| Локальное хранение | `shared_preferences`, `hive_ce` |
+| Сравнение объектов | `equatable` |
+| Локализация | `flutter_localizations`, `intl` (ru / en) |
+| Тесты | `flutter_test`, `bloc_test`, `mocktail` |
 
 ## 3. Задачи на Dart (неделя 1)
 
@@ -281,7 +313,56 @@ SearchBar ──MaterialsQueryChanged──▶ MaterialsBloc ──(debounce 400
 ListView.builder ◀──── BlocBuilder ───────┘                      OpenLibraryApi (dio) ──▶ JSON ──▶ BookDto ──▶ Book
 ```
 
-## 8. План по неделям
+## 8. Неделя 6 — локальное хранение данных
+
+### Что где хранится
+
+| Данные | Хранилище | Файл |
+|---|---|---|
+| Тема и язык | **SharedPreferences** | `data/repositories/shared_prefs_settings_repository.dart` |
+| Привычки и учебные цели, история выполнений | **Hive** (box `habits`) | `data/repositories/hive_habit_repository.dart` |
+| Кэш ответов API (поиск книг, цитата дня) | **Hive** (box `api_cache`) | `data/datasources/local/materials_local_data_source.dart` |
+| Избранные учебные материалы | **Hive** (box `favorites`) | `data/repositories/hive_favorites_repository.dart` |
+| История поиска, служебные флаги | **Hive** (box `meta`) | там же |
+
+Значения в Hive хранятся JSON-строками (модели на `json_serializable`), поэтому
+не нужны TypeAdapter-ы и легко менять структуру данных.
+
+### Стратегия offline-first
+
+| Данные | Стратегия | Поведение без интернета |
+|---|---|---|
+| Цели и отметки | **Local-first**: источник правды — Hive | Работает полностью |
+| Поиск книг | **Network-first + кэш**: ответ из сети сохраняется; при `NetworkFailure`/`TimeoutFailure` отдаётся кэш | Показывается кэш и плашка «Нет сети — показаны сохранённые результаты от …» |
+| Цитата дня | **Cache-first**: в течение дня берётся из кэша, сеть — раз в день | Показывается последняя сохранённая |
+| Избранное | Книга сохраняется целиком | Доступно полностью |
+
+Ошибка сервера (5xx) кэшем **не** подменяется — пользователь должен знать, что сервер сломан.
+
+### Скриншоты
+
+| Сохранение книг | Тёмная тема сохранена | Перезапуск без сети | История поиска | Кэш без сети | Сохранённые |
+|---|---|---|---|---|---|
+| ![](docs/screenshots/week6/results_saved.png) | ![](docs/screenshots/week6/settings_dark.png) | ![](docs/screenshots/week6/restart_today.png) | ![](docs/screenshots/week6/recent.png) | ![](docs/screenshots/week6/offline_cache.png) | ![](docs/screenshots/week6/saved_tab.png) |
+
+Сценарий на скриншотах: в первом запуске (с интернетом) выполнен поиск,
+две книги добавлены в «Сохранённые», выбрана тёмная тема. Затем приложение
+перезапущено **без интернета**: тема, цели, цитата дня, история поиска,
+результаты поиска и сохранённые книги на месте.
+
+### Что ещё сделано
+
+- `InMemoryHabitRepository` заменён на `HiveHabitRepository` — BLoC и экраны
+  не изменились (сработал паттерн Repository + DI).
+- При первом запуске добавляются демо-цели (только один раз).
+- Вкладки «Поиск / Сохранённые», закладка на карточке книги (`FavoritesCubit`).
+- «Очистить кэш» в настройках.
+- Язык по умолчанию — язык устройства (если это русский или английский).
+- Тесты: Hive-репозитории во временной папке (в т.ч. «перезапуск» — закрытие
+  и повторное открытие коробок), SharedPreferences, offline-сценарии
+  репозитория материалов, история поиска, избранное.
+
+## 9. План по неделям
 
 | Неделя | Тема | Статус |
 |---|---|---|
@@ -290,4 +371,14 @@ ListView.builder ◀──── BlocBuilder ───────┘           
 | 3 | Управление состоянием: setState → InheritedWidget → Provider | ✅ |
 | 4 | BLoC, слои, Repository, DI | ✅ |
 | 5 | REST API и JSON | ✅ |
-| 6 | Локальное хранение данных | ⏳ |
+| 6 | Локальное хранение данных | ✅ |
+| 7 | GoRouter, адаптивный интерфейс | ⏳ |
+| 8 | Firebase: Auth, Firestore, FCM | ⏳ |
+| 9 | Google Maps, геолокация (места для учёбы рядом) | ⏳ |
+| 10 | Производительность, DevTools | ⏳ |
+| 11 | Камера/датчики, Platform Channel (Kotlin) | ⏳ |
+| 12 | CI/CD (GitHub Actions) | ⏳ |
+| 13 | Тестирование, покрытие > 40% | ⏳ (уже ~87%) |
+| 14 | Release-сборка, Crashlytics | ⏳ |
+
+Шпаргалка по коду для защиты: [`docs/defense_guide.md`](docs/defense_guide.md).

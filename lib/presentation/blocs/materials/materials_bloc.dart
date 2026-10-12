@@ -24,7 +24,7 @@ class MaterialsBloc extends Bloc<MaterialsEvent, MaterialsState> {
     required MaterialsRepository repository,
     Duration debounce = const Duration(milliseconds: 400),
   }) : _repository = repository,
-       super(const MaterialsState()) {
+       super(MaterialsState(recentQueries: repository.recentQueries())) {
     on<MaterialsQueryChanged>(
       _onQueryChanged,
       transformer: debounceRestartable(debounce),
@@ -32,6 +32,7 @@ class MaterialsBloc extends Bloc<MaterialsEvent, MaterialsState> {
     // droppable — пока страница грузится, повторные запросы игнорируются.
     on<MaterialsNextPageRequested>(_onNextPage, transformer: droppable());
     on<MaterialsRefreshed>(_onRefreshed, transformer: restartable());
+    on<MaterialsHistoryCleared>(_onHistoryCleared);
   }
 
   final MaterialsRepository _repository;
@@ -42,7 +43,7 @@ class MaterialsBloc extends Bloc<MaterialsEvent, MaterialsState> {
   ) async {
     final query = event.query.trim();
     if (query.isEmpty) {
-      emit(const MaterialsState());
+      emit(MaterialsState(recentQueries: _repository.recentQueries()));
       return;
     }
     if (query == state.query && state.status == MaterialsStatus.success) {
@@ -80,6 +81,7 @@ class MaterialsBloc extends Bloc<MaterialsEvent, MaterialsState> {
           books: result.books,
           page: result.page,
           hasMore: result.hasMore,
+          cachedAt: result.cachedAt,
         ),
       );
     } on Failure catch (failure) {
@@ -91,6 +93,14 @@ class MaterialsBloc extends Bloc<MaterialsEvent, MaterialsState> {
         ),
       );
     }
+  }
+
+  Future<void> _onHistoryCleared(
+    MaterialsHistoryCleared event,
+    Emitter<MaterialsState> emit,
+  ) async {
+    await _repository.clearRecentQueries();
+    emit(state.copyWith(recentQueries: const []));
   }
 
   Future<void> _onNextPage(
@@ -114,6 +124,7 @@ class MaterialsBloc extends Bloc<MaterialsEvent, MaterialsState> {
           page: result.page,
           hasMore: result.hasMore && result.books.isNotEmpty,
           isLoadingMore: false,
+          cachedAt: () => result.cachedAt ?? state.cachedAt,
         ),
       );
     } on Failure {

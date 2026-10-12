@@ -94,5 +94,19 @@
   "errorServer": "Server error ({code})",
   "errorParsing": "Server returned invalid data",
   "errorUnknown": "Something went wrong",
-  "quoteOfDay": "Quote of the day"
+  "quoteOfDay": "Quote of the day",
+  "materialsTabSearch": "Search",
+  "materialsTabSaved": "Saved",
+  "savedEmpty": "Saved books will appear here",
+  "savedEmptyHint": "Tap the bookmark on a book — it will be available offline",
+  "addToSaved": "Save",
+  "removeFromSaved": "Remove from saved",
+  "offlineBanner": "Offline — showing results saved on {date}",
+  "recentSearches": "Recent searches",
+  "clearHistory": "Clear",
+  "settingsData": "Data",
+  "settingsClearCache": "Clear cache",
+  "settingsClearCacheHint": "Saved API responses and search history",
+  "cacheCleared": "Cache cleared",
+  "settingsOfflineHint": "Goals, settings and saved books are stored on the device and work offline"
 }

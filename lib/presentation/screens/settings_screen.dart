@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../core/di/injection.dart';
+import '../../domain/repositories/materials_repository.dart';
+
 import '../../core/theme/app_theme.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../providers/settings_notifier.dart';
@@ -40,20 +43,19 @@ class SettingsScreen extends StatelessWidget {
                   const SizedBox(height: Gaps.s),
                   SegmentedButton<ThemeMode>(
                     key: const Key('themeSelector'),
+                    // Без галочки — подписи помещаются на узком экране.
+                    showSelectedIcon: false,
                     segments: [
                       ButtonSegment(
                         value: ThemeMode.system,
-                        icon: const Icon(Icons.brightness_auto),
                         label: Text(l10n.themeSystem),
                       ),
                       ButtonSegment(
                         value: ThemeMode.light,
-                        icon: const Icon(Icons.light_mode_outlined),
                         label: Text(l10n.themeLight),
                       ),
                       ButtonSegment(
                         value: ThemeMode.dark,
-                        icon: const Icon(Icons.dark_mode_outlined),
                         label: Text(l10n.themeDark),
                       ),
                     ],
@@ -68,6 +70,7 @@ class SettingsScreen extends StatelessWidget {
                   const SizedBox(height: Gaps.s),
                   SegmentedButton<String>(
                     key: const Key('languageSelector'),
+                    showSelectedIcon: false,
                     segments: [
                       ButtonSegment(
                         value: 'ru',
@@ -87,11 +90,42 @@ class SettingsScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: Gaps.l),
+          Text(
+            l10n.settingsData,
+            style: theme.textTheme.titleSmall?.copyWith(
+              color: theme.colorScheme.primary,
+            ),
+          ),
+          const SizedBox(height: Gaps.s),
+          Card(
+            child: Column(
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.offline_pin_outlined),
+                  subtitle: Text(l10n.settingsOfflineHint),
+                ),
+                ListTile(
+                  key: const Key('clearCacheTile'),
+                  leading: const Icon(Icons.cleaning_services_outlined),
+                  title: Text(l10n.settingsClearCache),
+                  subtitle: Text(l10n.settingsClearCacheHint),
+                  onTap: () async {
+                    final messenger = ScaffoldMessenger.of(context);
+                    await getIt<MaterialsRepository>().clearCache();
+                    messenger.showSnackBar(
+                      SnackBar(content: Text(l10n.cacheCleared)),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: Gaps.l),
           Card(
             child: ListTile(
               leading: const Icon(Icons.info_outline),
               title: Text(l10n.settingsAbout),
-              subtitle: Text(l10n.settingsVersion('0.4.0')),
+              subtitle: Text(l10n.settingsVersion('0.6.0')),
             ),
           ),
         ],

@@ -26,10 +26,11 @@ class QuoteCubit extends Cubit<QuoteState> {
 
   final MaterialsRepository _repository;
 
-  Future<void> load() async {
+  /// [forceRefresh] — загрузить новую цитату (по нажатию на карточку).
+  Future<void> load({bool forceRefresh = false}) async {
     emit(QuoteState(status: QuoteStatus.loading, quote: state.quote));
     try {
-      final quote = await _repository.getRandomQuote();
+      final quote = await _repository.getQuoteOfDay(forceRefresh: forceRefresh);
       emit(QuoteState(status: QuoteStatus.success, quote: quote));
     } on Failure {
       emit(QuoteState(status: QuoteStatus.failure, quote: state.quote));

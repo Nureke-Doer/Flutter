@@ -22,6 +22,11 @@ final class MaterialsNextPageRequested extends MaterialsEvent {
   const MaterialsNextPageRequested();
 }
 
+/// Очистить историю поиска.
+final class MaterialsHistoryCleared extends MaterialsEvent {
+  const MaterialsHistoryCleared();
+}
+
 /// Pull-to-refresh или кнопка «Повторить».
 final class MaterialsRefreshed extends MaterialsEvent {
   const MaterialsRefreshed();

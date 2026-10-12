@@ -9,6 +9,7 @@ import 'package:habit_study_tracker/domain/entities/habit.dart';
 import 'package:habit_study_tracker/domain/repositories/habit_repository.dart';
 import 'package:habit_study_tracker/l10n/generated/app_localizations.dart';
 import 'package:habit_study_tracker/domain/repositories/materials_repository.dart';
+import 'package:habit_study_tracker/presentation/blocs/favorites/favorites_cubit.dart';
 import 'package:habit_study_tracker/presentation/blocs/habits/habits_bloc.dart';
 import 'package:habit_study_tracker/presentation/blocs/materials/materials_bloc.dart';
 import 'package:habit_study_tracker/presentation/blocs/quote/quote_cubit.dart';
@@ -53,7 +54,13 @@ extension PumpApp on WidgetTester {
                 QuoteCubit(repository: materials ?? FakeMaterialsRepository())
                   ..load(),
           ),
-          ChangeNotifierProvider.value(value: settings ?? SettingsNotifier()),
+          BlocProvider(
+            create: (_) =>
+                FavoritesCubit(repository: FakeFavoritesRepository()),
+          ),
+          ChangeNotifierProvider.value(
+            value: settings ?? SettingsNotifier(FakeSettingsRepository()),
+          ),
         ],
         child: MaterialApp(
           theme: AppTheme.light(),

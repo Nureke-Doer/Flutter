@@ -2,23 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:habit_study_tracker/app.dart';
 import 'package:habit_study_tracker/core/di/injection.dart';
+import 'package:habit_study_tracker/data/repositories/shared_prefs_settings_repository.dart';
 import 'package:habit_study_tracker/domain/repositories/habit_repository.dart';
 import 'package:habit_study_tracker/domain/repositories/materials_repository.dart';
 import 'package:habit_study_tracker/presentation/providers/settings_notifier.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'helpers/fakes.dart';
+import 'helpers/hive_test_utils.dart';
 
 void main() {
   setUp(() async {
+    SharedPreferences.setMockInitialValues({
+      SharedPrefsSettingsRepository.languageKey: 'ru',
+    });
     await getIt.reset();
-    configureDependencies();
+    await setUpTestHive();
+    await configureDependencies();
     // Подменяем сетевой репозиторий фейком — тесты не ходят в интернет.
     getIt
       ..unregister<MaterialsRepository>()
       ..registerLazySingleton<MaterialsRepository>(FakeMaterialsRepository.new);
   });
 
-  test('DI: репозиторий и настройки — синглтоны', () {
+  tearDown(tearDownTestHive);
+
+  test('DI: репозитории и настройки — синглтоны', () {
     expect(
       identical(getIt<HabitRepository>(), getIt<HabitRepository>()),
       isTrue,
@@ -27,6 +36,17 @@ void main() {
       identical(getIt<SettingsNotifier>(), getIt<SettingsNotifier>()),
       isTrue,
     );
+  });
+
+  test('При первом запуске добавляются демо-цели', () async {
+    final habits = await getIt<HabitRepository>().watchHabits().first;
+    expect(habits, isNotEmpty);
+  });
+
+  test('Тема сохраняется в SharedPreferences', () async {
+    await getIt<SettingsNotifier>().setThemeMode(ThemeMode.dark);
+    final prefs = await SharedPreferences.getInstance();
+    expect(prefs.getString(SharedPrefsSettingsRepository.themeKey), 'dark');
   });
 
   testWidgets('Приложение запускается и реагирует на смену темы', (

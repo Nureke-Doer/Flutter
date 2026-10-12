@@ -318,4 +318,50 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get quoteOfDay => 'Quote of the day';
+
+  @override
+  String get materialsTabSearch => 'Search';
+
+  @override
+  String get materialsTabSaved => 'Saved';
+
+  @override
+  String get savedEmpty => 'Saved books will appear here';
+
+  @override
+  String get savedEmptyHint =>
+      'Tap the bookmark on a book — it will be available offline';
+
+  @override
+  String get addToSaved => 'Save';
+
+  @override
+  String get removeFromSaved => 'Remove from saved';
+
+  @override
+  String offlineBanner(String date) {
+    return 'Offline — showing results saved on $date';
+  }
+
+  @override
+  String get recentSearches => 'Recent searches';
+
+  @override
+  String get clearHistory => 'Clear';
+
+  @override
+  String get settingsData => 'Data';
+
+  @override
+  String get settingsClearCache => 'Clear cache';
+
+  @override
+  String get settingsClearCacheHint => 'Saved API responses and search history';
+
+  @override
+  String get cacheCleared => 'Cache cleared';
+
+  @override
+  String get settingsOfflineHint =>
+      'Goals, settings and saved books are stored on the device and work offline';
 }

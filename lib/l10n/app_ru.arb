@@ -160,5 +160,26 @@
   },
   "errorParsing": "Сервер вернул некорректные данные",
   "errorUnknown": "Что-то пошло не так",
-  "quoteOfDay": "Цитата дня"
+  "quoteOfDay": "Цитата дня",
+  "materialsTabSearch": "Поиск",
+  "materialsTabSaved": "Сохранённые",
+  "savedEmpty": "Здесь появятся сохранённые книги",
+  "savedEmptyHint": "Нажми на закладку у книги — она будет доступна даже без интернета",
+  "addToSaved": "Сохранить",
+  "removeFromSaved": "Убрать из сохранённых",
+  "offlineBanner": "Нет сети — показаны сохранённые результаты от {date}",
+  "@offlineBanner": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "recentSearches": "Недавние запросы",
+  "clearHistory": "Очистить",
+  "settingsData": "Данные",
+  "settingsClearCache": "Очистить кэш",
+  "settingsClearCacheHint": "Сохранённые ответы API и история поиска",
+  "cacheCleared": "Кэш очищен",
+  "settingsOfflineHint": "Цели, настройки и сохранённые книги хранятся на устройстве и работают без интернета"
 }

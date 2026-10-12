@@ -53,6 +53,7 @@ class BookPage extends Equatable {
     required this.page,
     required this.totalFound,
     required this.pageSize,
+    this.cachedAt,
   });
 
   final List<Book> books;
@@ -60,8 +61,13 @@ class BookPage extends Equatable {
   final int totalFound;
   final int pageSize;
 
+  /// Если страница взята из локального кэша (нет сети) — когда она была сохранена.
+  final DateTime? cachedAt;
+
+  bool get fromCache => cachedAt != null;
+
   bool get hasMore => page * pageSize < totalFound;
 
   @override
-  List<Object?> get props => [books, page, totalFound, pageSize];
+  List<Object?> get props => [books, page, totalFound, pageSize, cachedAt];
 }

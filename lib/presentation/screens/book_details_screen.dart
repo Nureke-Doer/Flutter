@@ -4,6 +4,7 @@ import '../../core/theme/app_theme.dart';
 import '../../domain/entities/book.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../widgets/book_cover.dart';
+import '../widgets/favorite_button.dart';
 
 /// Подробная информация об учебном материале.
 class BookDetailsScreen extends StatelessWidget {
@@ -17,7 +18,7 @@ class BookDetailsScreen extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(actions: [FavoriteButton(book: book)]),
       body: ListView(
         padding: const EdgeInsets.all(Gaps.m),
         children: [

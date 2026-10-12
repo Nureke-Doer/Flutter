@@ -13,6 +13,8 @@ final class MaterialsState extends Equatable {
     this.isRefreshing = false,
     this.loadMoreFailed = false,
     this.failure,
+    this.cachedAt,
+    this.recentQueries = const [],
   });
 
   final MaterialsStatus status;
@@ -29,6 +31,14 @@ final class MaterialsState extends Equatable {
   final bool loadMoreFailed;
   final Failure? failure;
 
+  /// Не `null`, если результаты показаны из кэша (нет сети).
+  final DateTime? cachedAt;
+
+  /// История поиска — показывается, пока запрос пустой.
+  final List<String> recentQueries;
+
+  bool get fromCache => cachedAt != null;
+
   MaterialsState copyWith({
     MaterialsStatus? status,
     String? query,
@@ -39,6 +49,8 @@ final class MaterialsState extends Equatable {
     bool? isRefreshing,
     bool? loadMoreFailed,
     Failure? Function()? failure,
+    DateTime? Function()? cachedAt,
+    List<String>? recentQueries,
   }) {
     return MaterialsState(
       status: status ?? this.status,
@@ -50,6 +62,8 @@ final class MaterialsState extends Equatable {
       isRefreshing: isRefreshing ?? this.isRefreshing,
       loadMoreFailed: loadMoreFailed ?? this.loadMoreFailed,
       failure: failure != null ? failure() : this.failure,
+      cachedAt: cachedAt != null ? cachedAt() : this.cachedAt,
+      recentQueries: recentQueries ?? this.recentQueries,
     );
   }
 
@@ -64,5 +78,7 @@ final class MaterialsState extends Equatable {
     isRefreshing,
     loadMoreFailed,
     failure,
+    cachedAt,
+    recentQueries,
   ];
 }

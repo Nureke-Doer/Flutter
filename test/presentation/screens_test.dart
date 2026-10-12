@@ -7,6 +7,7 @@ import 'package:habit_study_tracker/presentation/screens/settings_screen.dart';
 import 'package:habit_study_tracker/presentation/screens/statistics_screen.dart';
 import 'package:habit_study_tracker/presentation/screens/today_screen.dart';
 
+import '../helpers/fakes.dart';
 import '../helpers/pump_app.dart';
 
 void main() {
@@ -38,7 +39,7 @@ void main() {
   });
 
   testWidgets('Настройки переключают тему и язык', (tester) async {
-    final settings = SettingsNotifier();
+    final settings = SettingsNotifier(FakeSettingsRepository());
     await tester.pumpApp(const SettingsScreen(), settings: settings);
 
     await tester.tap(find.text('Тёмная'));
