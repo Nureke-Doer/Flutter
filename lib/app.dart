@@ -20,7 +20,11 @@ import 'presentation/providers/settings_notifier.dart';
 import 'presentation/router/app_router.dart';
 
 class HabitStudyTrackerApp extends StatefulWidget {
-  const HabitStudyTrackerApp({super.key});
+  const HabitStudyTrackerApp({super.key, this.router});
+
+  /// Роутер создаётся в `main()`, чтобы уведомления могли открыть нужный
+  /// экран. Если не передан (тесты) — создаётся здесь.
+  final GoRouter? router;
 
   @override
   State<HabitStudyTrackerApp> createState() => _HabitStudyTrackerAppState();
@@ -29,11 +33,12 @@ class HabitStudyTrackerApp extends StatefulWidget {
 class _HabitStudyTrackerAppState extends State<HabitStudyTrackerApp> {
   // Роутер создаётся один раз: при смене темы или языка MaterialApp
   // перестраивается, а стек экранов сохраняется.
-  late final GoRouter _router = createRouter(auth: getIt<AuthRepository>());
+  late final GoRouter _router =
+      widget.router ?? createRouter(auth: getIt<AuthRepository>());
 
   @override
   void dispose() {
-    _router.dispose();
+    if (widget.router == null) _router.dispose();
     super.dispose();
   }
 

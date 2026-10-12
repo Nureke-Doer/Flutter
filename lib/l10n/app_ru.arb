@@ -243,7 +243,7 @@
   "authErrorUnavailable": "Вход через аккаунт недоступен: Firebase не настроен",
   "authErrorWeakPassword": "Пароль должен быть не короче 6 символов",
   "authErrorWrongCredentials": "Неверный email или пароль",
-  "authFirebaseNotConfigured": "Вход по email и Google появится после подключения Firebase (неделя 8). Сейчас можно работать без аккаунта.",
+  "authFirebaseNotConfigured": "Вход по email и Google станет доступен после подключения проекта Firebase (README → неделя 8). Сейчас можно работать без аккаунта.",
   "authForgotPassword": "Забыли пароль?",
   "authGoogle": "Войти через Google",
   "authGuest": "Продолжить без аккаунта",
@@ -404,5 +404,23 @@
         "type": "int"
       }
     }
-  }
+  },
+  "reminderHabitBody": "Пора отметить привычку ✔",
+  "reminderSummaryTitle": "Итоги дня",
+  "reminderSummaryBody": "Отметьте привычки за сегодня, чтобы не потерять серию 🔥",
+  "reminderTestTitle": "Уведомления работают",
+  "reminderTestBody": "Так будут выглядеть напоминания о привычках",
+  "settingsDailySummary": "Ежедневная сводка",
+  "settingsDailySummaryOff": "Выключена",
+  "settingsRemindersHint": "Время напоминания для каждой привычки задаётся в её настройках. Напоминания работают без интернета.",
+  "settingsTestNotification": "Проверить уведомление",
+  "syncTitle": "Облачная синхронизация",
+  "syncSynced": "Данные синхронизированы с Firestore",
+  "syncSyncing": "Синхронизация…",
+  "syncError": "Нет связи с сервером — изменения сохранены и отправятся позже",
+  "syncLocalOnly": "Только на устройстве",
+  "pushToken": "Токен устройства (FCM)",
+  "pushTokenMissing": "Ещё не получен",
+  "copy": "Копировать",
+  "copied": "Скопировано"
 }

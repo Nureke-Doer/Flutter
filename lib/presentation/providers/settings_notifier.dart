@@ -25,6 +25,15 @@ class SettingsNotifier extends ChangeNotifier {
 
   bool get gamificationEnabled => _settings.gamificationEnabled;
 
+  int? get dailySummaryMinutes => _settings.dailySummaryMinutes;
+
+  Future<void> setDailySummaryMinutes(int? minutes) async {
+    if (minutes == _settings.dailySummaryMinutes) return;
+    _settings = _settings.copyWith(dailySummaryMinutes: () => minutes);
+    notifyListeners();
+    await _repository.saveDailySummaryMinutes(minutes);
+  }
+
   Future<void> setGamificationEnabled(bool enabled) async {
     if (enabled == _settings.gamificationEnabled) return;
     _settings = _settings.copyWith(gamificationEnabled: enabled);

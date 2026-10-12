@@ -9,6 +9,7 @@ class AppSettings extends Equatable {
     this.themePreference = ThemePreference.system,
     this.languageCode = 'ru',
     this.gamificationEnabled = false,
+    this.dailySummaryMinutes,
   });
 
   final ThemePreference themePreference;
@@ -18,14 +19,21 @@ class AppSettings extends Equatable {
   /// в интерфейсе нет ни одного упоминания метрик.
   final bool gamificationEnabled;
 
+  /// Время ежедневной сводки (минуты от начала суток), `null` — выключена.
+  final int? dailySummaryMinutes;
+
   AppSettings copyWith({
     ThemePreference? themePreference,
     String? languageCode,
     bool? gamificationEnabled,
+    int? Function()? dailySummaryMinutes,
   }) => AppSettings(
     themePreference: themePreference ?? this.themePreference,
     languageCode: languageCode ?? this.languageCode,
     gamificationEnabled: gamificationEnabled ?? this.gamificationEnabled,
+    dailySummaryMinutes: dailySummaryMinutes != null
+        ? dailySummaryMinutes()
+        : this.dailySummaryMinutes,
   );
 
   @override
@@ -33,5 +41,6 @@ class AppSettings extends Equatable {
     themePreference,
     languageCode,
     gamificationEnabled,
+    dailySummaryMinutes,
   ];
 }

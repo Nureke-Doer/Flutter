@@ -511,7 +511,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authFirebaseNotConfigured =>
-      'Email and Google sign-in will be available once Firebase is connected. For now you can use the app without an account.';
+      'Email and Google sign-in become available after connecting a Firebase project (README → week 8). For now you can use the app without an account.';
 
   @override
   String get authForgotPassword => 'Forgot password?';
@@ -836,4 +836,61 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get reminderHabitBody => 'Time to check off your habit ✔';
+
+  @override
+  String get reminderSummaryTitle => 'Daily summary';
+
+  @override
+  String get reminderSummaryBody =>
+      'Mark today\'s habits to keep your streak 🔥';
+
+  @override
+  String get reminderTestTitle => 'Notifications work';
+
+  @override
+  String get reminderTestBody => 'This is how habit reminders will look';
+
+  @override
+  String get settingsDailySummary => 'Daily summary';
+
+  @override
+  String get settingsDailySummaryOff => 'Off';
+
+  @override
+  String get settingsRemindersHint =>
+      'Each habit has its own reminder time in its settings. Reminders work offline.';
+
+  @override
+  String get settingsTestNotification => 'Send a test notification';
+
+  @override
+  String get syncTitle => 'Cloud sync';
+
+  @override
+  String get syncSynced => 'Data is synced with Firestore';
+
+  @override
+  String get syncSyncing => 'Syncing…';
+
+  @override
+  String get syncError =>
+      'Server unreachable — changes are saved and will be sent later';
+
+  @override
+  String get syncLocalOnly => 'On this device only';
+
+  @override
+  String get pushToken => 'Device token (FCM)';
+
+  @override
+  String get pushTokenMissing => 'Not received yet';
+
+  @override
+  String get copy => 'Copy';
+
+  @override
+  String get copied => 'Copied';
 }

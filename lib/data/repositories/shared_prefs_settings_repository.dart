@@ -11,6 +11,7 @@ class SharedPrefsSettingsRepository implements SettingsRepository {
   static const themeKey = 'settings.theme';
   static const languageKey = 'settings.language';
   static const gamificationKey = 'settings.gamification';
+  static const summaryKey = 'settings.summary';
   static const supportedLanguages = {'ru', 'en'};
 
   final SharedPreferences _prefs;
@@ -32,6 +33,7 @@ class SharedPrefsSettingsRepository implements SettingsRepository {
                 ? defaultLanguageCode
                 : 'ru'),
       gamificationEnabled: _prefs.getBool(gamificationKey) ?? false,
+      dailySummaryMinutes: _prefs.getInt(summaryKey),
     );
   }
 
@@ -46,4 +48,9 @@ class SharedPrefsSettingsRepository implements SettingsRepository {
   @override
   Future<void> saveGamificationEnabled(bool enabled) =>
       _prefs.setBool(gamificationKey, enabled);
+
+  @override
+  Future<void> saveDailySummaryMinutes(int? minutes) => minutes == null
+      ? _prefs.remove(summaryKey)
+      : _prefs.setInt(summaryKey, minutes);
 }

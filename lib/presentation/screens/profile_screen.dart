@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../../core/di/injection.dart';
 import '../../core/theme/app_theme.dart';
+import '../../data/services/push_service.dart';
+import '../../data/sync/sync_service.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../blocs/auth/auth_cubit.dart';
 import '../providers/settings_notifier.dart';
@@ -90,6 +94,10 @@ class ProfileScreen extends StatelessWidget {
               ),
             ),
           ),
+          if (user != null && !user.isGuest) ...[
+            const SizedBox(height: Gaps.m),
+            const _CloudCard(),
+          ],
           const SizedBox(height: Gaps.m),
           Card(
             child: Column(
@@ -136,6 +144,74 @@ class ProfileScreen extends StatelessWidget {
               onTap: () => _signOut(context),
             ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Статус синхронизации с Firestore и токен устройства для push (FCM).
+class _CloudCard extends StatelessWidget {
+  const _CloudCard();
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final sync = getIt.isRegistered<SyncService>()
+        ? getIt<SyncService>()
+        : null;
+    final push = getIt.isRegistered<PushService>()
+        ? getIt<PushService>()
+        : null;
+    return Card(
+      child: Column(
+        children: [
+          if (sync != null)
+            ValueListenableBuilder(
+              valueListenable: sync.status,
+              builder: (context, status, _) => ListTile(
+                key: const Key('syncStatus'),
+                leading: Icon(switch (status) {
+                  SyncStatus.synced => Icons.cloud_done_outlined,
+                  SyncStatus.syncing => Icons.cloud_sync_outlined,
+                  SyncStatus.error => Icons.cloud_off_outlined,
+                  SyncStatus.localOnly => Icons.phone_android,
+                }),
+                title: Text(l10n.syncTitle),
+                subtitle: Text(switch (status) {
+                  SyncStatus.synced => l10n.syncSynced,
+                  SyncStatus.syncing => l10n.syncSyncing,
+                  SyncStatus.error => l10n.syncError,
+                  SyncStatus.localOnly => l10n.syncLocalOnly,
+                }),
+              ),
+            ),
+          if (push != null)
+            ValueListenableBuilder(
+              valueListenable: push.token,
+              builder: (context, token, _) => ListTile(
+                leading: const Icon(Icons.vpn_key_outlined),
+                title: Text(l10n.pushToken),
+                subtitle: Text(
+                  token ?? l10n.pushTokenMissing,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                trailing: token == null
+                    ? null
+                    : IconButton(
+                        tooltip: l10n.copy,
+                        icon: const Icon(Icons.copy),
+                        onPressed: () async {
+                          final messenger = ScaffoldMessenger.of(context);
+                          await Clipboard.setData(ClipboardData(text: token));
+                          messenger.showSnackBar(
+                            SnackBar(content: Text(l10n.copied)),
+                          );
+                        },
+                      ),
+              ),
+            ),
         ],
       ),
     );

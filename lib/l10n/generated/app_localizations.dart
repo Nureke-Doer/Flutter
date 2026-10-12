@@ -1019,7 +1019,7 @@ abstract class AppLocalizations {
   /// No description provided for @authFirebaseNotConfigured.
   ///
   /// In ru, this message translates to:
-  /// **'Вход по email и Google появится после подключения Firebase (неделя 8). Сейчас можно работать без аккаунта.'**
+  /// **'Вход по email и Google станет доступен после подключения проекта Firebase (README → неделя 8). Сейчас можно работать без аккаунта.'**
   String get authFirebaseNotConfigured;
 
   /// No description provided for @authForgotPassword.
@@ -1549,6 +1549,114 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'{count, plural, =0{не влияет ни на одну метрику} one{{count} метрика} few{{count} метрики} many{{count} метрик} other{{count} метрики}}'**
   String habitMetricsCount(int count);
+
+  /// No description provided for @reminderHabitBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пора отметить привычку ✔'**
+  String get reminderHabitBody;
+
+  /// No description provided for @reminderSummaryTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Итоги дня'**
+  String get reminderSummaryTitle;
+
+  /// No description provided for @reminderSummaryBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отметьте привычки за сегодня, чтобы не потерять серию 🔥'**
+  String get reminderSummaryBody;
+
+  /// No description provided for @reminderTestTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Уведомления работают'**
+  String get reminderTestTitle;
+
+  /// No description provided for @reminderTestBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Так будут выглядеть напоминания о привычках'**
+  String get reminderTestBody;
+
+  /// No description provided for @settingsDailySummary.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ежедневная сводка'**
+  String get settingsDailySummary;
+
+  /// No description provided for @settingsDailySummaryOff.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выключена'**
+  String get settingsDailySummaryOff;
+
+  /// No description provided for @settingsRemindersHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Время напоминания для каждой привычки задаётся в её настройках. Напоминания работают без интернета.'**
+  String get settingsRemindersHint;
+
+  /// No description provided for @settingsTestNotification.
+  ///
+  /// In ru, this message translates to:
+  /// **'Проверить уведомление'**
+  String get settingsTestNotification;
+
+  /// No description provided for @syncTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Облачная синхронизация'**
+  String get syncTitle;
+
+  /// No description provided for @syncSynced.
+  ///
+  /// In ru, this message translates to:
+  /// **'Данные синхронизированы с Firestore'**
+  String get syncSynced;
+
+  /// No description provided for @syncSyncing.
+  ///
+  /// In ru, this message translates to:
+  /// **'Синхронизация…'**
+  String get syncSyncing;
+
+  /// No description provided for @syncError.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет связи с сервером — изменения сохранены и отправятся позже'**
+  String get syncError;
+
+  /// No description provided for @syncLocalOnly.
+  ///
+  /// In ru, this message translates to:
+  /// **'Только на устройстве'**
+  String get syncLocalOnly;
+
+  /// No description provided for @pushToken.
+  ///
+  /// In ru, this message translates to:
+  /// **'Токен устройства (FCM)'**
+  String get pushToken;
+
+  /// No description provided for @pushTokenMissing.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ещё не получен'**
+  String get pushTokenMissing;
+
+  /// No description provided for @copy.
+  ///
+  /// In ru, this message translates to:
+  /// **'Копировать'**
+  String get copy;
+
+  /// No description provided for @copied.
+  ///
+  /// In ru, this message translates to:
+  /// **'Скопировано'**
+  String get copied;
 }
 
 class _AppLocalizationsDelegate

@@ -10,4 +10,7 @@ abstract interface class SettingsRepository {
   Future<void> saveLanguageCode(String languageCode);
 
   Future<void> saveGamificationEnabled(bool enabled);
+
+  /// `null` — выключить ежедневную сводку.
+  Future<void> saveDailySummaryMinutes(int? minutes);
 }

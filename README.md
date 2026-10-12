@@ -548,7 +548,67 @@ StatefulShellRoute (5 вкладок, у каждой свой стек):
 |---|---|---|
 | ![](docs/screenshots/week7/landscape.png) | ![](docs/screenshots/week7/tablet.png) | ![](docs/screenshots/week7/tablet_dark.png) |
 
-## 12. План по неделям
+## 12. Неделя 8 — Firebase: Auth, Firestore, Security Rules, FCM
+
+### Что сделано
+
+| Задача | Реализация |
+|---|---|
+| **Authentication** (email + Google) | `FirebaseAuthRepository` — реализация того же интерфейса `AuthRepository`, что и гостевой режим недели 7. Google — через `signInWithProvider` / `signInWithPopup` (отдельный пакет google_sign_in не нужен). Ошибки Firebase → `AuthErrorCode` → понятный текст. |
+| **Cloud Firestore** | `SyncService` + `FirestoreSyncDataSource`: данные пользователя в `users/{uid}/{habits, entries, categories, goals, metrics, metric_rules}`. |
+| **Offline-first** | Источник правды — Hive. При входе: скачиваем новые записи, выгружаем локальные, дальше слушаем изменения в обе стороны. Конфликт — побеждает более новая запись (`updatedAt`), удаление — «надгробие». Офлайн-кэш Firestore ставит записи в очередь. |
+| **Security Rules** | `firestore.rules`: читать и писать можно только свои `users/{uid}/…`; проверяется формат документа (`u`, `d`, `v`) и размер; всё остальное закрыто. |
+| **FCM (push)** | `PushService`: разрешение, токен устройства → `users/{uid}/devices/{token}`, подписка на тему `daily_summary`, показ сообщения на переднем плане, переход по `data.route` при нажатии. |
+| **Локальные напоминания** | `planReminders` (чистая функция) + `LocalNotificationsScheduler` (flutter_local_notifications): время на каждую привычку (по дням недели — отдельно), ежедневная сводка из настроек. Работают без интернета. |
+
+Если Firebase не подключён (шаблонный `lib/firebase_options.dart`),
+приложение работает как раньше: гостевой режим, данные только на устройстве.
+Так собираются CI и web-версия без секретов.
+
+```
+Вход → AuthRepository.authStateChanges()
+        ├─ GoRouter.redirect (неделя 7)
+        ├─ SyncService.bindTo(): аккаунт → start(uid), гость/выход → stop()
+        └─ PushService.registerDevice(uid)
+Hive (LocalCollection) ──localChanges──▶ Firestore users/{uid}/…
+Hive ◀──applyRemote (если новее)── Firestore snapshots (другие устройства)
+```
+
+### Как подключить свой проект Firebase
+
+1. Создать проект в [Firebase Console](https://console.firebase.google.com),
+   включить **Authentication → Email/Password** и **Google**, создать **Firestore**.
+2. Установить CLI и сгенерировать настройки (перезапишет шаблон `lib/firebase_options.dart`):
+   ```bash
+   npm i -g firebase-tools && firebase login
+   dart pub global activate flutterfire_cli
+   flutterfire configure            # выбрать проект и платформы Android/iOS/Web
+   ```
+3. Для входа через Google на Android добавить SHA-1 ключа в настройки
+   Android-приложения в консоли (`cd android && ./gradlew signingReport`).
+4. Опубликовать правила: `firebase deploy --only firestore:rules`.
+5. Проверить push: Профиль → скопировать «Токен устройства (FCM)» →
+   Firebase Console → Messaging → «Send test message». Можно добавить
+   в данные `route = /habit/water` — нажатие откроет эту привычку.
+
+### Тесты
+
+- `test/data/sync_service_test.dart` — выгрузка данных гостя, загрузка на новое
+  устройство, отправка изменений и удалений, изменения с другого устройства,
+  конфликт по времени, смена аккаунта, работа без сети (облако — реализация
+  `SyncRemoteDataSource` в памяти).
+- `test/data/firebase_auth_repository_test.dart` — `FirebaseAuth` замокан через mocktail.
+- `test/domain/reminder_planner_test.dart` — расписание напоминаний и ближайшее срабатывание.
+
+Пакеты `fake_cloud_firestore` / `firebase_auth_mocks` не подошли (требуют
+`equatable ^2`), поэтому Firestore спрятан за собственным интерфейсом —
+это заодно и пример паттерна Repository/DataSource.
+
+**Не проверено автоматически:** Security Rules на эмуляторе Firestore и
+реальная доставка push — нужен настоящий проект Firebase и устройство
+(шаги выше).
+
+## 13. План по неделям
 
 | Неделя | Тема | Статус |
 |---|---|---|
@@ -559,7 +619,7 @@ StatefulShellRoute (5 вкладок, у каждой свой стек):
 | 5 | REST API и JSON | ✅ |
 | 6 | Локальное хранение данных | ✅ |
 | 7 | GoRouter, адаптивный интерфейс | ✅ |
-| 8 | Firebase: Auth, Firestore, FCM | ⏳ |
+| 8 | Firebase: Auth, Firestore, FCM | ✅ |
 | 9 | Google Maps, геолокация (места для учёбы рядом) | ⏳ |
 | 10 | Производительность, DevTools | ⏳ |
 | 11 | Камера/датчики, Platform Channel (Kotlin) | ⏳ |

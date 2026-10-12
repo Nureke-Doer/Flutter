@@ -112,6 +112,10 @@ class FakeSettingsRepository implements SettingsRepository {
   @override
   Future<void> saveGamificationEnabled(bool enabled) async =>
       settings = settings.copyWith(gamificationEnabled: enabled);
+
+  @override
+  Future<void> saveDailySummaryMinutes(int? minutes) async =>
+      settings = settings.copyWith(dailySummaryMinutes: () => minutes);
 }
 
 /// Категории в памяти.

@@ -521,7 +521,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get authFirebaseNotConfigured =>
-      'Вход по email и Google появится после подключения Firebase (неделя 8). Сейчас можно работать без аккаунта.';
+      'Вход по email и Google станет доступен после подключения проекта Firebase (README → неделя 8). Сейчас можно работать без аккаунта.';
 
   @override
   String get authForgotPassword => 'Забыли пароль?';
@@ -855,4 +855,61 @@ class AppLocalizationsRu extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get reminderHabitBody => 'Пора отметить привычку ✔';
+
+  @override
+  String get reminderSummaryTitle => 'Итоги дня';
+
+  @override
+  String get reminderSummaryBody =>
+      'Отметьте привычки за сегодня, чтобы не потерять серию 🔥';
+
+  @override
+  String get reminderTestTitle => 'Уведомления работают';
+
+  @override
+  String get reminderTestBody => 'Так будут выглядеть напоминания о привычках';
+
+  @override
+  String get settingsDailySummary => 'Ежедневная сводка';
+
+  @override
+  String get settingsDailySummaryOff => 'Выключена';
+
+  @override
+  String get settingsRemindersHint =>
+      'Время напоминания для каждой привычки задаётся в её настройках. Напоминания работают без интернета.';
+
+  @override
+  String get settingsTestNotification => 'Проверить уведомление';
+
+  @override
+  String get syncTitle => 'Облачная синхронизация';
+
+  @override
+  String get syncSynced => 'Данные синхронизированы с Firestore';
+
+  @override
+  String get syncSyncing => 'Синхронизация…';
+
+  @override
+  String get syncError =>
+      'Нет связи с сервером — изменения сохранены и отправятся позже';
+
+  @override
+  String get syncLocalOnly => 'Только на устройстве';
+
+  @override
+  String get pushToken => 'Токен устройства (FCM)';
+
+  @override
+  String get pushTokenMissing => 'Ещё не получен';
+
+  @override
+  String get copy => 'Копировать';
+
+  @override
+  String get copied => 'Скопировано';
 }
