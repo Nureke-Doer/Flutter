@@ -99,17 +99,15 @@ class FakeSettingsRepository implements SettingsRepository {
 
   @override
   Future<void> saveLanguageCode(String languageCode) async =>
-      settings = AppSettings(
-        themePreference: settings.themePreference,
-        languageCode: languageCode,
-      );
+      settings = settings.copyWith(languageCode: languageCode);
 
   @override
   Future<void> saveThemePreference(ThemePreference preference) async =>
-      settings = AppSettings(
-        themePreference: preference,
-        languageCode: settings.languageCode,
-      );
+      settings = settings.copyWith(themePreference: preference);
+
+  @override
+  Future<void> saveGamificationEnabled(bool enabled) async =>
+      settings = settings.copyWith(gamificationEnabled: enabled);
 }
 
 /// Категории в памяти.

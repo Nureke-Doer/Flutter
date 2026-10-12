@@ -63,6 +63,18 @@ void main() {
   });
 
   group('SharedPrefsSettingsRepository', () {
+    test('геймификация по умолчанию выключена и сохраняется', () async {
+      SharedPreferences.setMockInitialValues({});
+      final prefs = await SharedPreferences.getInstance();
+      final repo = SharedPrefsSettingsRepository(prefs);
+      expect(repo.load().gamificationEnabled, isFalse);
+      await repo.saveGamificationEnabled(true);
+      expect(
+        SharedPrefsSettingsRepository(prefs).load().gamificationEnabled,
+        isTrue,
+      );
+    });
+
     test('значения по умолчанию', () async {
       SharedPreferences.setMockInitialValues({});
       final repo = SharedPrefsSettingsRepository(

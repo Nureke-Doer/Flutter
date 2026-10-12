@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../domain/entities/app_settings.dart';
 import '../../domain/repositories/settings_repository.dart';
 
-/// Настройки интерфейса: тема и язык.
+/// Настройки интерфейса: тема, язык и флаг геймификации.
 ///
 /// Простое состояние без асинхронной логики — поэтому здесь используется
 /// Provider (`ChangeNotifier`), а не BLoC. Значения сохраняются
@@ -23,6 +23,15 @@ class SettingsNotifier extends ChangeNotifier {
 
   Locale get locale => Locale(_settings.languageCode);
 
+  bool get gamificationEnabled => _settings.gamificationEnabled;
+
+  Future<void> setGamificationEnabled(bool enabled) async {
+    if (enabled == _settings.gamificationEnabled) return;
+    _settings = _settings.copyWith(gamificationEnabled: enabled);
+    notifyListeners();
+    await _repository.saveGamificationEnabled(enabled);
+  }
+
   Future<void> setThemeMode(ThemeMode mode) async {
     final preference = switch (mode) {
       ThemeMode.system => ThemePreference.system,
@@ -30,20 +39,14 @@ class SettingsNotifier extends ChangeNotifier {
       ThemeMode.dark => ThemePreference.dark,
     };
     if (preference == _settings.themePreference) return;
-    _settings = AppSettings(
-      themePreference: preference,
-      languageCode: _settings.languageCode,
-    );
+    _settings = _settings.copyWith(themePreference: preference);
     notifyListeners();
     await _repository.saveThemePreference(preference);
   }
 
   Future<void> setLocale(Locale locale) async {
     if (locale.languageCode == _settings.languageCode) return;
-    _settings = AppSettings(
-      themePreference: _settings.themePreference,
-      languageCode: locale.languageCode,
-    );
+    _settings = _settings.copyWith(languageCode: locale.languageCode);
     notifyListeners();
     await _repository.saveLanguageCode(locale.languageCode);
   }

@@ -16,6 +16,12 @@ abstract final class HiveBoxes {
   /// Учебные цели.
   static const goals = 'goals';
 
+  /// Метрики геймификации.
+  static const metrics = 'metrics';
+
+  /// Связи «привычка → метрика»: `habitId|metricId` → награда и штраф.
+  static const metricRules = 'metric_rules';
+
   /// Кэш ответов API: ключ запроса → JSON {savedAt, data}.
   static const apiCache = 'api_cache';
 
@@ -34,6 +40,8 @@ abstract final class HiveBoxes {
     entries,
     categories,
     goals,
+    metrics,
+    metricRules,
     apiCache,
     favorites,
     meta,

@@ -15,6 +15,7 @@ import '../../data/repositories/hive_category_repository.dart';
 import '../../data/repositories/hive_favorites_repository.dart';
 import '../../data/repositories/hive_goal_repository.dart';
 import '../../data/repositories/hive_habit_repository.dart';
+import '../../data/repositories/hive_metric_repository.dart';
 import '../../data/repositories/materials_repository_impl.dart';
 import '../../data/repositories/shared_prefs_settings_repository.dart';
 import '../../domain/repositories/category_repository.dart';
@@ -22,12 +23,14 @@ import '../../domain/repositories/favorites_repository.dart';
 import '../../domain/repositories/goal_repository.dart';
 import '../../domain/repositories/habit_repository.dart';
 import '../../domain/repositories/materials_repository.dart';
+import '../../domain/repositories/metric_repository.dart';
 import '../../domain/repositories/settings_repository.dart';
 import '../../presentation/blocs/categories/categories_cubit.dart';
 import '../../presentation/blocs/favorites/favorites_cubit.dart';
 import '../../presentation/blocs/goals/goals_cubit.dart';
 import '../../presentation/blocs/habits/habits_bloc.dart';
 import '../../presentation/blocs/materials/materials_bloc.dart';
+import '../../presentation/blocs/metrics/metrics_cubit.dart';
 import '../../presentation/blocs/quote/quote_cubit.dart';
 import '../../presentation/providers/settings_notifier.dart';
 import '../network/dio_client.dart';
@@ -54,6 +57,11 @@ Future<void> configureDependencies() async {
     hiveBox(HiveBoxes.categories),
   );
   final goals = LocalCollection('goals', hiveBox(HiveBoxes.goals));
+  final metrics = LocalCollection('metrics', hiveBox(HiveBoxes.metrics));
+  final metricRules = LocalCollection(
+    'metric_rules',
+    hiveBox(HiveBoxes.metricRules),
+  );
   // Миграция старого формата и демо-данные при первом запуске.
   await LocalBootstrap(
     habits: habits,
@@ -81,6 +89,9 @@ Future<void> configureDependencies() async {
     )
     ..registerSingleton<CategoryRepository>(HiveCategoryRepository(categories))
     ..registerSingleton<GoalRepository>(HiveGoalRepository(goals))
+    ..registerSingleton<MetricRepository>(
+      HiveMetricRepository(metrics: metrics, rules: metricRules),
+    )
     ..registerLazySingleton<MaterialsRepository>(
       () => MaterialsRepositoryImpl(
         booksApi: getIt<OpenLibraryApi>(),
@@ -109,6 +120,12 @@ Future<void> configureDependencies() async {
     )
     ..registerFactory<GoalsCubit>(
       () => GoalsCubit(repository: getIt<GoalRepository>()),
+    )
+    ..registerFactory<MetricsCubit>(
+      () => MetricsCubit(
+        metricRepository: getIt<MetricRepository>(),
+        habitRepository: getIt<HabitRepository>(),
+      ),
     )
     ..registerFactory<MaterialsBloc>(
       () => MaterialsBloc(repository: getIt<MaterialsRepository>()),

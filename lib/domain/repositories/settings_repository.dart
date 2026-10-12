@@ -8,4 +8,6 @@ abstract interface class SettingsRepository {
   Future<void> saveThemePreference(ThemePreference preference);
 
   Future<void> saveLanguageCode(String languageCode);
+
+  Future<void> saveGamificationEnabled(bool enabled);
 }
