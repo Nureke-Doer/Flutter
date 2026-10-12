@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/utils/number_utils.dart';
 import '../../l10n/generated/app_localizations.dart';
 
 /// Диалог ввода числа. Возвращает число или `null` (отмена).
@@ -43,7 +44,7 @@ class _NumberDialogState extends State<_NumberDialog> {
   }
 
   void _submit() {
-    final value = double.tryParse(_controller.text.replaceAll(',', '.'));
+    final value = parseNumber(_controller.text);
     if (value == null || (!widget.allowNegative && value < 0)) return;
     Navigator.pop(context, value);
   }

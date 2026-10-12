@@ -5,6 +5,7 @@ import 'package:habit_study_tracker/domain/entities/app_settings.dart';
 import 'package:habit_study_tracker/domain/entities/app_user.dart';
 import 'package:habit_study_tracker/domain/entities/book.dart';
 import 'package:habit_study_tracker/domain/entities/category.dart';
+import 'package:habit_study_tracker/domain/entities/metric.dart';
 import 'package:habit_study_tracker/domain/entities/quote.dart';
 import 'package:habit_study_tracker/domain/entities/study_goal.dart';
 import 'package:habit_study_tracker/domain/repositories/auth_repository.dart';
@@ -12,6 +13,7 @@ import 'package:habit_study_tracker/domain/repositories/category_repository.dart
 import 'package:habit_study_tracker/domain/repositories/favorites_repository.dart';
 import 'package:habit_study_tracker/domain/repositories/goal_repository.dart';
 import 'package:habit_study_tracker/domain/repositories/materials_repository.dart';
+import 'package:habit_study_tracker/domain/repositories/metric_repository.dart';
 import 'package:habit_study_tracker/domain/repositories/settings_repository.dart';
 
 /// Создаёт тестовую книгу.
@@ -243,4 +245,53 @@ class FakeAuthRepository implements AuthRepository {
 
   @override
   Future<void> signOut() async => _set(null);
+}
+
+/// Метрики и связи в памяти.
+class FakeMetricRepository implements MetricRepository {
+  FakeMetricRepository({
+    List<Metric> metrics = const [],
+    List<HabitMetricRule> rules = const [],
+  }) : _metrics = List.of(metrics),
+       _rules = List.of(rules);
+
+  List<Metric> _metrics;
+  List<HabitMetricRule> _rules;
+  final _metricsController = StreamController<List<Metric>>.broadcast();
+  final _rulesController = StreamController<List<HabitMetricRule>>.broadcast();
+
+  @override
+  Stream<List<Metric>> watchMetrics() async* {
+    yield List.of(_metrics);
+    yield* _metricsController.stream;
+  }
+
+  @override
+  Stream<List<HabitMetricRule>> watchRules() async* {
+    yield List.of(_rules);
+    yield* _rulesController.stream;
+  }
+
+  @override
+  Future<void> saveMetric(Metric metric) async {
+    _metrics = [..._metrics.where((m) => m.id != metric.id), metric];
+    _metricsController.add(List.of(_metrics));
+  }
+
+  @override
+  Future<void> deleteMetric(String id) async {
+    _metrics = _metrics.where((m) => m.id != id).toList();
+    _rules = _rules.where((r) => r.metricId != id).toList();
+    _metricsController.add(List.of(_metrics));
+    _rulesController.add(List.of(_rules));
+  }
+
+  @override
+  Future<void> setRulesForHabit(
+    String habitId,
+    List<HabitMetricRule> rules,
+  ) async {
+    _rules = [..._rules.where((r) => r.habitId != habitId), ...rules];
+    _rulesController.add(List.of(_rules));
+  }
 }

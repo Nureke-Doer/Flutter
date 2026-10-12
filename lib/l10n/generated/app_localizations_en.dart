@@ -708,4 +708,132 @@ class AppLocalizationsEn extends AppLocalizations {
   String showArchived(int count) {
     return 'Archive ($count)';
   }
+
+  @override
+  String get habitMetricRules => 'Effect on metrics';
+
+  @override
+  String get habitMetricRulesEmpty =>
+      'No metrics yet. Create them in Profile → Metrics.';
+
+  @override
+  String get metricAdd => 'New metric';
+
+  @override
+  String get metricColContribution => 'Points';
+
+  @override
+  String get metricColGain => 'Gain';
+
+  @override
+  String get metricColLoss => 'Loss';
+
+  @override
+  String get metricDeleteBody =>
+      'Links to habits will be removed too. Habit marks are kept.';
+
+  @override
+  String get metricHistory => 'Daily history';
+
+  @override
+  String get metricHistoryEmpty => 'No marks of linked habits yet';
+
+  @override
+  String metricLimits(String gain, String loss) {
+    return 'per day +$gain / −$loss';
+  }
+
+  @override
+  String metricLinkedCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count habits',
+      one: '$count habit',
+      zero: 'no links',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get metricLinkedHabits => 'Linked habits';
+
+  @override
+  String get metricLossHint =>
+      'Tip: losing should be easier than gaining. Give bad habits the biggest penalties.';
+
+  @override
+  String get metricMaxGain => 'Max gain per day';
+
+  @override
+  String get metricMaxLoss => 'Max loss per day';
+
+  @override
+  String get metricMode => 'Scoring mode';
+
+  @override
+  String get metricModeProportional => 'Proportional';
+
+  @override
+  String get metricModeAbsolute => 'Absolute';
+
+  @override
+  String get metricModeProportionalHint =>
+      'Gain = limit × (day points / max possible points). Do everything — get the full limit.';
+
+  @override
+  String get metricModeAbsoluteHint =>
+      'Gain = MIN(limit, sum of rewards). Rewards and penalties are fixed amounts.';
+
+  @override
+  String get metricNoLinkedHabits =>
+      'No habit affects this metric yet. Link one in the habit settings.';
+
+  @override
+  String get metricPenalty => 'Penalty for ✘';
+
+  @override
+  String get metricReward => 'Reward for ✔';
+
+  @override
+  String get metricPresets => 'Presets (optional)';
+
+  @override
+  String get metricPresetPower => 'Power: +1% / −50% a day';
+
+  @override
+  String get metricPresetMoney => 'Money: +300,000 / −1,000,000 KZT';
+
+  @override
+  String metricStart(String value) {
+    return 'start $value';
+  }
+
+  @override
+  String get metricStartLabel => 'Start value';
+
+  @override
+  String get metricUnit => 'Unit / currency';
+
+  @override
+  String get metricsEmpty => 'No metrics yet';
+
+  @override
+  String get metricsEmptyHint =>
+      'Create your own metric or use the Power / Money preset';
+
+  @override
+  String get metricsTitle => 'Metrics';
+
+  @override
+  String habitMetricsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count metrics',
+      one: '$count metric',
+      zero: 'affects no metrics',
+    );
+    return '$_temp0';
+  }
 }

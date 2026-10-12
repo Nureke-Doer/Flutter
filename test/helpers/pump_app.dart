@@ -14,6 +14,7 @@ import 'package:habit_study_tracker/domain/entities/study_goal.dart';
 import 'package:habit_study_tracker/domain/repositories/auth_repository.dart';
 import 'package:habit_study_tracker/domain/repositories/habit_repository.dart';
 import 'package:habit_study_tracker/domain/repositories/materials_repository.dart';
+import 'package:habit_study_tracker/domain/repositories/metric_repository.dart';
 import 'package:habit_study_tracker/l10n/generated/app_localizations.dart';
 import 'package:habit_study_tracker/presentation/blocs/auth/auth_cubit.dart';
 import 'package:habit_study_tracker/presentation/blocs/categories/categories_cubit.dart';
@@ -21,6 +22,7 @@ import 'package:habit_study_tracker/presentation/blocs/favorites/favorites_cubit
 import 'package:habit_study_tracker/presentation/blocs/goals/goals_cubit.dart';
 import 'package:habit_study_tracker/presentation/blocs/habits/habits_bloc.dart';
 import 'package:habit_study_tracker/presentation/blocs/materials/materials_bloc.dart';
+import 'package:habit_study_tracker/presentation/blocs/metrics/metrics_cubit.dart';
 import 'package:habit_study_tracker/presentation/blocs/quote/quote_cubit.dart';
 import 'package:habit_study_tracker/presentation/providers/settings_notifier.dart';
 import 'package:habit_study_tracker/presentation/router/app_router.dart';
@@ -56,6 +58,7 @@ extension PumpApp on WidgetTester {
     required SettingsNotifier settings,
     required MaterialsRepository materials,
     required AuthRepository auth,
+    required MetricRepository metrics,
   }) {
     // Экран «Материалы» берёт свой BLoC из get_it.
     if (!getIt.isRegistered<MaterialsBloc>()) {
@@ -75,6 +78,12 @@ extension PumpApp on WidgetTester {
         ),
         BlocProvider(
           create: (_) => GoalsCubit(repository: FakeGoalRepository(goals)),
+        ),
+        BlocProvider(
+          create: (_) => MetricsCubit(
+            metricRepository: metrics,
+            habitRepository: repository,
+          ),
         ),
         BlocProvider(create: (_) => QuoteCubit(repository: materials)..load()),
         BlocProvider(
@@ -104,6 +113,7 @@ extension PumpApp on WidgetTester {
     HabitRepository? repository,
     SettingsNotifier? settings,
     MaterialsRepository? materials,
+    MetricRepository? metrics,
     Size screen = TestScreens.phone,
   }) {
     _setScreen(screen);
@@ -127,6 +137,7 @@ extension PumpApp on WidgetTester {
         settings: settings ?? SettingsNotifier(FakeSettingsRepository()),
         materials: materials ?? FakeMaterialsRepository(),
         auth: FakeAuthRepository(),
+        metrics: metrics ?? FakeMetricRepository(),
       ),
     );
   }
@@ -141,6 +152,7 @@ extension PumpApp on WidgetTester {
     List<StudyGoal> goals = const [],
     AuthRepository? auth,
     SettingsNotifier? settings,
+    MetricRepository? metrics,
     Size screen = TestScreens.phone,
   }) async {
     _setScreen(screen);
@@ -168,6 +180,7 @@ extension PumpApp on WidgetTester {
         settings: settings ?? SettingsNotifier(FakeSettingsRepository()),
         materials: FakeMaterialsRepository(),
         auth: authRepository,
+        metrics: metrics ?? FakeMetricRepository(),
       ),
     );
     await pumpAndSettle();

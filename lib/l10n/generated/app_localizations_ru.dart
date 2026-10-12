@@ -723,4 +723,136 @@ class AppLocalizationsRu extends AppLocalizations {
   String showArchived(int count) {
     return 'Архив ($count)';
   }
+
+  @override
+  String get habitMetricRules => 'Влияние на метрики';
+
+  @override
+  String get habitMetricRulesEmpty =>
+      'Метрик пока нет. Создайте их в «Профиль → Метрики».';
+
+  @override
+  String get metricAdd => 'Новая метрика';
+
+  @override
+  String get metricColContribution => 'Вклад';
+
+  @override
+  String get metricColGain => 'Прирост';
+
+  @override
+  String get metricColLoss => 'Потеря';
+
+  @override
+  String get metricDeleteBody =>
+      'Связи с привычками тоже удалятся. Отметки привычек сохранятся.';
+
+  @override
+  String get metricHistory => 'История по дням';
+
+  @override
+  String get metricHistoryEmpty => 'Пока нет отметок привязанных привычек';
+
+  @override
+  String metricLimits(String gain, String loss) {
+    return 'в день +$gain / −$loss';
+  }
+
+  @override
+  String metricLinkedCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count привычки',
+      many: '$count привычек',
+      few: '$count привычки',
+      one: '$count привычка',
+      zero: 'нет связей',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get metricLinkedHabits => 'Влияющие привычки';
+
+  @override
+  String get metricLossHint =>
+      'Совет: терять должно быть легче, чем набирать. Зависимостям лучше ставить самые большие штрафы.';
+
+  @override
+  String get metricMaxGain => 'Лимит прироста в день';
+
+  @override
+  String get metricMaxLoss => 'Лимит потери в день';
+
+  @override
+  String get metricMode => 'Режим начисления';
+
+  @override
+  String get metricModeProportional => 'Пропорциональный';
+
+  @override
+  String get metricModeAbsolute => 'Абсолютный';
+
+  @override
+  String get metricModeProportionalHint =>
+      'Прирост = лимит × (очки дня / максимум возможных очков). Выполнил всё — получил лимит.';
+
+  @override
+  String get metricModeAbsoluteHint =>
+      'Прирост = MIN(лимит, сумма наград). Награды и штрафы — фиксированные суммы.';
+
+  @override
+  String get metricNoLinkedHabits =>
+      'Пока ни одна привычка не влияет на метрику. Свяжите её в настройках привычки.';
+
+  @override
+  String get metricPenalty => 'Штраф за ✘';
+
+  @override
+  String get metricReward => 'Награда за ✔';
+
+  @override
+  String get metricPresets => 'Готовые пресеты (необязательно)';
+
+  @override
+  String get metricPresetPower => 'Power: +1% / −50% в день';
+
+  @override
+  String get metricPresetMoney => 'Money: +300 000 / −1 000 000 тг';
+
+  @override
+  String metricStart(String value) {
+    return 'старт $value';
+  }
+
+  @override
+  String get metricStartLabel => 'Стартовое значение';
+
+  @override
+  String get metricUnit => 'Единица / валюта';
+
+  @override
+  String get metricsEmpty => 'Метрик пока нет';
+
+  @override
+  String get metricsEmptyHint =>
+      'Создайте свою метрику или возьмите пресет Power / Money';
+
+  @override
+  String get metricsTitle => 'Метрики';
+
+  @override
+  String habitMetricsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count метрики',
+      many: '$count метрик',
+      few: '$count метрики',
+      one: '$count метрика',
+      zero: 'не влияет ни на одну метрику',
+    );
+    return '$_temp0';
+  }
 }

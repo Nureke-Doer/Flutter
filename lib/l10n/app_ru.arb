@@ -340,5 +340,69 @@
         "type": "int"
       }
     }
+  },
+  "habitMetricRules": "Влияние на метрики",
+  "habitMetricRulesEmpty": "Метрик пока нет. Создайте их в «Профиль → Метрики».",
+  "metricAdd": "Новая метрика",
+  "metricColContribution": "Вклад",
+  "metricColGain": "Прирост",
+  "metricColLoss": "Потеря",
+  "metricDeleteBody": "Связи с привычками тоже удалятся. Отметки привычек сохранятся.",
+  "metricHistory": "История по дням",
+  "metricHistoryEmpty": "Пока нет отметок привязанных привычек",
+  "metricLimits": "в день +{gain} / −{loss}",
+  "@metricLimits": {
+    "placeholders": {
+      "gain": {
+        "type": "String"
+      },
+      "loss": {
+        "type": "String"
+      }
+    }
+  },
+  "metricLinkedCount": "{count, plural, =0{нет связей} one{{count} привычка} few{{count} привычки} many{{count} привычек} other{{count} привычки}}",
+  "@metricLinkedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "metricLinkedHabits": "Влияющие привычки",
+  "metricLossHint": "Совет: терять должно быть легче, чем набирать. Зависимостям лучше ставить самые большие штрафы.",
+  "metricMaxGain": "Лимит прироста в день",
+  "metricMaxLoss": "Лимит потери в день",
+  "metricMode": "Режим начисления",
+  "metricModeProportional": "Пропорциональный",
+  "metricModeAbsolute": "Абсолютный",
+  "metricModeProportionalHint": "Прирост = лимит × (очки дня / максимум возможных очков). Выполнил всё — получил лимит.",
+  "metricModeAbsoluteHint": "Прирост = MIN(лимит, сумма наград). Награды и штрафы — фиксированные суммы.",
+  "metricNoLinkedHabits": "Пока ни одна привычка не влияет на метрику. Свяжите её в настройках привычки.",
+  "metricPenalty": "Штраф за ✘",
+  "metricReward": "Награда за ✔",
+  "metricPresets": "Готовые пресеты (необязательно)",
+  "metricPresetPower": "Power: +1% / −50% в день",
+  "metricPresetMoney": "Money: +300 000 / −1 000 000 тг",
+  "metricStart": "старт {value}",
+  "@metricStart": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "metricStartLabel": "Стартовое значение",
+  "metricUnit": "Единица / валюта",
+  "metricsEmpty": "Метрик пока нет",
+  "metricsEmptyHint": "Создайте свою метрику или возьмите пресет Power / Money",
+  "metricsTitle": "Метрики",
+  "habitMetricsCount": "{count, plural, =0{не влияет ни на одну метрику} one{{count} метрика} few{{count} метрики} many{{count} метрик} other{{count} метрики}}",
+  "@habitMetricsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }

@@ -1351,6 +1351,204 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Архив ({count})'**
   String showArchived(int count);
+
+  /// No description provided for @habitMetricRules.
+  ///
+  /// In ru, this message translates to:
+  /// **'Влияние на метрики'**
+  String get habitMetricRules;
+
+  /// No description provided for @habitMetricRulesEmpty.
+  ///
+  /// In ru, this message translates to:
+  /// **'Метрик пока нет. Создайте их в «Профиль → Метрики».'**
+  String get habitMetricRulesEmpty;
+
+  /// No description provided for @metricAdd.
+  ///
+  /// In ru, this message translates to:
+  /// **'Новая метрика'**
+  String get metricAdd;
+
+  /// No description provided for @metricColContribution.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вклад'**
+  String get metricColContribution;
+
+  /// No description provided for @metricColGain.
+  ///
+  /// In ru, this message translates to:
+  /// **'Прирост'**
+  String get metricColGain;
+
+  /// No description provided for @metricColLoss.
+  ///
+  /// In ru, this message translates to:
+  /// **'Потеря'**
+  String get metricColLoss;
+
+  /// No description provided for @metricDeleteBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Связи с привычками тоже удалятся. Отметки привычек сохранятся.'**
+  String get metricDeleteBody;
+
+  /// No description provided for @metricHistory.
+  ///
+  /// In ru, this message translates to:
+  /// **'История по дням'**
+  String get metricHistory;
+
+  /// No description provided for @metricHistoryEmpty.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пока нет отметок привязанных привычек'**
+  String get metricHistoryEmpty;
+
+  /// No description provided for @metricLimits.
+  ///
+  /// In ru, this message translates to:
+  /// **'в день +{gain} / −{loss}'**
+  String metricLimits(String gain, String loss);
+
+  /// No description provided for @metricLinkedCount.
+  ///
+  /// In ru, this message translates to:
+  /// **'{count, plural, =0{нет связей} one{{count} привычка} few{{count} привычки} many{{count} привычек} other{{count} привычки}}'**
+  String metricLinkedCount(int count);
+
+  /// No description provided for @metricLinkedHabits.
+  ///
+  /// In ru, this message translates to:
+  /// **'Влияющие привычки'**
+  String get metricLinkedHabits;
+
+  /// No description provided for @metricLossHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Совет: терять должно быть легче, чем набирать. Зависимостям лучше ставить самые большие штрафы.'**
+  String get metricLossHint;
+
+  /// No description provided for @metricMaxGain.
+  ///
+  /// In ru, this message translates to:
+  /// **'Лимит прироста в день'**
+  String get metricMaxGain;
+
+  /// No description provided for @metricMaxLoss.
+  ///
+  /// In ru, this message translates to:
+  /// **'Лимит потери в день'**
+  String get metricMaxLoss;
+
+  /// No description provided for @metricMode.
+  ///
+  /// In ru, this message translates to:
+  /// **'Режим начисления'**
+  String get metricMode;
+
+  /// No description provided for @metricModeProportional.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пропорциональный'**
+  String get metricModeProportional;
+
+  /// No description provided for @metricModeAbsolute.
+  ///
+  /// In ru, this message translates to:
+  /// **'Абсолютный'**
+  String get metricModeAbsolute;
+
+  /// No description provided for @metricModeProportionalHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Прирост = лимит × (очки дня / максимум возможных очков). Выполнил всё — получил лимит.'**
+  String get metricModeProportionalHint;
+
+  /// No description provided for @metricModeAbsoluteHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Прирост = MIN(лимит, сумма наград). Награды и штрафы — фиксированные суммы.'**
+  String get metricModeAbsoluteHint;
+
+  /// No description provided for @metricNoLinkedHabits.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пока ни одна привычка не влияет на метрику. Свяжите её в настройках привычки.'**
+  String get metricNoLinkedHabits;
+
+  /// No description provided for @metricPenalty.
+  ///
+  /// In ru, this message translates to:
+  /// **'Штраф за ✘'**
+  String get metricPenalty;
+
+  /// No description provided for @metricReward.
+  ///
+  /// In ru, this message translates to:
+  /// **'Награда за ✔'**
+  String get metricReward;
+
+  /// No description provided for @metricPresets.
+  ///
+  /// In ru, this message translates to:
+  /// **'Готовые пресеты (необязательно)'**
+  String get metricPresets;
+
+  /// No description provided for @metricPresetPower.
+  ///
+  /// In ru, this message translates to:
+  /// **'Power: +1% / −50% в день'**
+  String get metricPresetPower;
+
+  /// No description provided for @metricPresetMoney.
+  ///
+  /// In ru, this message translates to:
+  /// **'Money: +300 000 / −1 000 000 тг'**
+  String get metricPresetMoney;
+
+  /// No description provided for @metricStart.
+  ///
+  /// In ru, this message translates to:
+  /// **'старт {value}'**
+  String metricStart(String value);
+
+  /// No description provided for @metricStartLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Стартовое значение'**
+  String get metricStartLabel;
+
+  /// No description provided for @metricUnit.
+  ///
+  /// In ru, this message translates to:
+  /// **'Единица / валюта'**
+  String get metricUnit;
+
+  /// No description provided for @metricsEmpty.
+  ///
+  /// In ru, this message translates to:
+  /// **'Метрик пока нет'**
+  String get metricsEmpty;
+
+  /// No description provided for @metricsEmptyHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Создайте свою метрику или возьмите пресет Power / Money'**
+  String get metricsEmptyHint;
+
+  /// No description provided for @metricsTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Метрики'**
+  String get metricsTitle;
+
+  /// No description provided for @habitMetricsCount.
+  ///
+  /// In ru, this message translates to:
+  /// **'{count, plural, =0{не влияет ни на одну метрику} one{{count} метрика} few{{count} метрики} many{{count} метрик} other{{count} метрики}}'**
+  String habitMetricsCount(int count);
 }
 
 class _AppLocalizationsDelegate

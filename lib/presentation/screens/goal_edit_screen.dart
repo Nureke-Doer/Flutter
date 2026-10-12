@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/date_utils.dart';
+import '../../core/utils/number_utils.dart';
 import '../../domain/entities/book.dart';
 import '../../domain/entities/study_goal.dart';
 import '../../l10n/generated/app_localizations.dart';
@@ -30,7 +31,7 @@ class _GoalEditScreenState extends State<GoalEditScreen> {
     text: widget.initial?.description,
   );
   late final _target = TextEditingController(
-    text: widget.initial == null ? '' : formatAmount(widget.initial!.target),
+    text: widget.initial == null ? '' : formatInput(widget.initial!.target),
   );
   late final _unit = TextEditingController(text: widget.initial?.unit);
   late DateTime _deadline =
@@ -48,8 +49,7 @@ class _GoalEditScreenState extends State<GoalEditScreen> {
     super.dispose();
   }
 
-  double? _parseTarget() =>
-      double.tryParse(_target.text.replaceAll(',', '.').trim());
+  double? _parseTarget() => parseNumber(_target.text);
 
   Future<void> _pickDeadline() async {
     final today = dateOnly(DateTime.now());

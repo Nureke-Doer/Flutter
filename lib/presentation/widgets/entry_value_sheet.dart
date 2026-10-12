@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../core/theme/app_theme.dart';
+import '../../core/utils/number_utils.dart';
 import '../../domain/entities/habit.dart';
 import '../../domain/entities/habit_entry.dart';
 import '../../l10n/generated/app_localizations.dart';
 import 'habit_visuals.dart';
+import 'metrics_strip.dart';
 
 /// Результат выбора в [showEntryValueSheet]: новое значение или «очистить».
 class EntrySelection {
@@ -51,7 +53,7 @@ class _EntryValueSheet extends StatefulWidget {
 class _EntryValueSheetState extends State<_EntryValueSheet> {
   late final TextEditingController _amount = TextEditingController(
     text: switch (widget.current) {
-      EntryAmount(:final amount) when amount > 0 => formatAmount(amount),
+      EntryAmount(:final amount) when amount > 0 => formatInput(amount),
       _ => '',
     },
   );
@@ -66,7 +68,7 @@ class _EntryValueSheetState extends State<_EntryValueSheet> {
       Navigator.of(context).pop(EntrySelection(value));
 
   void _submitAmount() {
-    final parsed = double.tryParse(_amount.text.replaceAll(',', '.').trim());
+    final parsed = parseNumber(_amount.text);
     if (parsed == null || parsed < 0) return;
     // Число 0 по ТЗ — пропуск: ни на что не влияет.
     _pick(parsed == 0 ? const EntrySkipped() : EntryAmount(parsed));
@@ -172,6 +174,8 @@ class _EntryValueSheetState extends State<_EntryValueSheet> {
                 ),
             ],
           ),
+          // Плашка метрик на экране отметки дня (если модуль включён).
+          MetricsStrip(day: widget.day, navigable: false),
           const SizedBox(height: Gaps.s),
           Text(
             l10n.entrySkipHint,

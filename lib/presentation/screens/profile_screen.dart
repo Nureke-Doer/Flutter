@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 import '../../core/theme/app_theme.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../blocs/auth/auth_cubit.dart';
+import '../providers/settings_notifier.dart';
 import '../router/app_router.dart';
 
 /// Вкладка «Профиль»: аккаунт, настройки и дополнительные разделы.
@@ -41,6 +43,9 @@ class ProfileScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final user = context.select((AuthCubit c) => c.state.user);
+    final gamification = context.select(
+      (SettingsNotifier s) => s.gamificationEnabled,
+    );
     final name = user == null
         ? ''
         : user.isGuest
@@ -96,6 +101,14 @@ class ProfileScreen extends StatelessWidget {
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () => context.goNamed(AppRoutes.settings),
                 ),
+                if (gamification)
+                  ListTile(
+                    key: const Key('metricsTile'),
+                    leading: const Icon(Icons.sports_esports_outlined),
+                    title: Text(l10n.metricsTitle),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () => context.goNamed(AppRoutes.metrics),
+                  ),
                 ListTile(
                   leading: const Icon(Icons.auto_stories_outlined),
                   title: Text(l10n.materialsTitle),

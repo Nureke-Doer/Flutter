@@ -163,6 +163,23 @@ void main() {
     expect(find.text('Бег'), findsOneWidget);
   });
 
+  testWidgets('Прямая ссылка на редактирование ждёт загрузки данных', (
+    tester,
+  ) async {
+    // Без ожидания форма открылась бы пустой и создала новую привычку.
+    await tester.pumpRouterApp(
+      initialLocation: '/habit/b/edit',
+      habits: habits,
+    );
+    final field = tester.widget<TextField>(
+      find.descendant(
+        of: find.byKey(const Key('titleField')),
+        matching: find.byType(TextField),
+      ),
+    );
+    expect(field.controller!.text, 'Зарядка');
+  });
+
   testWidgets('Неизвестный адрес — экран «Страница не найдена»', (
     tester,
   ) async {

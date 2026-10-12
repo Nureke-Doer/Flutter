@@ -16,6 +16,7 @@ import '../widgets/day_progress_header.dart';
 import '../widgets/empty_state.dart';
 import '../widgets/entry_actions.dart';
 import '../widgets/habit_tile.dart';
+import '../widgets/metrics_strip.dart';
 import '../widgets/quote_card.dart';
 import '../widgets/section_header.dart';
 
@@ -109,6 +110,7 @@ class _TodayList extends StatelessWidget {
 
     final header = [
       DayProgressHeader(done: done, total: planned.length),
+      const MetricsStrip(),
       const QuoteCard(),
     ];
     final items = [

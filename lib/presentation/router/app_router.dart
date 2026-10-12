@@ -4,10 +4,10 @@ import 'package:go_router/go_router.dart';
 
 import '../../domain/entities/book.dart';
 import '../../domain/repositories/auth_repository.dart';
-import '../blocs/goals/goals_cubit.dart';
-import '../blocs/habits/habits_bloc.dart';
+import '../providers/settings_notifier.dart';
 import '../screens/book_details_screen.dart';
 import '../screens/categories_screen.dart';
+import '../screens/edit_loaders.dart';
 import '../screens/goal_detail_screen.dart';
 import '../screens/goal_edit_screen.dart';
 import '../screens/goals_screen.dart';
@@ -16,6 +16,9 @@ import '../screens/habit_edit_screen.dart';
 import '../screens/habits_screen.dart';
 import '../screens/login_screen.dart';
 import '../screens/materials_screen.dart';
+import '../screens/metric_detail_screen.dart';
+import '../screens/metric_edit_screen.dart';
+import '../screens/metrics_screen.dart';
 import '../screens/not_found_screen.dart';
 import '../screens/profile_screen.dart';
 import '../screens/scaffold_with_navigation.dart';
@@ -42,6 +45,10 @@ abstract final class AppRoutes {
   static const habit = 'habit';
   static const habitNew = 'habit-new';
   static const habitEdit = 'habit-edit';
+  static const metrics = 'metrics';
+  static const metric = 'metric';
+  static const metricNew = 'metric-new';
+  static const metricEdit = 'metric-edit';
   static const materials = 'materials';
   static const book = 'book';
 }
@@ -153,10 +160,8 @@ GoRouter createRouter({
                         path: 'edit',
                         name: AppRoutes.goalEdit,
                         parentNavigatorKey: rootKey,
-                        builder: (context, state) => GoalEditScreen(
-                          initial: context.read<GoalsCubit>().byId(
-                            state.pathParameters['goalId']!,
-                          ),
+                        builder: (context, state) => GoalEditLoader(
+                          goalId: state.pathParameters['goalId']!,
                         ),
                       ),
                     ],
@@ -176,6 +181,42 @@ GoRouter createRouter({
                     path: 'settings',
                     name: AppRoutes.settings,
                     builder: (context, state) => const SettingsScreen(),
+                  ),
+                  // Модуль «Геймификация»: пока он выключен в настройках,
+                  // экраны метрик недоступны даже по прямой ссылке.
+                  GoRoute(
+                    path: 'metrics',
+                    name: AppRoutes.metrics,
+                    redirect: (context, state) =>
+                        context.read<SettingsNotifier>().gamificationEnabled
+                        ? null
+                        : '/profile',
+                    builder: (context, state) => const MetricsScreen(),
+                    routes: [
+                      GoRoute(
+                        path: 'new',
+                        name: AppRoutes.metricNew,
+                        parentNavigatorKey: rootKey,
+                        builder: (context, state) => const MetricEditScreen(),
+                      ),
+                      GoRoute(
+                        path: ':metricId',
+                        name: AppRoutes.metric,
+                        builder: (context, state) => MetricDetailScreen(
+                          metricId: state.pathParameters['metricId']!,
+                        ),
+                        routes: [
+                          GoRoute(
+                            path: 'edit',
+                            name: AppRoutes.metricEdit,
+                            parentNavigatorKey: rootKey,
+                            builder: (context, state) => MetricEditLoader(
+                              metricId: state.pathParameters['metricId']!,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -200,11 +241,8 @@ GoRouter createRouter({
           GoRoute(
             path: 'edit',
             name: AppRoutes.habitEdit,
-            builder: (context, state) => HabitEditScreen(
-              initial: context.read<HabitsBloc>().state.byId(
-                state.pathParameters['id']!,
-              ),
-            ),
+            builder: (context, state) =>
+                HabitEditLoader(habitId: state.pathParameters['id']!),
           ),
         ],
       ),

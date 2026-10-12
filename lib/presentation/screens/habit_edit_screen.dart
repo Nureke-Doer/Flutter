@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/theme/app_theme.dart';
+import '../../core/utils/number_utils.dart';
 import '../../domain/entities/habit.dart';
+import '../../domain/entities/metric.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../blocs/categories/categories_cubit.dart';
+import '../blocs/metrics/metrics_cubit.dart';
+import '../providers/settings_notifier.dart';
 import '../widgets/habit_visuals.dart';
+import '../widgets/metric_visuals.dart';
 
 /// Создание новой привычки или редактирование существующей.
 ///
@@ -42,6 +47,10 @@ class _HabitEditScreenState extends State<HabitEditScreen> {
   int? _reminderMinutes;
   bool _daysError = false;
 
+  /// Черновики связей «привычка → метрика» (только если геймификация включена).
+  final Map<String, _RuleDraft> _rules = {};
+  late final bool _gamification;
+
   bool get _isEditing => widget.initial != null;
 
   @override
@@ -52,7 +61,7 @@ class _HabitEditScreenState extends State<HabitEditScreen> {
     _descriptionController = TextEditingController(text: h?.description ?? '');
     _unitController = TextEditingController(text: h?.unit ?? '');
     _targetController = TextEditingController(
-      text: h?.target == null ? '' : formatAmount(h!.target!),
+      text: h?.target == null ? '' : formatInput(h!.target!),
     );
     _kind = h?.kind ?? HabitKind.positive;
     _categoryId = h?.categoryId ?? widget.initialCategoryId;
@@ -67,6 +76,23 @@ class _HabitEditScreenState extends State<HabitEditScreen> {
         ? schedule.timesPerWeek
         : 3;
     _reminderMinutes = h?.reminderMinutes;
+
+    _gamification = context.read<SettingsNotifier>().gamificationEnabled;
+    if (_gamification) {
+      final metrics = context.read<MetricsCubit>().state;
+      for (final m in metrics.metrics) {
+        HabitMetricRule? existing;
+        for (final r in metrics.rules) {
+          if (r.habitId == h?.id && r.metricId == m.id) existing = r;
+        }
+        _rules[m.id] = _RuleDraft(
+          metric: m,
+          enabled: existing != null,
+          reward: existing?.reward,
+          penalty: existing?.penalty,
+        );
+      }
+    }
   }
 
   @override
@@ -75,6 +101,9 @@ class _HabitEditScreenState extends State<HabitEditScreen> {
     _descriptionController.dispose();
     _unitController.dispose();
     _targetController.dispose();
+    for (final r in _rules.values) {
+      r.dispose();
+    }
     super.dispose();
   }
 
@@ -89,8 +118,7 @@ class _HabitEditScreenState extends State<HabitEditScreen> {
     }
   }
 
-  double? _parseTarget() =>
-      double.tryParse(_targetController.text.replaceAll(',', '.').trim());
+  double? _parseTarget() => parseNumber(_targetController.text);
 
   HabitSchedule get _schedule => switch (_scheduleType) {
     ScheduleType.daily => const HabitSchedule.daily(),
@@ -127,6 +155,19 @@ class _HabitEditScreenState extends State<HabitEditScreen> {
       schedule: _schedule,
       reminderMinutes: () => _reminderMinutes,
     );
+    if (_gamification) {
+      // Связь необязательна: пустой список — привычка не влияет на метрики.
+      context.read<MetricsCubit>().setRulesForHabit(habit.id, [
+        for (final d in _rules.values)
+          if (d.enabled)
+            HabitMetricRule(
+              habitId: habit.id,
+              metricId: d.metric.id,
+              reward: d.parsedReward,
+              penalty: d.parsedPenalty,
+            ),
+      ]);
+    }
     Navigator.of(context).pop(habit);
   }
 
@@ -375,6 +416,13 @@ class _HabitEditScreenState extends State<HabitEditScreen> {
                       onTap: _pickReminder,
                     ),
                   ),
+                  if (_gamification) ...[
+                    const SizedBox(height: Gaps.m),
+                    _MetricRulesSection(
+                      drafts: _rules.values.toList(),
+                      onChanged: () => setState(() {}),
+                    ),
+                  ],
                   const SizedBox(height: Gaps.l),
                   FilledButton.icon(
                     key: const Key('saveButton'),
@@ -405,6 +453,123 @@ class _Label extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: Gaps.l, bottom: Gaps.s),
       child: Text(text, style: Theme.of(context).textTheme.titleSmall),
+    );
+  }
+}
+
+/// Черновик связи с метрикой: включена ли, награда за ✔ и штраф за ✘.
+class _RuleDraft {
+  _RuleDraft({
+    required this.metric,
+    required this.enabled,
+    double? reward,
+    double? penalty,
+  }) : reward = TextEditingController(
+         text: reward == null ? '' : formatInput(reward),
+       ),
+       penalty = TextEditingController(
+         text: penalty == null ? '' : formatInput(penalty),
+       );
+
+  final Metric metric;
+  bool enabled;
+  final TextEditingController reward;
+  final TextEditingController penalty;
+
+  static double _parse(String text) => parseNumber(text)?.abs() ?? 0;
+
+  double get parsedReward => _parse(reward.text);
+  double get parsedPenalty => _parse(penalty.text);
+
+  void dispose() {
+    reward.dispose();
+    penalty.dispose();
+  }
+}
+
+/// Свёрнутый блок «Влияние на метрики» (виден, только если включена
+/// геймификация). Привычка может влиять на любое число метрик или ни на одну.
+class _MetricRulesSection extends StatelessWidget {
+  const _MetricRulesSection({required this.drafts, required this.onChanged});
+
+  final List<_RuleDraft> drafts;
+  final VoidCallback onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final active = drafts.where((d) => d.enabled).length;
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      child: ExpansionTile(
+        key: const Key('metricRulesSection'),
+        leading: const Icon(Icons.sports_esports_outlined),
+        title: Text(l10n.habitMetricRules),
+        subtitle: Text(l10n.habitMetricsCount(active)),
+        childrenPadding: const EdgeInsets.fromLTRB(Gaps.m, 0, Gaps.m, Gaps.m),
+        expandedCrossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            l10n.metricLossHint,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+          ),
+          if (drafts.isEmpty)
+            Padding(
+              padding: const EdgeInsets.only(top: Gaps.s),
+              child: Text(l10n.habitMetricRulesEmpty),
+            ),
+          for (final d in drafts) ...[
+            SwitchListTile(
+              key: Key('rule_${d.metric.id}'),
+              contentPadding: EdgeInsets.zero,
+              secondary: Icon(d.metric.icon.iconData),
+              title: Text(d.metric.name),
+              value: d.enabled,
+              onChanged: (v) {
+                d.enabled = v;
+                onChanged();
+              },
+            ),
+            if (d.enabled)
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      key: Key('reward_${d.metric.id}'),
+                      controller: d.reward,
+                      keyboardType: const TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
+                      decoration: InputDecoration(
+                        labelText: l10n.metricReward,
+                        prefixText: '+',
+                        suffixText: d.metric.unit,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: Gaps.s),
+                  Expanded(
+                    child: TextField(
+                      key: Key('penalty_${d.metric.id}'),
+                      controller: d.penalty,
+                      keyboardType: const TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
+                      decoration: InputDecoration(
+                        labelText: l10n.metricPenalty,
+                        prefixText: '−',
+                        suffixText: d.metric.unit,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+          ],
+        ],
+      ),
     );
   }
 }
